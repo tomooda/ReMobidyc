@@ -749,12 +749,16 @@ RMDInterpreter >> typecheckInitializers [
 ]
 
 { #category : #'type checking' }
+RMDInterpreter >> typecheckTask: aRMDTaskDefinitionNode [
+	self
+		withContext: (self newTypecheckContextForTask: aRMDTaskDefinitionNode)
+		do: [ aRMDTaskDefinitionNode typecheckIn: self ]
+]
+
+{ #category : #'type checking' }
 RMDInterpreter >> typecheckTasks [
 	simulationModel
-		taskDefinitionsDo: [ :taskDefinition | 
-			self
-				withContext: (self newTypecheckContextForTask: taskDefinition)
-				do: [ taskDefinition typecheckIn: self ] ]
+		taskDefinitionsDo: [ :taskDefinition | self typecheckTask: taskDefinition ]
 ]
 
 { #category : #'space access' }
