@@ -13,21 +13,22 @@ Class {
 RMDUnitTableColumn >> defaultAcceptAction [
 
 	^ [ :item :stringOrText |
-	  | string unit |
-	  string := stringOrText asString trimRight.
-	  unit := string
-		          ifEmpty: [ RMDUnit noDimension ]
-		          ifNotEmpty: [ RMDGrammar current unit end parse: string ].
-	  unit isPetit2Success
-		  ifTrue: [
-			  item unit: unit.
-			  extraAcceptAction ifNotNil: [ extraAcceptAction cull: item ] ]
-		  ifFalse: [
-			  self textWidgetContent: (string asText
-					   addAttribute: TextColor red
-					   from: (unit position + 1 min: string size max: 1)
-					   to: string size;
-					   yourself) ] ]
+		  | string unit |
+		  string := stringOrText asString trimRight.
+		  unit := string
+			          ifEmpty: [ RMDUnit noDimension ]
+			          ifNotEmpty: [ RMDGrammar current unit end parse: string ].
+		  unit isPetit2Success
+			  ifTrue: [
+					  item unit ~= unit ifTrue: [
+							  item unit: unit.
+							  extraAcceptAction ifNotNil: [ extraAcceptAction cull: item ] ] ]
+			  ifFalse: [
+					  self textWidgetContent: (string asText
+							   addAttribute: TextColor red
+							   from: (unit position + 1 min: string size max: 1)
+							   to: string size;
+							   yourself) ] ]
 ]
 
 { #category : 'defaults' }

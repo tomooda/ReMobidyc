@@ -13,11 +13,12 @@ Class {
 RMDIdentifierTableColumn >> defaultAcceptAction [
 
 	^ [ :item :stringOrText |
-	  | string |
-	  string := stringOrText asString trim.
-	  item identifier: string.
-	  extraAcceptAction ifNotNil: [
-		  extraAcceptAction cull: item cull: string ] ]
+		  | string |
+		  string := stringOrText asString trim.
+		  item identifier ~= string ifTrue: [
+				  item identifier: string.
+				  extraAcceptAction ifNotNil: [
+					  extraAcceptAction cull: item cull: string ] ] ]
 ]
 
 { #category : 'defaults' }

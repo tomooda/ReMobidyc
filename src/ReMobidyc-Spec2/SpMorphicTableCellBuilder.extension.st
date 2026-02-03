@@ -71,14 +71,15 @@ SpMorphicTableCellBuilder >> visitRMDSyntaxColumnEditable: aTableColumn on: cont
 	"add cell"
 	morph := presenter build.
 	aTableColumn textChangedAction ifNotNil: [ :action |
-		presenter whenTextChangedDo: [ :text |
-			action cull: self item cull: text cull: morph ] ].
+			presenter whenTextChangedDo: [ :text |
+				action cull: self item cull: text cull: morph ] ].
 	aTableColumn acceptAction ifNotNil: [ :action |
-		presenter whenSubmitDo: [ :text | action cull: self item cull: text ].
-		morph announcer
-			when: MorphLostFocus
-			do: [ action cull: self item cull: morph text ]
-			for: self ].
+			presenter whenSubmitDo: [ :text |
+				action cull: self item cull: text ].
+			morph announcer
+				when: MorphLostFocus
+				do: [ action cull: self item cull: morph text ]
+				for: self ].
 	presenter adapter applyStyle.
 	self addCellMorph: morph column: aTableColumn
 ]

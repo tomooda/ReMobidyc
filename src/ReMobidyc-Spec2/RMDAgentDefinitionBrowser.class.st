@@ -269,14 +269,14 @@ RMDAgentDefinitionBrowser >> initializeAttributePresenters [
 					                   self definitionDo: #utilityDefinitions ]
 				                   simulationModel: [ self simulationModel ])
 				                  namecrashBlock: [ :adef |
-					                  (attributeList items select: [ :a |
-							                   a identifier = adef identifier ]) size = 1 ]);
+						                  (attributeList items select: [ :a |
+								                   a identifier = adef identifier ]) size = 1 ]);
 		                 addColumn:
 			                 ((RMDIdentifierTableColumn title: 'name')
 				                  validationBlock: [ :item |
-					                  (attributeList items select: [ :attrDecl |
-							                   attrDecl identifier = item identifier ])
-						                  size = 1 ];
+						                  (attributeList items select: [ :attrDecl |
+								                   attrDecl identifier = item identifier ])
+							                  size = 1 ];
 				                  extraAcceptAction: [ attributeList refresh ];
 				                  width: 150;
 				                  yourself);
@@ -295,8 +295,9 @@ RMDAgentDefinitionBrowser >> initializeAttributePresenters [
 				                  utilitiesBlock: [
 					                  self definitionDo: #utilityDefinitions ];
 				                  onAcceptEdition: [ :item :expr |
-					                  item initializerExpression: expr.
-					                  attributeList refresh ];
+						                  item initializerExpression ~= expr ifTrue: [
+									                  item initializerExpression: expr.
+									                  attributeList refresh ] ];
 				                  yourself);
 		                 whenModelChangedDo: [
 		                 attributeList selectItem: nil ];
@@ -328,14 +329,11 @@ RMDAgentDefinitionBrowser >> initializeAttributePresenters [
 		                           disable;
 		                           yourself.
 	viewAttributeButton := self newButton
-		                                     icon: self validatoriumIcon;
-		                                     action: [
-			                                     self
-				                                     viewAttribute ];
-		                                     help:
-			                                     'View the definition expression';
-		                                     disable;
-		                                     yourself
+		                       icon: self validatoriumIcon;
+		                       action: [ self viewAttribute ];
+		                       help: 'View the definition expression';
+		                       disable;
+		                       yourself
 ]
 
 { #category : 'initialization' }
