@@ -133,7 +133,7 @@ RMDAbstractInterpreter >> withContext: aRMDContext do: aBlock [
 			| originalContext ret |
 			originalContext := context.
 			self setContext: aRMDContext.
-			ret := aBlock value.
+			ret := aBlock cull: self cull: aRMDContext.
 			context := originalContext.
 			^ ret ]
 ]
