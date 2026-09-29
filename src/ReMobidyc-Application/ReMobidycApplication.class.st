@@ -44,6 +44,17 @@ ReMobidycApplication class >> quit [
 		Smalltalk snapshot: false andQuit: true ]
 ]
 
+{ #category : 'commandline' }
+ReMobidycApplication class >> remobidyc [
+
+	<commandline>
+	^ (ClapCommandSpec id: #'re:mobidyc')
+		  description: 'IBM Platform for population dynamics';
+		  commandClass: self;
+		  addHelp;
+		  yourself
+]
+
 { #category : 'activation' }
 ReMobidycApplication >> execute [
 
