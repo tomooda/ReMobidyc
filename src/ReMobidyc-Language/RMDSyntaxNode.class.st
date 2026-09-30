@@ -399,6 +399,12 @@ RMDSyntaxNode >> isDirectionOfGradientDirectiveNode [
 ]
 
 { #category : 'testing' }
+RMDSyntaxNode >> isDirectionOfMaximumInEightNeighborsDirectiveNode [
+
+	^ false
+]
+
+{ #category : 'testing' }
 RMDSyntaxNode >> isDirectionOfMaximumInFourNeighborsDirectiveNode [
 
 	^ false

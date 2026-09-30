@@ -414,6 +414,32 @@ RMDInterpreter >> nextSeed [
 ]
 
 { #category : 'variable access' }
+RMDInterpreter >> northEasts: aString ifAbsent: errorBlock [
+
+	memory northOf: context location do: [ :north |
+			memory eastOf: north do: [ :id |
+					^ memory
+						  at: id + (context locationDefinition
+								   offsetAt: aString
+								   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
+						  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ] ] ].
+	^ errorBlock value
+]
+
+{ #category : 'variable access' }
+RMDInterpreter >> northWests: aString ifAbsent: errorBlock [
+
+	memory northOf: context location do: [ :north |
+			memory westOf: north do: [ :id |
+					^ memory
+						  at: id + (context locationDefinition
+								   offsetAt: aString
+								   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
+						  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ] ] ].
+	^ errorBlock value
+]
+
+{ #category : 'variable access' }
 RMDInterpreter >> norths: aString ifAbsent: errorBlock [
 
 	memory northOf: context location do: [ :id | 
@@ -678,6 +704,32 @@ RMDInterpreter >> setupSimulation [
 RMDInterpreter >> shortName [
 
 	^ self runId printString, ':', self metaparametersString
+]
+
+{ #category : 'variable access' }
+RMDInterpreter >> southEasts: aString ifAbsent: errorBlock [
+
+	memory southOf: context location do: [ :south |
+			memory eastOf: south do: [ :id |
+					^ memory
+						  at: id + (context locationDefinition
+								   offsetAt: aString
+								   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
+						  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ] ] ].
+	^ errorBlock value
+]
+
+{ #category : 'variable access' }
+RMDInterpreter >> southWests: aString ifAbsent: errorBlock [
+
+	memory southOf: context location do: [ :south |
+			memory westOf: south do: [ :id |
+					^ memory
+						  at: id + (context locationDefinition
+								   offsetAt: aString
+								   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
+						  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ] ] ].
+	^ errorBlock value
 ]
 
 { #category : 'variable access' }

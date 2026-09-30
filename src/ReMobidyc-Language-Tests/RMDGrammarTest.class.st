@@ -789,6 +789,21 @@ RMDGrammarTest >> testDirectionOfGradientDirective [
 ]
 
 { #category : 'tests' }
+RMDGrammarTest >> testDirectionOfMaximumAmongEigihtNeighborsDirective [
+
+	| expr |
+	expr := grammar expression parse: 'direction maximum quuux among eight neighbors'.
+	self deny: expr isPetit2Failure.
+	self assert: expr isDirectionOfMaximumInEightNeighborsDirectiveNode.
+	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
+	expr := grammar expression parse: 'direction maximum quuux among eight neighbours'.
+	self deny: expr isPetit2Failure.
+	self assert: expr isDirectionOfMaximumInEightNeighborsDirectiveNode.
+	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
+	self assert: expr printString equals: 'direction maximum quuux among eight neighbors'
+]
+
+{ #category : 'tests' }
 RMDGrammarTest >> testDirectionOfMaximumAmongFourNeighborsDirective [
 
 	| expr |
