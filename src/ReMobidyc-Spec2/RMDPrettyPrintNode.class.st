@@ -92,14 +92,47 @@ RMDPrettyPrintNode class >> directive: aString agent: anotherString keyword: inf
 { #category : 'instance creation' }
 RMDPrettyPrintNode class >> directive: aString attribute: anotherString [
 
-	| directiveNode agentNode |
+	| directiveNode attributeNode |
 	directiveNode := RMDPrettyPrintText keyword: aString.
-	agentNode := RMDPrettyPrintText identifier: anotherString.
-	directiveNode , agentNode.
+	attributeNode := RMDPrettyPrintText identifier: anotherString.
+	directiveNode , attributeNode.
 	^ self new
 		  shapes: {
 				  directiveNode.
-				  agentNode };
+				  attributeNode };
+		  yourself
+]
+
+{ #category : 'instance creation' }
+RMDPrettyPrintNode class >> directive: aString attribute: anotherString keyword: yetAnotherString expression: aRMDPrettyPrintNode [
+
+	| directiveNode attributeNode suffixNode |
+	directiveNode := RMDPrettyPrintText keyword: aString.
+	attributeNode := RMDPrettyPrintText identifier: anotherString.
+	suffixNode := RMDPrettyPrintText keyword: yetAnotherString.
+	directiveNode , attributeNode , suffixNode , aRMDPrettyPrintNode.
+	^ self new
+		  shapes: {
+				  directiveNode.
+				  attributeNode.
+				  suffixNode.
+				  aRMDPrettyPrintNode };
+		  yourself
+]
+
+{ #category : 'instance creation' }
+RMDPrettyPrintNode class >> directive: aString attribute: anotherString suffix: yetAnotherString [
+
+	| directiveNode attributeNode suffixNode |
+	directiveNode := RMDPrettyPrintText keyword: aString.
+	attributeNode := RMDPrettyPrintText identifier: anotherString.
+	suffixNode := RMDPrettyPrintText keyword: yetAnotherString.
+	directiveNode , attributeNode , suffixNode.
+	^ self new
+		  shapes: {
+				  directiveNode.
+				  attributeNode.
+				  suffixNode };
 		  yourself
 ]
 

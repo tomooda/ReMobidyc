@@ -7,5 +7,6 @@ RMDExpressionNode >> evalIn: aRMDInterpreter [
 
 { #category : '*ReMobidyc-Interpreter' }
 RMDExpressionNode >> typecheckIn: aRMDInterpreter [
+
 	^ self subclassResponsibility
 ]

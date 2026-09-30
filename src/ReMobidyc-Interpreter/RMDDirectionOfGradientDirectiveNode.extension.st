@@ -4,8 +4,7 @@ Extension { #name : 'RMDDirectionOfGradientDirectiveNode' }
 RMDDirectionOfGradientDirectiveNode >> evalIn: aRMDInterpreter [
 
 	| attribute here west east south north vector |
-	patchAttributeVariable isPlaceholderNode ifTrue: [ 
-		^ RMDUnresolvedPlaceholderError signal: patchAttributeVariable ].
+	patchAttributeVariable isPlaceholderNode ifTrue: [ ^ RMDUnresolvedPlaceholderError signal: patchAttributeVariable ].
 	attribute := patchAttributeVariable identifier.
 	here := aRMDInterpreter heres: attribute.
 	east := aRMDInterpreter easts: attribute ifAbsent: [ here ].
@@ -13,28 +12,7 @@ RMDDirectionOfGradientDirectiveNode >> evalIn: aRMDInterpreter [
 	south := aRMDInterpreter souths: attribute ifAbsent: [ here ].
 	north := aRMDInterpreter norths: attribute ifAbsent: [ here ].
 	vector := east - west @ (north - south).
-	(east <= here and: [ 
-		 west <= here and: [ south <= here and: [ north <= here ] ] ]) 
-		ifTrue: [ 
-			| x y patchX patchY |
-			x := aRMDInterpreter my: 'x'.
-			y := aRMDInterpreter my: 'y'.
-			patchX := aRMDInterpreter simulationModel patchLength
-			          * ((aRMDInterpreter patchX: x) floor + 0.5).
-			patchY := aRMDInterpreter simulationModel patchLength
-			          * ((aRMDInterpreter patchY: y) floor + 0.5).
-			vector := patchX - x @ (patchY - y) ].
+	(east <= here and: [ west <= here and: [ south <= here and: [ north <= here ] ] ]) ifTrue: [
+		^ aRMDInterpreter random * 2.0 * Float pi ].
 	^ vector theta ifNanOrInfinite: [ RMDNotComputableError signal: self ]
-]
-
-{ #category : '*ReMobidyc-Interpreter' }
-RMDDirectionOfGradientDirectiveNode >> typecheckIn: aRMDInterpreter [
-
-	patchAttributeVariable isPlaceholderNode ifTrue: [
-		^ RMDUnresolvedPlaceholderError signal: patchAttributeVariable ].
-	self
-		typecheck: patchAttributeVariable
-		with: RMDType any
-		in: aRMDInterpreter.
-	^ type := RMDType angle
 ]
