@@ -5,3 +5,9 @@ Class {
 	#package : 'ReMobidyc-Interpreter',
 	#tag : 'Contexts'
 }
+
+{ #category : 'accessing' }
+RMDInitializerContext >> action [
+
+	^ nil
+]
