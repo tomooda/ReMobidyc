@@ -252,8 +252,8 @@ RMDMemory >> creationTimes [
 
 { #category : 'accessing-individuals' }
 RMDMemory >> eastOf: anInteger do: aBlock [
-	(self xPatchOf: anInteger) < self xPatches
-		ifTrue: [ aBlock value: anInteger + self patchSize ]
+
+	(self xPatchOf: anInteger) < self xPatches ifTrue: [ aBlock value: anInteger + self patchSize ]
 ]
 
 { #category : 'timing' }
@@ -454,8 +454,8 @@ RMDMemory >> nextValues [
 
 { #category : 'accessing-individuals' }
 RMDMemory >> northOf: anInteger do: aBlock [
-	(self yPatchOf: anInteger) < self yPatches
-		ifTrue: [ aBlock value: anInteger + (self patchSize * self xPatches) ]
+
+	(self yPatchOf: anInteger) < self yPatches ifTrue: [ aBlock value: anInteger + (self patchSize * self xPatches) ]
 ]
 
 { #category : 'accessing-individuals' }
@@ -486,37 +486,39 @@ RMDMemory >> parentOf: anInteger [
 
 { #category : 'accessing-individuals' }
 RMDMemory >> patch [
+
 	^ patch
 ]
 
 { #category : 'accessing-individuals' }
 RMDMemory >> patch: anInteger [
+
 	patch := anInteger
 ]
 
 { #category : 'accessing-individuals' }
 RMDMemory >> patchAtXIndex: anInteger yIndex: anotherInteger [
-	^ ((anotherInteger - 1) * self xPatches + anInteger - 1)
-		* self patchSize + self patch
+
+	^ anotherInteger - 1 * self xPatches + anInteger - 1 * self patchSize + self patch
 ]
 
 { #category : 'accessing-individuals' }
 RMDMemory >> patchSize [
+
 	^ patchSize
 ]
 
 { #category : 'accessing-individuals' }
 RMDMemory >> patchSize: anInteger [
+
 	patchSize := anInteger
 ]
 
 { #category : 'accessing-individuals' }
 RMDMemory >> patchesDo: aBlock [
 
-	self patchSize > 0 ifTrue: [ 
-		self patch to:
-		self patchSize * self xPatches * self yPatches + self patch - 1 by:
-		self patchSize do: [ :c | aBlock cull: c ] ]
+	self patchSize > 0 ifTrue: [
+		self patch to: self patchSize * self xPatches * self yPatches + self patch - 1 by: self patchSize do: [ :c | aBlock cull: c ] ]
 ]
 
 { #category : 'accessing-links' }
@@ -585,9 +587,7 @@ RMDMemory >> removeAnimat: anInteger [
 { #category : 'accessing-individuals' }
 RMDMemory >> removeSeedAt: anInteger [
 
-	^ self seeds
-		  removeKey: anInteger
-		  ifAbsent: []
+	^ self seeds removeKey: anInteger ifAbsent: [ ]
 ]
 
 { #category : 'allocating' }
@@ -656,8 +656,8 @@ RMDMemory >> seeds [
 
 { #category : 'accessing-individuals' }
 RMDMemory >> southOf: anInteger do: aBlock [
-	(self yPatchOf: anInteger) > 1
-		ifTrue: [ aBlock value: anInteger - (self patchSize * self xPatches) ]
+
+	(self yPatchOf: anInteger) > 1 ifTrue: [ aBlock value: anInteger - (self patchSize * self xPatches) ]
 ]
 
 { #category : 'allocating' }
@@ -743,8 +743,8 @@ RMDMemory >> values [
 
 { #category : 'accessing-individuals' }
 RMDMemory >> westOf: anInteger do: aBlock [
-	(self xPatchOf: anInteger) > 1
-		ifTrue: [ aBlock value: anInteger - self patchSize ]
+
+	(self xPatchOf: anInteger) > 1 ifTrue: [ aBlock value: anInteger - self patchSize ]
 ]
 
 { #category : 'accessing-individuals' }

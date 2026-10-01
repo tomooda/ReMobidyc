@@ -411,6 +411,12 @@ RMDSyntaxNode >> isDirectionOfMaximumInFourNeighborsDirectiveNode [
 ]
 
 { #category : 'testing' }
+RMDSyntaxNode >> isDirectionOfMaximumInRadiusDirectiveNode [
+
+	^ false
+]
+
+{ #category : 'testing' }
 RMDSyntaxNode >> isDisjunctionNode [
 	^ false
 ]

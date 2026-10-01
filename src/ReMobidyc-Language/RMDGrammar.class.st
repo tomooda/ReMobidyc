@@ -281,7 +281,8 @@ RMDGrammar >> agentDirective [
 	  / self densityOfIndividualsInPatchDirective / self densityOfIndividualsInWorldDirective
 	  / self densityOfIndividualsInRadiusDirective / self directionOfGradientDirective
 	  / self directionOfMaximumAmongFourNeighborsDirective / self directionOfMaximumAmongEightNeighborsDirective
-	  / self distanceDirective / self directionDirective / self timeDirective / self lengthDirective / self areaDirective
+	  / self directionOfMaximumInRadiusDirective / self distanceDirective / self directionDirective / self timeDirective
+	  / self lengthDirective / self areaDirective
 ]
 
 { #category : 'parsers-atoms' }
@@ -966,6 +967,22 @@ RMDGrammar >> directionOfMaximumAmongFourNeighborsDirective [
 RMDGrammar >> directionOfMaximumAmongFourNeighborsDirectiveNodeClass [
 
 	^ RMDDirectionOfMaximumInFourNeighborsDirectiveNode
+]
+
+{ #category : 'parsers-directives' }
+RMDGrammar >> directionOfMaximumInRadiusDirective [
+
+	^ 'direction' asPParser trimLeft , #blank asPParser plus , 'maximum' asPParser trim , _identifier , 'in' asPParser trimLeft
+	  , #blank asPParser , _expression , 'radius' asPParser trim ==> [ :array |
+		  self directionOfMaximumInRadiusDirectiveNodeClass
+			  variable: (RMDAttributeVariableNode identifier: array fourth agent: 'here')
+			  radius: array seventh ]
+]
+
+{ #category : 'class access' }
+RMDGrammar >> directionOfMaximumInRadiusDirectiveNodeClass [
+
+	^ RMDDirectionOfMaximumInRadiusDirectiveNode
 ]
 
 { #category : 'parsers-definitions' }

@@ -108,6 +108,37 @@ RMDInterpreterTest >> testLoadDataSources [
 ]
 
 { #category : 'tests' }
+RMDInterpreterTest >> testPatchesWithinFromXYDo [
+
+	| patches |
+	interpreter simulationModel load: (RMDGrammar current patchDefinition parse: 'Patch.').
+	interpreter load: (RMDSimulationDefinitionNode
+			 timeDefinition: (RMDSimulationTimeDefinitionNode during: '2[year]' by: '0.5[day]')
+			 worldInitializer: RMDWorldInitializerNode empty
+			 patchInitializer: (RMDGrammar current patchInitializer parse: '5x5 of 1[m] Patch')
+			 animatInitializers: {  }).
+	interpreter setupSimulation.
+	patches := Array streamContents: [ :stream |
+			           interpreter
+				           patchesWithin: 0.9
+				           fromX: 2.01
+				           y: 2.9
+				           do: [ :patch | stream nextPut: (interpreter xIndexOfPatch: patch) @ (interpreter yIndexOfPatch: patch) ] ].
+	self assert: patches asSet equals: {
+			(3 @ 2).
+			(4 @ 2).
+			(3 @ 3).
+			(4 @ 3) } asSet.
+	patches := Array streamContents: [ :stream |
+			           interpreter
+				           patchesWithin: 3.0
+				           fromX: 2.01
+				           y: 2.9
+				           do: [ :patch | stream nextPut: (interpreter xIndexOfPatch: patch) @ (interpreter yIndexOfPatch: patch) ] ].
+	self assert: patches size equals: 25
+]
+
+{ #category : 'tests' }
 RMDInterpreterTest >> testReadUtilityIfAbsent [
 	| parser source |
 	parser := RMDGrammar current.

@@ -521,6 +521,7 @@ RMDInterpreter >> patchArea [
 
 { #category : 'space access' }
 RMDInterpreter >> patchAtXIndex: anInteger yIndex: anotherInteger [
+
 	^ memory patchAtXIndex: anInteger yIndex: anotherInteger
 ]
 
@@ -546,6 +547,23 @@ RMDInterpreter >> patchY: aNumber [
 RMDInterpreter >> patchesDo: aBlock [
 
 	memory patchesDo: aBlock
+]
+
+{ #category : 'space access' }
+RMDInterpreter >> patchesWithin: distance fromX: x y: y do: aBlock [
+
+	distance >= 0.0 ifTrue: [
+			| patchLength d2 |
+			patchLength := simulationModel patchLength.
+			d2 := distance squared.
+			((self patchX: x - distance) floor + 1 max: 1) to: ((self patchX: x + distance) floor + 1 min: memory xPatches) do: [ :xIndex |
+					| x1 x2 dx dy |
+					x1 := xIndex * patchLength.
+					x2 := x1 - patchLength.
+					dx := (x1 - x) abs min: (x2 - x) abs.
+					dy := (d2 - dx squared) sqrt.
+					((self patchY: y - dy) floor + 1 max: 1) to: ((self patchY: y + dy) floor + 1 min: memory yPatches) do: [ :yIndex |
+					aBlock value: (self patchAtXIndex: xIndex yIndex: yIndex) ] ] ]
 ]
 
 { #category : 'simulating' }
@@ -1016,7 +1034,7 @@ RMDInterpreter >> writeNext: aFloat to: anInteger [
 { #category : 'space access' }
 RMDInterpreter >> xIndexOfPatch: anInteger [
 
-	^ anInteger - memory patch // memory patchSize + 1
+	^ anInteger - memory patch // memory patchSize // memory xPatches + 1
 ]
 
 { #category : 'space access' }

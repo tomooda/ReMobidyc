@@ -106,17 +106,36 @@ RMDPrettyPrintNode class >> directive: aString attribute: anotherString [
 { #category : 'instance creation' }
 RMDPrettyPrintNode class >> directive: aString attribute: anotherString keyword: yetAnotherString expression: aRMDPrettyPrintNode [
 
-	| directiveNode attributeNode suffixNode |
+	| directiveNode attributeNode keywordNode |
 	directiveNode := RMDPrettyPrintText keyword: aString.
 	attributeNode := RMDPrettyPrintText identifier: anotherString.
-	suffixNode := RMDPrettyPrintText keyword: yetAnotherString.
-	directiveNode , attributeNode , suffixNode , aRMDPrettyPrintNode.
+	keywordNode := RMDPrettyPrintText keyword: yetAnotherString.
+	directiveNode , attributeNode , keywordNode , aRMDPrettyPrintNode.
 	^ self new
 		  shapes: {
 				  directiveNode.
 				  attributeNode.
-				  suffixNode.
+				  keywordNode.
 				  aRMDPrettyPrintNode };
+		  yourself
+]
+
+{ #category : 'instance creation' }
+RMDPrettyPrintNode class >> directive: aString attribute: anotherString keyword: yetAnotherString expression: aRMDPrettyPrintNode suffix: suffixString [
+
+	| directiveNode attributeNode keywordNode suffixNode |
+	directiveNode := RMDPrettyPrintText keyword: aString.
+	attributeNode := RMDPrettyPrintText identifier: anotherString.
+	keywordNode := RMDPrettyPrintText keyword: yetAnotherString.
+	suffixNode := RMDPrettyPrintText keyword: suffixString.
+	directiveNode , attributeNode , keywordNode , aRMDPrettyPrintNode , suffixNode.
+	^ self new
+		  shapes: {
+				  directiveNode.
+				  attributeNode.
+				  keywordNode.
+				  aRMDPrettyPrintNode.
+				  suffixNode };
 		  yourself
 ]
 

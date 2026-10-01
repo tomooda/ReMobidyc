@@ -819,6 +819,21 @@ RMDGrammarTest >> testDirectionOfMaximumAmongFourNeighborsDirective [
 ]
 
 { #category : 'tests' }
+RMDGrammarTest >> testDirectionOfMaximumInRadiusDirective [
+
+	| expr |
+	expr := grammar expression parse: 'direction maximum quuux in 3 [km] radius'.
+	self deny: expr isPetit2Failure.
+	self assert: expr isDirectionOfMaximumInRadiusDirectiveNode.
+	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
+	expr := grammar expression parse: 'direction maximum quuux in my sight radius'.
+	self deny: expr isPetit2Failure.
+	self assert: expr isDirectionOfMaximumInRadiusDirectiveNode.
+	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
+	self assert: expr printString equals: 'direction maximum quuux in my sight radius'
+]
+
+{ #category : 'tests' }
 RMDGrammarTest >> testExpr1 [
 
 	| expr1 |
