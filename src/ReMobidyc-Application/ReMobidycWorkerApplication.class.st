@@ -10,6 +10,15 @@ Class {
 	#package : 'ReMobidyc-Application'
 }
 
+{ #category : 'running' }
+ReMobidycWorkerApplication class >> run: aFileReference [
+
+	| vm image |
+	vm := Smalltalk vm fullPath.
+	image := Smalltalk imagePath.
+	LibC system: (File toPlatformPath: vm , ' --headless ' , image , ' worker ' , aFileReference fullName)
+]
+
 { #category : 'commandline' }
 ReMobidycWorkerApplication class >> worker [
 
