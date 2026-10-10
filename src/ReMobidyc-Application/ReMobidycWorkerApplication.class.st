@@ -16,7 +16,12 @@ ReMobidycWorkerApplication class >> run: aFileReference [
 	| vm image |
 	vm := Smalltalk vm fullPath.
 	image := Smalltalk imagePath.
-	LibC system: (File toPlatformPath: vm , ' --headless ' , image , ' worker ' , aFileReference fullName)
+	RMDLibC spawn: {
+			vm.
+			'--headless'.
+			image.
+			'worker'.
+			aFileReference fullName }
 ]
 
 { #category : 'commandline' }
@@ -36,7 +41,12 @@ ReMobidycWorkerApplication class >> worker [
 { #category : 'execution' }
 ReMobidycWorkerApplication >> execute [
 
-	self run
+	| lockfile |
+	lockfile := self runPath / 'lock'.
+	lockfile ifExists: [ ] ifAbsent: [
+			lockfile writeStreamDo: [ :stream | RMDLibC pid printOn: stream ].
+			self run.
+			lockfile ensureDelete ]
 ]
 
 { #category : 'accessing' }
