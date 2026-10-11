@@ -10,6 +10,18 @@ Class {
 	#package : 'ReMobidyc-Application'
 }
 
+{ #category : 'accessing' }
+ReMobidycWorkerApplication class >> lockfilename [
+
+	^ 'lock'
+]
+
+{ #category : 'accessing' }
+ReMobidycWorkerApplication class >> pausefilename [
+
+	^ 'lock'
+]
+
 { #category : 'running' }
 ReMobidycWorkerApplication class >> run: aFileReference [
 
@@ -42,7 +54,7 @@ ReMobidycWorkerApplication class >> worker [
 ReMobidycWorkerApplication >> execute [
 
 	| lockfile |
-	lockfile := self runPath / 'lock'.
+	lockfile := self lockfile.
 	lockfile ifExists: [ ] ifAbsent: [
 			lockfile writeStreamDo: [ :stream | RMDLibC pid printOn: stream ].
 			self run.
@@ -53,6 +65,12 @@ ReMobidycWorkerApplication >> execute [
 ReMobidycWorkerApplication >> interpreter [
 
 	^ _interpreter ifNil: [ _interpreter := self simulationModel ifNotNil: [ :model | model interpreterOn: self memory ] ]
+]
+
+{ #category : 'accessing' }
+ReMobidycWorkerApplication >> lockfile [
+
+	^ self runPath / self class lockfilename
 ]
 
 { #category : 'accessing' }
@@ -80,6 +98,12 @@ ReMobidycWorkerApplication >> modelPath [
 ]
 
 { #category : 'accessing' }
+ReMobidycWorkerApplication >> pausefile [
+
+	^ self runPath / self class pausefilename
+]
+
+{ #category : 'accessing' }
 ReMobidycWorkerApplication >> randomSeed [
 
 	^ self memory randomSeed
@@ -88,9 +112,11 @@ ReMobidycWorkerApplication >> randomSeed [
 { #category : 'execution' }
 ReMobidycWorkerApplication >> run [
 
+	| pausefile |
+	pausefile := self pausefile.
 	self interpreter ifNotNil: [ :interpreter |
-			interpreter setupSimulation.
-			[ interpreter stepSimulation ] whileTrue ]
+			interpreter fastForward.
+			[ pausefile exists not and: [ interpreter stepSimulation ] ] whileTrue ]
 ]
 
 { #category : 'accessing' }
