@@ -52,7 +52,7 @@ ReMobidycFireApplication class >> run: aFileReference [
 			vm.
 			'--headless'.
 			image.
-			'worker'.
+			'fire'.
 			aFileReference fullName }
 ]
 

@@ -231,7 +231,7 @@ RMDInterpreter >> fastForward [
 RMDInterpreter >> fireRunSimulationOnError: errorHandlerBlock [
 
 	| runDirectory lockfile pausefile |
-	runDirectory := memory memory basePath.
+	runDirectory := memory basePath.
 	lockfile := runDirectory / ReMobidycFireApplication lockfilename.
 	pausefile := runDirectory / ReMobidycFireApplication pausefilename.
 	lockfile ensureDelete.
@@ -694,7 +694,7 @@ RMDInterpreter >> runId [
 { #category : 'simulating' }
 RMDInterpreter >> runSimulationOnError: errorHandlerBlock [
 
-	[ self critical: [ self basicRunSimulationOnError: errorHandlerBlock ] ] forkAt: Processor userBackgroundPriority
+	[ self critical: [ self fireRunSimulationOnError: errorHandlerBlock ] ] forkAt: Processor userBackgroundPriority
 ]
 
 { #category : 'private' }
