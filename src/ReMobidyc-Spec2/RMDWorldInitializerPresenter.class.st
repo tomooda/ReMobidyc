@@ -6,18 +6,19 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'specs' }
-RMDWorldInitializerPresenter class >> defaultLayout [
-	<spec>
-	^ super defaultLayout
-		add: 'World with' expand: false;
-		yourself
-]
-
 { #category : 'accessing' }
 RMDWorldInitializerPresenter >> agentDefinition [
 
 	^ simulationModel ifNotNil: #worldDefinition
+]
+
+{ #category : 'layouting' }
+RMDWorldInitializerPresenter >> defaultLayout [
+
+	<spec>
+	^ super defaultLayout
+		  add: 'World with' expand: false;
+		  yourself
 ]
 
 { #category : 'layouting' }
@@ -31,7 +32,7 @@ RMDWorldInitializerPresenter >> newLayout [
 				              vAlignCenter;
 				              add: 'World with' expand: false;
 				              yourself)
-		             height: self class inputTextHeight;
+		             expand: false;
 		             yourself.
 
 	self attributesAndUtilitiesToNewLayout: newLayout.

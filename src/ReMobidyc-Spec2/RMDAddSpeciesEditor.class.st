@@ -12,29 +12,6 @@ Class {
 	#tag : 'Components'
 }
 
-{ #category : 'layout' }
-RMDAddSpeciesEditor class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   add: 'New species name' expand: false;
-				   add: #speciesField
-				   expand: true
-				   fill: true
-				   padding: 20;
-				   add: 'stage name' expand: false;
-				   add: #stageField
-				   expand: true
-				   fill: true
-				   padding: 20;
-				   add: #createButton expand: false;
-				   yourself)
-		  expand: false
-		  fill: true
-		  padding: 10;
-		  yourself
-]
-
 { #category : 'accessing' }
 RMDAddSpeciesEditor >> action [
 
@@ -51,6 +28,31 @@ RMDAddSpeciesEditor >> action: aBlock [
 RMDAddSpeciesEditor >> defaultKeyboardFocus [
 
 	^ speciesField
+]
+
+{ #category : 'layout' }
+RMDAddSpeciesEditor >> defaultLayout [
+
+	<script: 'self new open'>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignCenter;
+				   add: 'New species name' expand: false;
+				   add: speciesField
+				   expand: true
+				   fill: true
+				   padding: 20;
+				   add: 'stage name' expand: false;
+				   add: stageField
+				   expand: true
+				   fill: true
+				   padding: 20;
+				   add: createButton expand: false;
+				   yourself)
+		  expand: false
+		  fill: true
+		  padding: 10;
+		  yourself
 ]
 
 { #category : 'initialization' }

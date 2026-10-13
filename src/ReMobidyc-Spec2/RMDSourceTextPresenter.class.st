@@ -9,6 +9,7 @@ Class {
 		'#highlights => ObservableSlot',
 		'#highlightColor => ObservableSlot',
 		'#autoTypecheckingEnabled => ObservableSlot',
+		'#submitBlocks',
 		'#parser',
 		'#simulationModelBlock',
 		'#subjectBlock',
@@ -103,16 +104,17 @@ RMDSourceTextPresenter >> initialize [
 	autoTypecheckingEnabled := true.
 	highlightColor := Color red darker.
 	highlights := Array new.
-	self whenBuiltDo: [ 
-		self withAdapterDo: [ :a | 
-			a widgetDo: [ :w | 
-				| t |
-				t := w textArea.
-				t beForReMobidyc.
-				t withDecoratorNamed: #shoutStyler.
-				w shoutStyler styler: (RMDSourcePresenterStyler for: self).
-				w setText: self highlightedText ] ] ].
-	self whenSubmitDo: [ :t | self prettyPrint ]
+	self whenBuiltDo: [
+			self withAdapterDo: [ :a |
+					a widgetDo: [ :w |
+							| t |
+							t := w textArea.
+							t beForReMobidyc.
+							t withDecoratorNamed: #shoutStyler.
+							w shoutStyler styler: (RMDSourcePresenterStyler for: self).
+							w setText: self highlightedText ] ] ].
+	submitBlocks := Array with: [ self prettyPrint ].
+	super whenSubmitDo: [ :t | submitBlocks do: [ :action | action cull: t ] ]
 ]
 
 { #category : 'api' }
@@ -267,6 +269,12 @@ RMDSourceTextPresenter >> whenLastValidSyntaxNodeChangedDo: aBlock [
 { #category : 'api-events' }
 RMDSourceTextPresenter >> whenParserChangedDo: aBlock [
 	self property: #parser whenChangedDo: aBlock
+]
+
+{ #category : 'api-events' }
+RMDSourceTextPresenter >> whenSubmitDo: aBlock [
+
+	submitBlocks := submitBlocks copyWith: aBlock
 ]
 
 { #category : 'api-events' }

@@ -36,76 +36,6 @@ Class {
 	#tag : 'Components'
 }
 
-{ #category : 'layout' }
-RMDAgentDefinitionBrowser class >> defaultLayout [
-
-	^ SpPanedLayout newVertical
-		  positionOfSlider: 0.4;
-		  add: (SpPanedLayout newHorizontal
-				   positionOfSlider: 0.6;
-				   add: (SpBoxLayout newVertical
-						    add: 'Attributes' expand: false;
-						    add: #attributeList;
-						    add: (SpBoxLayout newHorizontal
-								     add: #addAttributeButton width: self buttonHeight;
-								     add: #removeAttributeButton width: self buttonHeight;
-								     add: #moveUpAttributeButton width: self buttonHeight;
-								     add: #moveDownAttributeButton width: self buttonHeight;
-								     add: #viewAttributeButton width: self buttonHeight;
-								     yourself)
-						    height: self buttonHeight;
-						    add: 'Data source' expand: false;
-						    add: (SpBoxLayout newHorizontal
-								     add: #addDataSourceButton width: self buttonHeight;
-								     add: #removeDataSourceButton width: self buttonHeight;
-								     add: #openDataSourceButton width: self buttonHeight;
-								     yourself)
-						    height: self buttonHeight;
-						    yourself);
-				   add: (SpBoxLayout newVertical
-						    add: 'where' expand: false;
-						    add: #utilityList;
-						    add: (SpBoxLayout newHorizontal
-								     add: #addUtilityButton width: self buttonHeight;
-								     add: #removeUtilityButton width: self buttonHeight;
-								     add: #moveUpUtilityButton width: self buttonHeight;
-								     add: #moveDownUtilityButton width: self buttonHeight;
-								     add: #viewUtilityButton width: self buttonHeight;
-								     yourself)
-						    height: self buttonHeight;
-						    yourself);
-				   yourself);
-		  add: (SpPanedLayout newHorizontal
-				   positionOfSlider: 0.75;
-				   add: (SpBoxLayout newVertical
-						    add: 'Tasks' expand: false;
-						    add: (SpPanedLayout newHorizontal
-								     positionOfSlider: 0.3;
-								     add: (SpBoxLayout newVertical
-										      add: #taskList;
-										      add: (SpBoxLayout newHorizontal
-												       add: #addTaskButton width: self buttonHeight;
-												       add: #removeTaskButton width: self buttonHeight;
-												       add: #moveUpTaskButton width: self buttonHeight;
-												       add: #moveDownTaskButton width: self buttonHeight;
-												       add: #editTaskButton width: self buttonHeight;
-												       yourself)
-										      height: self buttonHeight;
-										      yourself);
-								     add: #sourceText);
-						    yourself);
-				   add: (SpBoxLayout newVertical
-						    add: 'Visualization' expand: false;
-						    add: #rendererList;
-						    add: (SpBoxLayout newHorizontal
-								     add: #addRendererButton width: self buttonHeight;
-								     add: #removeRendererButton width: self buttonHeight;
-								     yourself)
-						    height: self buttonHeight;
-						    yourself);
-				   yourself) yourself
-]
-
 { #category : 'testing' }
 RMDAgentDefinitionBrowser class >> isAbstract [
 
@@ -222,6 +152,78 @@ RMDAgentDefinitionBrowser >> attributeListMenu [
 						  icon: self downIcon;
 						  enabled: moveDownAttributeButton isEnabled;
 						  action: [ self moveDownAttribute ] ] ];
+		  yourself
+]
+
+{ #category : 'layout' }
+RMDAgentDefinitionBrowser >> defaultLayout [
+
+	<script: 'RMDPatchDefinitionBrowser new open'>
+	^ SpPanedLayout newVertical
+		  positionOfSlider: 0.4;
+		  add: (SpPanedLayout newHorizontal
+				   positionOfSlider: 0.6;
+				   add: (SpBoxLayout newVertical
+						    add: 'Attributes' expand: false;
+						    add: attributeList;
+						    add: (SpBoxLayout newHorizontal
+								     add: addAttributeButton expand: true;
+								     add: removeAttributeButton expand: true;
+								     add: moveUpAttributeButton expand: true;
+								     add: moveDownAttributeButton expand: true;
+								     add: viewAttributeButton expand: true;
+								     yourself)
+						    expand: false;
+						    add: 'Data source' expand: false;
+						    add: (SpBoxLayout newHorizontal
+								     add: addDataSourceButton expand: false;
+								     add: removeDataSourceButton expand: false;
+								     add: openDataSourceButton expand: false;
+								     yourself)
+						    expand: false;
+						    yourself);
+				   add: (SpBoxLayout newVertical
+						    add: 'where' expand: false;
+						    add: utilityList;
+						    add: (SpBoxLayout newHorizontal
+								     add: addUtilityButton expand: true;
+								     add: removeUtilityButton expand: true;
+								     add: moveUpUtilityButton expand: true;
+								     add: moveDownUtilityButton expand: true;
+								     add: viewUtilityButton expand: true;
+								     yourself)
+						    expand: false;
+						    yourself);
+				   yourself);
+		  add: (SpPanedLayout newHorizontal
+				   positionOfSlider: 0.8;
+				   add: (SpBoxLayout newVertical
+						    add: 'Tasks' expand: false;
+						    add: (SpPanedLayout newHorizontal
+								     positionOfSlider: 0.3;
+								     add: (SpBoxLayout newVertical
+										      add: taskList;
+										      add: (SpBoxLayout newHorizontal
+												       add: addTaskButton expand: true;
+												       add: removeTaskButton expand: true;
+												       add: moveUpTaskButton expand: true;
+												       add: moveDownTaskButton expand: true;
+												       add: editTaskButton expand: true;
+												       yourself)
+										      expand: false;
+										      yourself);
+								     add: sourceText);
+						    yourself);
+				   add: (SpBoxLayout newVertical
+						    add: 'Visualization' expand: false;
+						    add: rendererList;
+						    add: (SpBoxLayout newHorizontal
+								     add: addRendererButton expand: true;
+								     add: removeRendererButton expand: true;
+								     yourself)
+						    expand: false;
+						    yourself);
+				   yourself);
 		  yourself
 ]
 

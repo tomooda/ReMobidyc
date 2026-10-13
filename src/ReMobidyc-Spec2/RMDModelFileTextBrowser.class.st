@@ -11,32 +11,12 @@ Class {
 		'#menuBar',
 		'#runOnDryMemoryButton',
 		'#openModelerButton',
-		'#saveButton',
-		'#exportButton'
+		'#saveButton'
 	],
 	#category : 'ReMobidyc-Spec2-Browsers',
 	#package : 'ReMobidyc-Spec2',
 	#tag : 'Browsers'
 }
-
-{ #category : 'layout' }
-RMDModelFileTextBrowser class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: #menuBar height: self toolbarHeight;
-		  add: (SpBoxLayout newHorizontal
-				   add: #saveButton width: self buttonHeight;
-				   add: #exportButton width: self buttonHeight;
-				   add: '  ' expand: false;
-				   add: #openModelerButton width: self buttonHeight;
-				   yourself)
-		  height: self buttonHeight;
-		  add: (SpPanedLayout newHorizontal
-				   add: #fileList;
-				   add: #sourceText;
-				   positionOfSlider: 0.3;
-				   yourself)
-]
 
 { #category : 'instance creation' }
 RMDModelFileTextBrowser class >> on: aFileReference [
@@ -115,6 +95,24 @@ RMDModelFileTextBrowser >> agentsFileParser [
 	^ RMDGrammar current agentsFile end
 ]
 
+{ #category : 'layout' }
+RMDModelFileTextBrowser >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: menuBar expand: false;
+		  add: (SpBoxLayout newHorizontal
+				   add: saveButton expand: false;
+				   add: '  ' expand: false;
+				   add: openModelerButton expand: false;
+				   yourself)
+		  expand: false;
+		  add: (SpPanedLayout newHorizontal
+				   add: #fileList;
+				   add: #sourceText;
+				   positionOfSlider: 0.3;
+				   yourself)
+]
+
 { #category : 'menu' }
 RMDModelFileTextBrowser >> fileMenu [
 
@@ -174,32 +172,25 @@ RMDModelFileTextBrowser >> initializePresenters [
 
 	super initializePresenters.
 	menuBar := self newMenuBar
-		           addGroup: [ :group | 
-			           group addItem: [ :item | 
-					           item
-						           name: 'File';
-						           subMenu: self fileMenu ] ];
+		           addGroup: [ :group |
+				           group addItem: [ :item |
+							           item
+								           name: 'File';
+								           subMenu: self fileMenu ] ];
 		           yourself.
 	saveButton := self newButton
-			icon: self saveIcon;
-			action: [ self saveAll ];
-			help: 'Save the files.';
-			yourself.
-	exportButton := self newButton
-			icon: self exportIcon;
-			action: [ self export ];
-			help: 'Export the model into repository.';
-			yourself.
-	openModelerButton := self newButton 
-			icon: self modelerIcon ;
-			action: [ self openInModeler ];
-			help: 'Open the model in modeler.';
-			yourself.
+		              icon: self saveIcon;
+		              action: [ self saveAll ];
+		              help: 'Save the files.';
+		              yourself.
+	openModelerButton := self newButton
+		                     icon: self modelerIcon;
+		                     action: [ self openInModeler ];
+		                     help: 'Open the model in modeler.';
+		                     yourself.
 	fileList := self newList
 		            display: [ :ref | ref basenameWithoutExtension ];
-		            displayIcon: [ :ref | 
-			            (editingTexts includesKey: ref) ifTrue: [ 
-					            self editIcon ] ];
+		            displayIcon: [ :ref | (editingTexts includesKey: ref) ifTrue: [ self editIcon ] ];
 		            whenSelectionChangedDo: [ self updateSourceText ];
 		            yourself.
 	sourceText := (self newSourceWith: self freeTextParser)
@@ -207,8 +198,7 @@ RMDModelFileTextBrowser >> initializePresenters [
 		              whenTextChangedDo: [ self updateEditingText ];
 		              whenSubmitDo: [ :text | self acceptSourceText ];
 		              yourself.
-	(self observablePropertyNamed: #modelFileReference) whenChangedDo: [ 
-		self updateFileList ]
+	(self observablePropertyNamed: #modelFileReference) whenChangedDo: [ self updateFileList ]
 ]
 
 { #category : 'initialization' }

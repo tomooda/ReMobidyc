@@ -22,52 +22,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'layout' }
-RMDChronicleModelBrowser class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpPanedLayout newHorizontal
-				   positionOfSlider: 0.6;
-				   add: (SpBoxLayout newVertical
-						    add: 'Search by Metadata' asPresenter expand: false;
-						    add: (SpGridLayout new
-								     borderWidth: 0;
-								     add: '    name' asPresenter at: 1 @ 1;
-								     add: #nameField at: 2 @ 1;
-								     add: '    author' asPresenter at: 1 @ 2;
-								     add: #authorField at: 2 @ 2;
-								     add: '    timestamp' asPresenter at: 1 @ 3;
-								     add: #dateField at: 2 @ 3;
-								     add: '    description' asPresenter at: 1 @ 4;
-								     add: #descriptionField at: 2 @ 4;
-								     columnHomogeneous: false;
-								     column: 1 expand: false;
-								     column: 2 expand: true;
-								     yourself)
-						    height: self buttonHeight * 4 + 5;
-						    add: 'Full text search' asPresenter expand: false;
-						    add: #searchField expand: false;
-						    yourself);
-				   add: (SpBoxLayout newVertical
-						    add: 'Search by Tags' expand: false;
-						    add: #tagList;
-						    yourself);
-				   yourself)
-		  height: self labelHeight * 2 + (self inputTextHeight * 5) + 2;
-		  add: (SpBoxLayout newVertical
-				   add: #modelList;
-				   add: (SpBoxLayout newHorizontal
-						    add: #updateButton width: self buttonHeight;
-						    add: ' ' asPresenter expand: false;
-						    add: #modelerButton width: self buttonHeight;
-						    add: #tagButton width: self buttonHeight;
-						    add: #openChartsButton width: self buttonHeight;
-						    yourself)
-				   expand: false;
-				   yourself);
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDChronicleModelBrowser class >> open [
 
@@ -91,6 +45,57 @@ RMDChronicleModelBrowser >> chronicleChanged [
 RMDChronicleModelBrowser >> dateFieldChanged [
 
 	self updateModelList
+]
+
+{ #category : 'layout' }
+RMDChronicleModelBrowser >> defaultLayout [
+
+	^ SpPanedLayout newVertical
+		  positionOfSlider: 0.5;
+		  add: (SpPanedLayout newHorizontal
+				   positionOfSlider: 0.6;
+				   add: (SpBoxLayout newVertical
+						    add: 'Search by Metadata' asPresenter expand: false;
+						    add: (SpGridLayout new
+								     borderWidth: 0;
+								     add: '    name' asPresenter atPoint: 1 @ 1;
+								     add: #nameField atPoint: 2 @ 1;
+								     add: '    author' asPresenter atPoint: 1 @ 2;
+								     add: #authorField atPoint: 2 @ 2;
+								     add: '    timestamp' asPresenter atPoint: 1 @ 3;
+								     add: #dateField atPoint: 2 @ 3;
+								     add: '    description' asPresenter atPoint: 1 @ 4;
+								     add: #descriptionField atPoint: 2 @ 4;
+								     columnHomogeneous: false;
+								     rowHomogeneous: false;
+								     column: 1 expand: false;
+								     column: 2 expand: true;
+								     row: 1 expand: false;
+								     row: 2 expand: false;
+								     row: 3 expand: false;
+								     row: 4 expand: false;
+								     yourself)
+						    expand: true;
+						    add: 'Full text search' asPresenter expand: false;
+						    add: #searchField expand: false;
+						    yourself);
+				   add: (SpBoxLayout newVertical
+						    add: 'Search by Tags' expand: false;
+						    add: #tagList;
+						    yourself);
+				   yourself);
+		  add: (SpBoxLayout newVertical
+				   add: #modelList;
+				   add: (SpBoxLayout newHorizontal
+						    add: #updateButton expand: false;
+						    add: ' ' asPresenter expand: false;
+						    add: #modelerButton expand: false;
+						    add: #tagButton expand: false;
+						    add: #openChartsButton expand: false;
+						    yourself)
+				   expand: false;
+				   yourself);
+		  yourself
 ]
 
 { #category : 'updates' }

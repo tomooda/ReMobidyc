@@ -11,24 +11,6 @@ Class {
 	#tag : 'Components'
 }
 
-{ #category : 'layout' }
-RMDAddStageEditor class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   add: 'New stage name' expand: false;
-				   add: #nameField
-				   expand: true
-				   fill: true
-				   padding: 20;
-				   add: #createButton expand: false;
-				   yourself)
-		  expand: false
-		  fill: true
-		  padding: 10;
-		  yourself
-]
-
 { #category : 'accessing' }
 RMDAddStageEditor >> action [
 
@@ -45,6 +27,26 @@ RMDAddStageEditor >> action: aBlock [
 RMDAddStageEditor >> defaultKeyboardFocus [
 
 	^ nameField
+]
+
+{ #category : 'layout' }
+RMDAddStageEditor >> defaultLayout [
+
+	<script: 'self new open'>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignCenter;
+				   add: 'New stage name' expand: false;
+				   add: nameField
+				   expand: true
+				   fill: true
+				   padding: 20;
+				   add: createButton expand: false;
+				   yourself)
+		  expand: false
+		  fill: true
+		  padding: 10;
+		  yourself
 ]
 
 { #category : 'initialization' }

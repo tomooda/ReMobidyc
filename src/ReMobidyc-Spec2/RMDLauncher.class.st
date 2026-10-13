@@ -9,14 +9,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'layout' }
-RMDLauncher class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: #notebook;
-		  yourself
-]
-
 { #category : 'menus' }
 RMDLauncher class >> remobidycMenuOn: aBuilder [
 
@@ -44,6 +36,14 @@ RMDLauncher class >> worldMenuOn: aBuilder [
 		label: 'Launcher';
 		action: [ RMDLauncher new open ];
 		help: 'Open a model launcher'
+]
+
+{ #category : 'layout' }
+RMDLauncher >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: notebook;
+		  yourself
 ]
 
 { #category : 'initialization' }

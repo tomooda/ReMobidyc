@@ -12,29 +12,30 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'specs' }
-RMDPatchInitializerPresenter class >> defaultLayout [
-
-	<spec>
-	^ super defaultLayout
-		  add: (SpBoxLayout newHorizontal
-				   vAlignCenter;
-				   add: #xDivisionsField expand: false;
-				   add: ' x ' expand: false;
-				   add: #yDivisionsField expand: false;
-				   add: ' of ' expand: false;
-				   add: #sizeField width: 80;
-				   add: #sizeUnitDropList width: 80;
-				   add: ' Patch with' expand: false;
-				   yourself)
-		  height: self inputTextHeight;
-		  yourself
-]
-
 { #category : 'accessing' }
 RMDPatchInitializerPresenter >> agentDefinition [
 
 	^ simulationModel ifNotNil: #patchDefinition
+]
+
+{ #category : 'layout' }
+RMDPatchInitializerPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ super defaultLayout
+		  add: (SpBoxLayout newHorizontal
+				   vAlignCenter;
+				   add: xDivisionsField width: 100;
+				   add: ' x ' expand: false;
+				   add: yDivisionsField width: 100;
+				   add: ' of ' expand: false;
+				   add: sizeField width: 100;
+				   add: sizeUnitDropList width: 100;
+				   add: ' Patch with' expand: false;
+				   yourself)
+		  expand: false;
+		  yourself
 ]
 
 { #category : 'initialization' }
@@ -104,12 +105,12 @@ RMDPatchInitializerPresenter >> newLayout [
 		             spacing: 0;
 		             add: (SpBoxLayout newHorizontal
 				              vAlignCenter;
-				              add: xDivisionsField width: 60;
+				              add: xDivisionsField width: 100;
 				              add: ' x ' asPresenter expand: false;
-				              add: yDivisionsField width: 60;
+				              add: yDivisionsField width: 100;
 				              add: ' of ' asPresenter expand: false;
-				              add: sizeField width: 80;
-				              add: sizeUnitDropList width: 80;
+				              add: sizeField width: 100;
+				              add: sizeUnitDropList width: 100;
 				              add: ' Patch with' asPresenter expand: false;
 				              yourself)
 		             height: self class inputTextHeight;

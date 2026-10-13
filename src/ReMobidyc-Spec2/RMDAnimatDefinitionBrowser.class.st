@@ -190,6 +190,93 @@ RMDAnimatDefinitionBrowser >> copyStage [
 		modeler copyStage: self agentName to: name capitalized ]
 ]
 
+{ #category : 'layout' }
+RMDAnimatDefinitionBrowser >> defaultLayout [
+
+	<script: 'self new open'>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   add: renameSpeciesButton expand: true;
+				   add: reorderSpeciesButton expand: true;
+				   add: '    ' asPresenter expand: false;
+				   add: renameStageButton expand: true;
+				   add: reorderStageButton expand: true;
+				   add: '    ' asPresenter expand: false;
+				   add: copyStageButton expand: true;
+				   yourself)
+		  expand: false;
+		  add: (SpPanedLayout newVertical
+				   positionOfSlider: 0.4;
+				   add: (SpPanedLayout newHorizontal
+						    positionOfSlider: 0.6;
+						    add: (SpBoxLayout newVertical
+								     add: 'Attributes' expand: false;
+								     add: attributeList;
+								     add: (SpBoxLayout newHorizontal
+										      add: addAttributeButton expand: true;
+										      add: removeAttributeButton expand: true;
+										      add: moveUpAttributeButton expand: true;
+										      add: moveDownAttributeButton expand: true;
+										      add: viewAttributeButton expand: true;
+										      add: spreadAttributeButton expand: true;
+										      yourself)
+								     expand: false;
+								     add: 'Data source' expand: false;
+								     add: (SpBoxLayout newHorizontal
+										      add: addDataSourceButton expand: false;
+										      add: removeDataSourceButton expand: false;
+										      add: openDataSourceButton expand: false;
+										      yourself)
+								     expand: false;
+								     yourself);
+						    add: (SpBoxLayout newVertical
+								     add: 'where' expand: false;
+								     add: utilityList;
+								     add: (SpBoxLayout newHorizontal
+										      add: addUtilityButton expand: true;
+										      add: removeUtilityButton expand: true;
+										      add: moveUpUtilityButton expand: true;
+										      add: moveDownUtilityButton expand: true;
+										      add: viewUtilityButton expand: true;
+										      add: spreadUtilityButton expand: true;
+										      yourself)
+								     expand: false;
+								     yourself);
+						    yourself);
+				   add: (SpPanedLayout newHorizontal
+						    positionOfSlider: 0.8;
+						    add: (SpBoxLayout newVertical
+								     add: 'Tasks' expand: false;
+								     add: (SpPanedLayout newHorizontal
+										      positionOfSlider: 0.3;
+										      add: (SpBoxLayout newVertical
+												       add: taskList;
+												       add: (SpBoxLayout newHorizontal
+														        add: addTaskButton expand: true;
+														        add: removeTaskButton expand: true;
+														        add: moveUpTaskButton expand: true;
+														        add: moveDownTaskButton expand: true;
+														        add: editTaskButton expand: true;
+														        add: spreadTaskButton expand: true;
+														        yourself)
+												       expand: false;
+												       yourself);
+										      add: sourceText);
+								     yourself);
+						    add: (SpBoxLayout newVertical
+								     add: 'Visualization' expand: false;
+								     add: rendererList;
+								     add: (SpBoxLayout newHorizontal
+										      add: addRendererButton expand: true;
+										      add: removeRendererButton expand: true;
+										      yourself)
+								     expand: false;
+								     yourself);
+						    yourself);
+				   yourself);
+		  yourself
+]
+
 { #category : 'accessing' }
 RMDAnimatDefinitionBrowser >> definitionDo: aBlock [
 

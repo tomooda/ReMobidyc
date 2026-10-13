@@ -697,7 +697,7 @@ RMDInterpreter >> runId [
 { #category : 'simulating' }
 RMDInterpreter >> runSimulationOnError: errorHandlerBlock [
 
-	[ self critical: [ self fireRunSimulationOnError: errorHandlerBlock ] ] forkAt: Processor userBackgroundPriority
+	[ self critical: [ self basicRunSimulationOnError: errorHandlerBlock ] ] forkAt: Processor userBackgroundPriority
 ]
 
 { #category : 'private' }

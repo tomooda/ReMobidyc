@@ -14,56 +14,56 @@ Class {
 	#tag : 'Browsers'
 }
 
+{ #category : 'testing' }
+RMDRepositoryLauncher >> canOpenAnalysis [
+
+	^ self item notNil and: [ self repository isRunsRepository ]
+]
+
 { #category : 'layout' }
-RMDRepositoryLauncher class >> defaultLayout [
+RMDRepositoryLauncher >> defaultLayout [
 
 	^ SpPanedLayout newHorizontal
 		  positionOfSlider: 0.3;
 		  add: (SpBoxLayout newVertical
-				   add: #repositoryList expand: true;
+				   add: repositoryList expand: true;
 				   add: (SpBoxLayout newHorizontal
-						    add: #updateRepositoryListButton width: self buttonHeight;
-						    add: #addRepositoryButton width: self buttonHeight;
-						    add: #removeRepositoryButton width: self buttonHeight;
-						    add: #editRepositoryButton width: self buttonHeight;
+						    add: updateRepositoryListButton expand: true;
+						    add: addRepositoryButton expand: true;
+						    add: editRepositoryButton expand: true;
+						    add: removeRepositoryButton expand: true;
 						    yourself)
 				   expand: false;
 				   yourself);
 		  add: (SpPanedLayout newVertical
 				   add: (SpBoxLayout newVertical
-						    add: #itemList;
+						    add: itemList;
 						    add: (SpBoxLayout newHorizontal
-								     add: #updateItemListButton width: self buttonHeight;
-								     add: #newItemButton width: self buttonHeight;
-								     add: #removeItemButton width: self buttonHeight;
-								     add: #editItemButton width: self buttonHeight;
-								     add: #exportItemButton width: self buttonHeight;
+								     add: updateItemListButton expand: false;
+								     add: newItemButton expand: false;
+								     add: removeItemButton expand: false;
+								     add: editItemButton expand: false;
+								     add: exportItemButton expand: false;
 								     yourself)
 						    expand: false;
 						    yourself);
 				   add: (SpBoxLayout newVertical
-						    add: #descriptionText;
+						    add: descriptionText;
 						    add: (SpBoxLayout newHorizontal
-								     addButton: #modelerButton
-								     dropdownButton: #modelerMenuButton;
+								     add: modelerButton expand: false;
+								     add: modelerMenuButton expand: false;
+								     add: '   ' asPresenter expand: false;
+								     add: experimentariumButton expand: false;
+								     add: experimentariumMenuButton expand: false;
+								     add: '   ' asPresenter expand: false;
+								     add: openTabularButton expand: false;
 								     addSpace;
-								     addButton: #experimentariumButton
-								     dropdownButton: #experimentariumMenuButton;
-								     addSpace;
-								     add: #openTabularButton width: self buttonHeight;
-								     addSpace;
-								     add: #openObservatoryButton width: self buttonHeight;
+								     add: openObservatoryButton expand: false;
 								     yourself)
 						    expand: false;
 						    yourself);
 				   yourself);
 		  yourself
-]
-
-{ #category : 'testing' }
-RMDRepositoryLauncher >> canOpenAnalysis [
-
-	^ self item notNil and: [ self repository isRunsRepository ]
 ]
 
 { #category : 'private' }
@@ -82,25 +82,20 @@ RMDRepositoryLauncher >> initializePresenters [
 		                 help: 'Open the model in a modeler.';
 		                 disable;
 		                 yourself.
-	modelerMenuButton := self newButton
-		                     icon: self dropdownIcon;
-		                     action: [
-			                     self openModelerMenu openWithSpecAtPointer ];
+	modelerMenuButton := self newMenuButton
+		                     menu: [ self openModelerMenu ];
 		                     help: 'Open the model in a selected modeler.';
 		                     disable;
 		                     yourself.
 	experimentariumButton := self newButton
 		                         icon: self experimentariumIcon;
 		                         action: [ self openInExperimentariumOnFile ];
-		                         help:
-			                         'Run the model in an experimentarium.';
+		                         help: 'Run the model in an experimentarium.';
 		                         disable;
 		                         yourself.
-	experimentariumMenuButton := self newButton
-		                             icon: self dropdownIcon;
-		                             action: [ self openInExperimentarium ];
-		                             help:
-			                             'Run the model in an experimentarium with selected memory model.';
+	experimentariumMenuButton := self newMenuButton
+		                             menu: [ self openInExperimentariumMenu ];
+		                             help: 'Run the model in an experimentarium with selected memory model.';
 		                             disable;
 		                             yourself.
 	super initializePresenters

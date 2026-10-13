@@ -10,14 +10,6 @@ Class {
 	#tag : 'Utilities'
 }
 
-{ #category : 'layout' }
-RMDAbout class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: #logoImage;
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDAbout class >> open [
 
@@ -52,6 +44,14 @@ RMDAbout class >> worldMenuOn: aBuilder [
 { #category : 'accessing' }
 RMDAbout >> codename [
 	^ BaselineOfReMobidyc codename
+]
+
+{ #category : 'layout' }
+RMDAbout >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: logoImage;
+		  yourself
 ]
 
 { #category : 'initialization' }

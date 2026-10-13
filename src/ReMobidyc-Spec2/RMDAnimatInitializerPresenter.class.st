@@ -12,21 +12,6 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'layout' }
-RMDAnimatInitializerPresenter class >> defaultLayout [
-
-	<spec>
-	^ super defaultLayout
-		  add: (SpBoxLayout newHorizontal
-				   add: #populationField expand: false;
-				   add: ' ' expand: false;
-				   add: #animatField width: 300;
-				   add: ' with' expand: false;
-				   yourself)
-		  height: self inputTextHeight;
-		  yourself
-]
-
 { #category : 'accessing' }
 RMDAnimatInitializerPresenter >> agentDefinition [
 
@@ -42,6 +27,22 @@ RMDAnimatInitializerPresenter >> animatEnabled: aBoolean [
 { #category : 'accessing' }
 RMDAnimatInitializerPresenter >> animatField [
 	^ animatField
+]
+
+{ #category : 'layout' }
+RMDAnimatInitializerPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ super defaultLayout
+		  add: (SpBoxLayout newHorizontal
+				   vAlignCenter;
+				   add: populationField width: 100;
+				   add: ' ' expand: false;
+				   add: animatField width: 200;
+				   add: ' with' expand: false)
+		  expand: false;
+		  yourself
 ]
 
 { #category : 'api' }
@@ -90,7 +91,7 @@ RMDAnimatInitializerPresenter >> newLayout [
 		             spacing: 0;
 		             add: (SpBoxLayout newHorizontal
 				              vAlignCenter;
-				              add: populationField width: 60;
+				              add: populationField width: 100;
 				              add: ' ' asPresenter expand: false;
 				              add: animatField width: 200;
 				              add: ' with' asPresenter expand: false;
@@ -98,8 +99,7 @@ RMDAnimatInitializerPresenter >> newLayout [
 		             height: self class inputTextHeight;
 		             yourself.
 	self attributesAndUtilitiesToNewLayout: newLayout.
-	newLayout add:
-		(SpBoxLayout newHorizontal add: removeButton width: 30).
+	newLayout add: removeButton expand: false.
 	^ newLayout
 ]
 

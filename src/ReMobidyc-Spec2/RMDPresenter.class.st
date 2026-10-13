@@ -305,6 +305,12 @@ RMDPresenter >> newHighlightingSyntaxNodeTextInput [
 ]
 
 { #category : 'widgets' }
+RMDPresenter >> newMenuButton [
+
+	^ self instantiate: RMDMenuButtonPresenter
+]
+
+{ #category : 'widgets' }
 RMDPresenter >> newMetadata [
 	^ self instantiate: RMDMetadataPresenter
 ]

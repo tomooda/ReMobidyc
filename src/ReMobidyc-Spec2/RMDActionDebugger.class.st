@@ -15,28 +15,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'specs' }
-RMDActionDebugger class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   hAlignCenter;
-				   add: #exceptionLabel expand: false;
-				   add: #subjectLabel expand: false;
-				   add: ' ' expand: false;
-				   add: #actionLabel expand: false;
-				   add: ' ' expand: false;
-				   add: #objectLabel expand: false;
-				   yourself)
-		  height: self inputTextHeight;
-		  add: (SpPanedLayout newVertical
-				   positionOfSlider: 0.7;
-				   add: #sourceText;
-				   add: #variableList;
-				   yourself);
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDActionDebugger class >> exception: aRMDSemanticError [
 
@@ -54,6 +32,28 @@ RMDActionDebugger >> contextChanged [
 		updateObjectLabel;
 		updateSourceText;
 		updateVariableList
+]
+
+{ #category : 'layout' }
+RMDActionDebugger >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   hAlignCenter;
+				   add: exceptionLabel expand: false;
+				   add: subjectLabel expand: false;
+				   add: ' ' expand: false;
+				   add: actionLabel expand: false;
+				   add: ' ' expand: false;
+				   add: objectLabel expand: false;
+				   yourself)
+		  expand: false;
+		  add: (SpPanedLayout newVertical
+				   positionOfSlider: 0.7;
+				   add: sourceText;
+				   add: variableList;
+				   yourself);
+		  yourself
 ]
 
 { #category : 'accessing' }

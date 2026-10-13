@@ -20,24 +20,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'layout' }
-RMDSimulationModeler class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: #menuBar height: self toolbarHeight;
-		  add: (SpBoxLayout newHorizontal
-				   add: #saveButton width: self buttonHeight;
-				   addSpace;
-				   addButton: #openExperimentariumButton
-				   dropdownButton: #openExperimentariumMenuButton;
-				   addSpace;
-				   add: #openLifehistoryDiagramButton width: self buttonHeight;
-				   yourself)
-		  height: self buttonHeight;
-		  add: #views yourself;
-		  yourself
-]
-
 { #category : 'examples' }
 RMDSimulationModeler class >> goatAndWolf [
 
@@ -222,6 +204,22 @@ RMDSimulationModeler >> copyStage: aString to: anotherString [
 	self updatePages
 ]
 
+{ #category : 'layout' }
+RMDSimulationModeler >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: menuBar expand: false;
+		  add: (SpBoxLayout newHorizontal
+				   add: saveButton expand: false;
+				   add: openExperimentariumButton expand: false;
+				   add: openExperimentariumMenuButton expand: false;
+				   add: openLifehistoryDiagramButton expand: false;
+				   yourself)
+		  expand: false;
+		  add: #views yourself;
+		  yourself
+]
+
 { #category : 'menu' }
 RMDSimulationModeler >> fileMenu [
 
@@ -297,10 +295,8 @@ RMDSimulationModeler >> initializePresenters [
 							         simulationModel ifNotNil: #updateMetaParameters.
 							         variabilityPresenter ifNotNil: #nodeChanged.
 							         (views pageAt: self variabilityPageIndex) resetContent ].
-				         pageIndex = self simulationDefinitionPageIndex ifTrue: [
-						         simulationDefinitionPresenter ifNotNil: #nodeChanged ] ];
-		         whenPageRemovedDo: [ :page |
-			         self removeSpeciesNamed: page title ];
+				         pageIndex = self simulationDefinitionPageIndex ifTrue: [ simulationDefinitionPresenter ifNotNil: #nodeChanged ] ];
+		         whenPageRemovedDo: [ :page | self removeSpeciesNamed: page title ];
 		         yourself.
 	saveButton := self newButton
 		              icon: self saveIcon;
@@ -309,24 +305,16 @@ RMDSimulationModeler >> initializePresenters [
 		              yourself.
 	openExperimentariumButton := self newButton
 		                             icon: self experimentariumIcon;
-		                             action: [
-			                             simulationModel metaInterpreterOnFile
-				                             ifNotNil: #openInExperimentarium ];
-		                             help:
-			                             'Run the model in an experimentarium.';
+		                             action: [ simulationModel metaInterpreterOnFile ifNotNil: #openInExperimentarium ];
+		                             help: 'Run the model in an experimentarium.';
 		                             yourself.
-	openExperimentariumMenuButton := self newButton
-		                                 icon: self dropdownIcon;
-		                                 action: [
-			                                 self openInExperimentarium ];
-		                                 help:
-			                                 'Run the model in an experimentarium with selected memory model.';
+	openExperimentariumMenuButton := self newMenuButton
+		                                 menu: [ self openInExperimentariumMenu ];
+		                                 help: 'Run the model in an experimentarium with selected memory model.';
 		                                 yourself.
 	openLifehistoryDiagramButton := self newButton
 		                                icon: (self iconNamed: #window);
-		                                action: [
-			                                simulationModel
-				                                openLifehistoryDiagram ];
+		                                action: [ simulationModel openLifehistoryDiagram ];
 		                                help: 'Open a Life-history diagram';
 		                                yourself
 ]
@@ -369,12 +357,6 @@ RMDSimulationModeler >> okToClose [
 RMDSimulationModeler >> open [
 
 	Cursor wait showWhile: [ ^ super open ]
-]
-
-{ #category : 'operations' }
-RMDSimulationModeler >> openInExperimentarium [
-
-	self openInExperimentariumMenu openWithSpecAtPointer
 ]
 
 { #category : 'operations' }

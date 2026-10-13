@@ -6,15 +6,6 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'specs' }
-RMDAgentInitializerPresenter class >> defaultLayout [
-	<spec>
-	^ SpBoxLayout newVertical
-		borderWidth: 0;
-		spacing: 0;
-		yourself
-]
-
 { #category : 'testing' }
 RMDAgentInitializerPresenter class >> isAbstract [
 
@@ -58,40 +49,48 @@ RMDAgentInitializerPresenter >> agentDefinition [
 RMDAgentInitializerPresenter >> attributesAndUtilitiesToNewLayout: newLayout [
 
 	node ifNotNil: [
-		node complementUtilityDefinitions.
-		node attributeInitializers do: [ :initializer |
-			newLayout
-				add: (SpBoxLayout newHorizontal
-						 add: (self newButton
-								  icon: self removeIcon;
-								  action: [
-									  self removeAttributeInitializer: initializer identifier ])
-						 width: self class buttonHeight;
-						 add: (initializer asPresenter
-								  whenExpressionSubmitDo: [ :txt | self updateLayout ];
-								  disableIdentifier;
-								  yourself);
-						 yourself)
-				height: self class buttonHeight;
-				yourself ].
-		node utilityDefinitions ifNotEmpty: [ :utils |
-			newLayout add: 'where' expand: false.
-			utils do: [ :util |
-				newLayout
-					add: (util asPresenter
-							 whenExpressionSubmitDo: [ :txt | self updateLayout ];
-							 disableIdentifier;
-							 yourself)
-					height: self class buttonHeight ] ] ].
+			node complementUtilityDefinitions.
+			node attributeInitializers do: [ :initializer |
+					newLayout
+						add: (SpBoxLayout newHorizontal
+								 add: (self newButton
+										  icon: self removeIcon;
+										  action: [ self removeAttributeInitializer: initializer identifier ])
+								 expand: false;
+								 add: (initializer asPresenter
+										  whenExpressionSubmitDo: [ :txt | self updateLayout ];
+										  disableIdentifier;
+										  yourself);
+								 yourself)
+						expand: false;
+						yourself ].
+			node utilityDefinitions ifNotEmpty: [ :utils |
+					newLayout add: 'where' expand: false.
+					utils do: [ :util |
+							newLayout
+								add: (util asPresenter
+										 whenExpressionSubmitDo: [ :txt | self updateLayout ];
+										 disableIdentifier;
+										 yourself)
+								expand: false ] ] ].
 	self uninitializedAttributes ifNotEmpty: [
-		newLayout add: (SpBoxLayout newHorizontal
-				 add: (self newButton
-						  icon: self addIcon;
-						  action: [ self addAttributeInitializer ];
-						  yourself)
-				 width: self class buttonHeight;
-				 yourself) ].
+			newLayout add: (SpBoxLayout newHorizontal
+					 add: (self newButton
+							  icon: self addIcon;
+							  action: [ self addAttributeInitializer ];
+							  yourself)
+					 expand: false;
+					 yourself) ].
 	^ newLayout
+]
+
+{ #category : 'layout' }
+RMDAgentInitializerPresenter >> defaultLayout [
+	<spec>
+	^ SpBoxLayout newVertical
+		borderWidth: 0;
+		spacing: 0;
+		yourself
 ]
 
 { #category : 'initialization' }

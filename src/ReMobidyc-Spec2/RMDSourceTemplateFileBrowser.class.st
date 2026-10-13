@@ -19,66 +19,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'layout' }
-RMDSourceTemplateFileBrowser class >> defaultLayout [
-
-	<script: 'RMDSourceTemplateFileBrowser new open'>
-	^ SpPanedLayout newHorizontal
-		  positionOfSlider: 0.25;
-		  add: (SpBoxLayout newVertical
-				   add: 'Files' expand: false;
-				   add: #fileList;
-				   add: (SpBoxLayout newHorizontal
-						    add: #addFileButton expand: false;
-						    add: #removeFileButton expand: false;
-						    yourself)
-				   expand: false);
-		  add: (SpPanedLayout newHorizontal
-				   positionOfSlider: 0.3;
-				   add: (SpBoxLayout newVertical
-						    add: 'Templates' expand: false;
-						    add: #templateList;
-						    add: (SpBoxLayout newHorizontal
-								     add: #addTemplateButton expand: false;
-								     add: #removeTemplateButton expand: false;
-								     yourself)
-						    expand: false);
-				   add: (SpBoxLayout newHorizontal
-						    add: (SpBoxLayout newVertical
-								     add:
-									     (SpBoxLayout newHorizontal add: 'name' expand: false)
-								     height: self inputTextHeight;
-								     add:
-									     (SpBoxLayout newHorizontal add: 'source' expand: false)
-								     height: self inputTextHeight;
-								     add: (SpBoxLayout newHorizontal add: ' ' expand: false)
-								     height: self inputTextHeight;
-								     add:
-									     (SpBoxLayout newHorizontal
-										      add: 'description'
-										      expand: false)
-								     height: self inputTextHeight;
-								     yourself)
-						    expand: false;
-						    add: (SpBoxLayout newVertical
-								     add: (SpBoxLayout newHorizontal add: #nameField)
-								     height: self inputTextHeight;
-								     add: (SpBoxLayout newHorizontal add: #sourceTextField)
-								     height: self inputTextHeight;
-								     add: (SpBoxLayout newHorizontal add: #expressionCheckBox)
-								     height: self inputTextHeight;
-								     add: (SpBoxLayout newHorizontal add: #descriptionText)
-								     expand: true;
-								     add: (SpBoxLayout newHorizontal
-										      hAlignEnd;
-										      add: #acceptTemplateButton expand: false)
-								     expand: false;
-								     yourself)
-						    expand: true;
-						    yourself));
-		  yourself
-]
-
 { #category : 'menus' }
 RMDSourceTemplateFileBrowser class >> remobidycMenuOn: aBuilder [
 
@@ -159,6 +99,57 @@ RMDSourceTemplateFileBrowser >> addTemplate [
 	templateList
 		items: templates;
 		selectItem: newTemplate
+]
+
+{ #category : 'layout' }
+RMDSourceTemplateFileBrowser >> defaultLayout [
+
+	<script: 'RMDSourceTemplateFileBrowser new open'>
+	^ SpPanedLayout newHorizontal
+		  positionOfSlider: 0.25;
+		  add: (SpBoxLayout newVertical
+				   add: 'Files' expand: false;
+				   add: fileList;
+				   add: (SpBoxLayout newHorizontal
+						    add: addFileButton expand: false;
+						    add: removeFileButton expand: false;
+						    yourself)
+				   expand: false);
+		  add: (SpPanedLayout newHorizontal
+				   positionOfSlider: 0.3;
+				   add: (SpBoxLayout newVertical
+						    add: 'Templates' expand: false;
+						    add: templateList;
+						    add: (SpBoxLayout newHorizontal
+								     add: addTemplateButton expand: false;
+								     add: removeTemplateButton expand: false;
+								     yourself)
+						    expand: false);
+				   add: (SpBoxLayout newVertical
+						    add: (SpGridLayout new
+								     borderWidth: 0;
+								     columnHomogeneous: false;
+								     rowHomogeneous: true;
+								     column: 1 expand: false;
+								     column: 2 expand: true;
+								     row: 1 expand: false;
+								     row: 2 expand: false;
+								     add: 'name' asPresenter atPoint: 1 @ 1;
+								     add: nameField atPoint: 2 @ 1;
+								     add: 'source' asPresenter atPoint: 1 @ 2;
+								     add: sourceTextField atPoint: 2 @ 2;
+								     yourself)
+						    height: self class inputTextHeight * 2;
+						    add: expressionCheckBox expand: false;
+						    add: 'description' asPresenter expand: false;
+						    add: descriptionText expand: true;
+						    add: (SpBoxLayout newHorizontal
+								     hAlignEnd;
+								     add: acceptTemplateButton expand: false;
+								     yourself)
+						    expand: false;
+						    yourself));
+		  yourself
 ]
 
 { #category : 'accessing' }

@@ -20,52 +20,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'layout' }
-RMDReplayObservatory class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   add:
-					   (SpBoxLayout newVertical
-						    add: #reloadButton
-						    height: self buttonHeight)
-				   width: self buttonHeight;
-				   add: '    ' expand: false;
-				   add:
-					   (SpBoxLayout newVertical
-						    add: #resetButton
-						    height: self buttonHeight)
-				   width: self buttonHeight;
-				   add:
-					   (SpBoxLayout newVertical
-						    add: #stepButton
-						    height: self buttonHeight)
-				   width: self buttonHeight;
-				   add:
-					   (SpBoxLayout newVertical
-						    add: #runButton
-						    height: self buttonHeight)
-				   width: self buttonHeight;
-				   add: (SpBoxLayout newVertical
-						    add: #timeLabel expand: false;
-						    add: #timeSlider expand: false;
-						    yourself)
-				   expand: true;
-				   yourself)
-		  height: self buttonHeight;
-		  add: (SpBoxLayout newHorizontal
-				   add: #runDropList width: 200;
-				   yourself)
-		  expand: false;
-		  add: #image;
-		  add: (SpBoxLayout newHorizontal
-				   add: #openTabularButton width: self buttonHeight;
-				   add: #openObservatoryButton width: self buttonHeight;
-				   yourself)
-		  expand: false;
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDReplayObservatory class >> metaInterpreter: aRMDMetaInterpreter [
 
@@ -79,6 +33,32 @@ RMDReplayObservatory >> canOpenAnalysis [
 
 	^ metaInterpreter notNil and: [ 
 		  metaInterpreter context isForFileMemory ]
+]
+
+{ #category : 'layout' }
+RMDReplayObservatory >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignEnd;
+				   add: reloadButton expand: false;
+				   add: '   ' asPresenter expand: false;
+				   add: resetButton expand: false;
+				   add: stepButton expand: false;
+				   add: runButton expand: false;
+				   add: '   ' asPresenter expand: false;
+				   add: runDropList expand: true;
+				   yourself)
+		  expand: false;
+		  add: #timeLabel expand: false;
+		  add: #timeSlider expand: false;
+		  add: #image;
+		  add: (SpBoxLayout newHorizontal
+				   add: #openTabularButton expand: false;
+				   add: #openObservatoryButton expand: false;
+				   yourself)
+		  expand: false;
+		  yourself
 ]
 
 { #category : 'accessing' }
@@ -137,7 +117,7 @@ RMDReplayObservatory >> initializePresenters [
 RMDReplayObservatory >> initializeWindow: aWindowPresenter [
 
 	super initializeWindow: aWindowPresenter.
-	aWindowPresenter initialExtent: 510 @ 600
+	aWindowPresenter initialExtent: 700 @ 800
 ]
 
 { #category : 'accessing' }

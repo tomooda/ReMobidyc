@@ -32,58 +32,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'layout' }
-RMDExperimentarium class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   vAlignCenter;
-				   add: #stepButton expand: false;
-				   add: #runButton expand: false;
-				   add: #timeProgressBar expand: true;
-				   yourself)
-		  height: self buttonHeight * 2;
-		  add: (SpBoxLayout newHorizontal
-				   add: #limitsNumberOfIndividualsCheckBox expand: false;
-				   add: #numberOfIndividualField width: 100;
-				   yourself)
-		  expand: false;
-		  add: (SpBoxLayout newVertical
-				   add: (SpPanedLayout newHorizontal
-						    positionOfSlider: 0.3;
-						    add: #interpreterDropList;
-						    add: #timeLabel)
-				   expand: false;
-				   add: (SpPanedLayout newHorizontal
-						    positionOfSlider: 0.45;
-						    add: #populationTable;
-						    add: (SpBoxLayout newVertical
-								     add: (SpBoxLayout newHorizontal
-										      add: (SpBoxLayout newVertical
-												       add: #showPopulationChartRadioButton
-												       height: self buttonHeight)
-										      expand: false;
-										      add: (SpBoxLayout newVertical
-												       add: #showVisualMapRadioButton
-												       height: self buttonHeight)
-										      expand: false;
-										      yourself)
-								     height: self buttonHeight;
-								     add: #visualizationImage;
-								     yourself);
-						    yourself);
-				   yourself);
-		  add: (SpBoxLayout newHorizontal
-				   add: #openTabularButton width: self buttonHeight;
-				   add: #openObservatoryButton width: self buttonHeight;
-				   add: '    ' width: self buttonHeight;
-				   add: #saveRunAsButton width: self buttonHeight;
-				   add: #removeRunButton width: self buttonHeight;
-				   yourself)
-		  expand: false;
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDExperimentarium class >> metaInterpreter: aRMDInterpreter [
 

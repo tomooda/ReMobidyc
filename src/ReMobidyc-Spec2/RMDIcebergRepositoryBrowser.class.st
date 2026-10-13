@@ -16,34 +16,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'layout' }
-RMDIcebergRepositoryBrowser class >> defaultLayout [
-
-	^ SpPanedLayout newVertical
-		  positionOfSlider: 0.2;
-		  add: (SpBoxLayout newVertical
-				   add: 'From upstream' expand: false;
-				   add: #incomingCommitList;
-				   yourself);
-		  add: (SpPanedLayout newVertical
-				   positionOfSlider: 0.5;
-				   add: (SpBoxLayout newVertical
-						    add: 'Incoming chnanges' expand: false;
-						    add: #incomingChangeList;
-						    add: (SpBoxLayout newHorizontal
-								     add: #refreshButton expand: false;
-								     add: #pullButton expand: false;
-								     add: #commitAndPushButton expand: false;
-								     add: #checkoutButton expand: false;
-								     yourself)
-						    height: self buttonHeight;
-						    yourself);
-				   add: (SpBoxLayout newVertical
-						    add: 'Local changes' expand: false;
-						    add: #localChangeList;
-						    yourself))
-]
-
 { #category : 'instance creation' }
 RMDIcebergRepositoryBrowser class >> on: anIceLibgitRepository [
 
@@ -99,6 +71,34 @@ RMDIcebergRepositoryBrowser >> conflictsWith: aRemoteCommit [
 	  , (self incomingModifications: aRemoteCommit)
 	  , (self incomingDeletions: aRemoteCommit) intersection:
 		  self localAdditions , self localModifications
+]
+
+{ #category : 'layout' }
+RMDIcebergRepositoryBrowser >> defaultLayout [
+
+	^ SpPanedLayout newVertical
+		  positionOfSlider: 0.2;
+		  add: (SpBoxLayout newVertical
+				   add: 'From upstream' expand: false;
+				   add: incomingCommitList;
+				   yourself);
+		  add: (SpPanedLayout newVertical
+				   positionOfSlider: 0.5;
+				   add: (SpBoxLayout newVertical
+						    add: 'Incoming chnanges' expand: false;
+						    add: incomingChangeList;
+						    add: (SpBoxLayout newHorizontal
+								     add: refreshButton expand: false;
+								     add: pullButton expand: false;
+								     add: commitAndPushButton expand: false;
+								     add: checkoutButton expand: false;
+								     yourself)
+						    expand: false;
+						    yourself);
+				   add: (SpBoxLayout newVertical
+						    add: 'Local changes' expand: false;
+						    add: localChangeList;
+						    yourself))
 ]
 
 { #category : 'git-operations' }

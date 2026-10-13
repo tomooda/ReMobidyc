@@ -21,38 +21,6 @@ Class {
 	#tag : 'Browsers'
 }
 
-{ #category : 'layout' }
-RMDAbstractRepositoryBrowser class >> defaultLayout [
-
-	^ SpPanedLayout newHorizontal
-		  positionOfSlider: 0.3;
-		  add: (SpBoxLayout newVertical
-				   add: #repositoryList expand: true;
-				   add: (SpBoxLayout newHorizontal
-						    add: #updateRepositoryListButton width: self buttonHeight;
-						    add: #addRepositoryButton width: self buttonHeight;
-						    add: #removeRepositoryButton width: self buttonHeight;
-						    add: #editRepositoryButton width: self buttonHeight;
-						    yourself)
-				   expand: false;
-				   yourself);
-		  add: (SpPanedLayout newVertical
-				   add: (SpBoxLayout newVertical
-						    add: #itemList;
-						    add: (SpBoxLayout newHorizontal
-								     add: #updateItemListButton width: self buttonHeight;
-								     add: #newItemButton width: self buttonHeight;
-								     add: #removeItemButton width: self buttonHeight;
-								     add: #editItemButton width: self buttonHeight;
-								     add: #exportItemButton width: self buttonHeight;
-								     yourself)
-						    expand: false;
-						    yourself);
-				   add: #descriptionText;
-				   yourself);
-		  yourself
-]
-
 { #category : 'testing' }
 RMDAbstractRepositoryBrowser class >> isAbstract [
 
@@ -171,25 +139,55 @@ RMDAbstractRepositoryBrowser >> addRepository [
 RMDAbstractRepositoryBrowser >> addRepositoryMenu [
 
 	^ self newMenu
-		  addGroup: [ :group | 
-			  group
-				  addItem: [ :item | 
-					  item
-						  name: 'Local directory';
-						  icon: Smalltalk ui icons open;
-						  action: [ self addLocalDirectory ] ];
-				  addItem: [ :item | 
-					  item
-						  name: 'Iceberg';
-						  icon: RMDIcebergRepository icon;
-						  action: [ self addIcebergRepository ] ];
-				  addItem: [ :item | 
-					  item
-						  name: 'Import Iceberg';
-						  icon: RMDIcebergRepository icon;
-						  action: [ 
-							  (Smalltalk at: #IceTipRepositoriesBrowser) new openDialog 
-								  okAction: [ [self addIcebergRepository] fork ] ] ] ];
+		  addGroup: [ :group |
+				  group
+					  addItem: [ :item |
+							  item
+								  name: 'Local directory';
+								  icon: (self iconNamed: #open);
+								  action: [ self addLocalDirectory ] ];
+					  addItem: [ :item |
+							  item
+								  name: 'Iceberg';
+								  icon: RMDIcebergRepository icon;
+								  action: [ self addIcebergRepository ] ];
+					  addItem: [ :item |
+							  item
+								  name: 'Import Iceberg';
+								  icon: RMDIcebergRepository icon;
+								  action: [ (Smalltalk at: #IceTipRepositoriesBrowser) new openDialog okAction: [ [ self addIcebergRepository ] fork ] ] ] ];
+		  yourself
+]
+
+{ #category : 'layout' }
+RMDAbstractRepositoryBrowser >> defaultLayout [
+
+	^ SpPanedLayout newHorizontal
+		  positionOfSlider: 0.3;
+		  add: (SpBoxLayout newVertical
+				   add: repositoryList expand: true;
+				   add: (SpBoxLayout newHorizontal
+						    add: updateRepositoryListButton expand: true;
+						    add: addRepositoryButton expand: true;
+						    add: editRepositoryButton expand: true;
+						    add: removeRepositoryButton expand: true;
+						    yourself)
+				   expand: false;
+				   yourself);
+		  add: (SpPanedLayout newVertical
+				   add: (SpBoxLayout newVertical
+						    add: itemList;
+						    add: (SpBoxLayout newHorizontal
+								     add: updateItemListButton expand: false;
+								     add: newItemButton expand: false;
+								     add: removeItemButton expand: false;
+								     add: editItemButton expand: false;
+								     add: exportItemButton expand: false;
+								     yourself)
+						    expand: false;
+						    yourself);
+				   add: descriptionText;
+				   yourself);
 		  yourself
 ]
 
