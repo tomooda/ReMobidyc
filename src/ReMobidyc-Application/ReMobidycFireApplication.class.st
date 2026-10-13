@@ -1,5 +1,5 @@
 Class {
-	#name : 'ReMobidycWorkerApplication',
+	#name : 'ReMobidycFireApplication',
 	#superclass : 'ClapApplication',
 	#instVars : [
 		'_interpreter',
@@ -11,19 +11,39 @@ Class {
 }
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication class >> lockfilename [
+ReMobidycFireApplication class >> commandName [
+
+	^ 'fire'
+]
+
+{ #category : 'commandline' }
+ReMobidycFireApplication class >> fire [
+
+	<commandline>
+	^ (ClapCommandSpec id: #fire)
+		  description: 'execute a run as a worker process';
+		  commandClass: self;
+		  addPositional: #path
+		  description:
+			  'the fullpath to the run directory, e.g. ~/Documents/ReMobidyc/runs/YourSimulation-2001-01-01T00-00-00.000000+09-00/run3';
+		  addHelp;
+		  yourself
+]
+
+{ #category : 'accessing' }
+ReMobidycFireApplication class >> lockfilename [
 
 	^ 'lock'
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication class >> pausefilename [
+ReMobidycFireApplication class >> pausefilename [
 
 	^ 'lock'
 ]
 
 { #category : 'running' }
-ReMobidycWorkerApplication class >> run: aFileReference [
+ReMobidycFireApplication class >> run: aFileReference [
 
 	| vm image |
 	vm := Smalltalk vm fullPath.
@@ -36,22 +56,8 @@ ReMobidycWorkerApplication class >> run: aFileReference [
 			aFileReference fullName }
 ]
 
-{ #category : 'commandline' }
-ReMobidycWorkerApplication class >> worker [
-
-	<commandline>
-	^ (ClapCommandSpec id: #worker)
-		  description: 'execute a run as a worker process';
-		  commandClass: self;
-		  addPositional: #path
-		  description:
-			  'the fullpath to the run directory, e.g. ~/Documents/ReMobidyc/runs/YourSimulation-2001-01-01T00-00-00.000000+09-00/run3';
-		  addHelp;
-		  yourself
-]
-
 { #category : 'execution' }
-ReMobidycWorkerApplication >> execute [
+ReMobidycFireApplication >> execute [
 
 	| lockfile |
 	lockfile := self lockfile.
@@ -62,77 +68,79 @@ ReMobidycWorkerApplication >> execute [
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> interpreter [
+ReMobidycFireApplication >> interpreter [
 
 	^ _interpreter ifNil: [ _interpreter := self simulationModel ifNotNil: [ :model | model interpreterOn: self memory ] ]
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> lockfile [
+ReMobidycFireApplication >> lockfile [
 
 	^ self runPath / self class lockfilename
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> memory [
+ReMobidycFireApplication >> memory [
 
 	^ _memory ifNil: [ _memory := self memoryClass on: self runPath modelPath: self modelPath ]
 ]
 
 { #category : 'class access' }
-ReMobidycWorkerApplication >> memoryClass [
+ReMobidycFireApplication >> memoryClass [
 
 	^ RMDFileMemory
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> metaparameters [
+ReMobidycFireApplication >> metaparameters [
 
 	^ self memory metaparameters
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> modelPath [
+ReMobidycFireApplication >> modelPath [
 
 	^ self runPath parent
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> pausefile [
+ReMobidycFireApplication >> pausefile [
 
 	^ self runPath / self class pausefilename
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> randomSeed [
+ReMobidycFireApplication >> randomSeed [
 
 	^ self memory randomSeed
 ]
 
 { #category : 'execution' }
-ReMobidycWorkerApplication >> run [
+ReMobidycFireApplication >> run [
 
 	| pausefile |
 	pausefile := self pausefile.
 	self interpreter ifNotNil: [ :interpreter |
-			interpreter fastForward.
+			interpreter
+				loadDataSources;
+				fastForward.
 			[ pausefile exists not and: [ interpreter stepSimulation ] ] whileTrue ]
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> runId [
+ReMobidycFireApplication >> runId [
 
 	^ self memory runId
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> runPath [
+ReMobidycFireApplication >> runPath [
 
 	^ (self positional: #path) asFileReference
 ]
 
 { #category : 'accessing' }
-ReMobidycWorkerApplication >> simulationModel [
+ReMobidycFireApplication >> simulationModel [
 
 	^ _simulationModel ifNil: [
 			  _simulationModel := (self simulationModelClass importModel: self modelPath ifError: [ nil ]) ifNotNil: [ :model |
@@ -140,7 +148,7 @@ ReMobidycWorkerApplication >> simulationModel [
 ]
 
 { #category : 'class access' }
-ReMobidycWorkerApplication >> simulationModelClass [
+ReMobidycFireApplication >> simulationModelClass [
 
 	^ RMDSimulationModel
 ]
