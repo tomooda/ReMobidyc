@@ -319,6 +319,12 @@ RMDMemory >> initialize [
 ]
 
 { #category : 'testing' }
+RMDMemory >> isFileMemory [
+
+	^ false
+]
+
+{ #category : 'testing' }
 RMDMemory >> isRewindable [
 
 	^ true
@@ -654,6 +660,14 @@ RMDMemory >> seeds [
 	^ seeds
 ]
 
+{ #category : 'timing' }
+RMDMemory >> setTime: anInteger [
+
+	time := anInteger.
+	self latestTime: (latestTime max: time).
+	self sunrise
+]
+
 { #category : 'accessing-individuals' }
 RMDMemory >> southOf: anInteger do: aBlock [
 
@@ -727,13 +741,9 @@ RMDMemory >> time [
 { #category : 'timing' }
 RMDMemory >> time: anInteger [
 
-	(anInteger isInteger and: [ 
-		 anInteger between: 0 and: self latestTime + 1 ]) ifFalse: [ 
-		^ SubscriptOutOfBounds signal ].
+	(anInteger isInteger and: [ anInteger between: 0 and: self latestTime + 1 ]) ifFalse: [ ^ SubscriptOutOfBounds signal ].
 	self sunset.
-	time := anInteger.
-	self latestTime: (latestTime max: time).
-	self sunrise
+	self setTime: anInteger
 ]
 
 { #category : 'private' }

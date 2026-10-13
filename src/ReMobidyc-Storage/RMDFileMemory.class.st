@@ -194,6 +194,12 @@ RMDFileMemory >> initializeSpace [
 	spaceDirty := false
 ]
 
+{ #category : 'testing' }
+RMDFileMemory >> isFileMemory [
+
+	^ true
+]
+
 { #category : 'accessing' }
 RMDFileMemory >> latestTime: anInteger [
 	| oldLatestTime |
@@ -201,6 +207,25 @@ RMDFileMemory >> latestTime: anInteger [
 	super latestTime: anInteger.
 	oldLatestTime = latestTime
 		ifFalse: [ allocationDirty := true ]
+]
+
+{ #category : 'accessing-storage' }
+RMDFileMemory >> latestTimeOnStorage [
+
+	| modulo ref t subdirname |
+	modulo := 10 ** self digitsPerDirectoryLevel.
+	ref := self basePath.
+	(ref / (String new: self digitsPerDirectoryLevel withAll: $0)) isDirectory ifFalse: [ ^ -1 ].
+	t := 0.
+	[
+		subdirname := (ref directoryNames select: [ :dirname |
+			               dirname size = self digitsPerDirectoryLevel and: [ dirname allSatisfy: #isDigit ] ])
+			              ifEmpty: [ nil ]
+			              ifNotEmpty: #max.
+		subdirname notNil ] whileTrue: [
+			t := t * modulo + subdirname asInteger.
+			ref := ref / subdirname ].
+	^ t
 ]
 
 { #category : 'accessing-meta parameters' }

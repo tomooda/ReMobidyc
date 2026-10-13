@@ -51,6 +51,14 @@ RMDInterpreter >> applyMeta [
 ]
 
 { #category : 'simulating' }
+RMDInterpreter >> basicRunSimulationOnError: errorHandlerBlock [
+
+	[ [ runState = true and: [ self basicStepSimulation ] ] whileTrue ]
+		on: RMDSemanticError
+		do: errorHandlerBlock
+]
+
+{ #category : 'simulating' }
 RMDInterpreter >> basicStepSimulation [
 
 	^ (guard value: self) and: [
@@ -217,6 +225,26 @@ RMDInterpreter >> fastForward [
 	self critical: [ 
 		memory time: memory latestTime.
 		self announceTimeChanged ]
+]
+
+{ #category : 'simulating' }
+RMDInterpreter >> fireRunSimulationOnError: errorHandlerBlock [
+
+	| runDirectory lockfile pausefile |
+	runDirectory := memory memory basePath.
+	lockfile := runDirectory / ReMobidycFireApplication lockfilename.
+	pausefile := runDirectory / ReMobidycFireApplication pausefilename.
+	lockfile ensureDelete.
+	ReMobidycFireApplication run: runDirectory.
+	[ lockfile exists ] whileFalse: [ 1 second wait ].
+	[
+		| time latestTime |
+		time := memory time.
+		latestTime := memory latestTimeOnStorage.
+		time ~= latestTime ifTrue: [
+				memory setTime: latestTime.
+				self announceTimeChanged ].
+		runState = true and: [ lockfile exists ] ] whileTrue: [ 1 second wait ]
 ]
 
 { #category : 'accessing - libraries' }
@@ -666,11 +694,7 @@ RMDInterpreter >> runId [
 { #category : 'simulating' }
 RMDInterpreter >> runSimulationOnError: errorHandlerBlock [
 
-	[ 
-	self critical: [ 
-		[ [ runState = true and: [ self basicStepSimulation ] ] whileTrue ]
-			on: RMDSemanticError
-			do: errorHandlerBlock ] ] forkAt: Processor userBackgroundPriority 
+	[ self critical: [ self basicRunSimulationOnError: errorHandlerBlock ] ] forkAt: Processor userBackgroundPriority
 ]
 
 { #category : 'private' }
@@ -843,12 +867,6 @@ RMDInterpreter >> time: aNumber [
 RMDInterpreter >> typecheck [
 
 	self critical: [ simulationModel typecheck ]
-]
-
-{ #category : 'simulating' }
-RMDInterpreter >> waitForPause [
-
-	[ self isRunningSimulation ] whileTrue: [ self waitingTime wait ]
 ]
 
 { #category : 'accessing' }
