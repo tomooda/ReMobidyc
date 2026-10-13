@@ -237,17 +237,16 @@ RMDInterpreter >> fireRunSimulationOnError: errorHandlerBlock [
 	lockfile ensureCreateFile.
 	ReMobidycFireApplication run: runDirectory.
 	[ runState = true and: [ lockfile exists ] ] whileTrue: [
-			| time latestTime |
-			time := memory time.
-			latestTime := memory latestTimeOnStorage - 1.
-			time + 1 to: latestTime do: [ :t |
+			memory time + 1 to: memory latestTimeOnStorage - 1 do: [ :t |
 					memory setTime: t.
 					self announceTimeChanged ].
 			100 milliSeconds wait ].
 	pausefile ensureCreateFile.
 	[ lockfile exists ] whileTrue: [ 1 second wait ].
 	pausefile ensureDelete.
-	memory setTime: memory latestTimeOnStorage.
+	memory time + 1 to: memory latestTimeOnStorage do: [ :t |
+			memory setTime: t.
+			self announceTimeChanged ].
 	self announceTimeChanged
 ]
 
