@@ -221,7 +221,7 @@ RMDFileMemory >> latestTimeOnStorage [
 		subdirname := (ref directoryNames select: [ :dirname |
 			               dirname size = self digitsPerDirectoryLevel and: [ dirname allSatisfy: #isDigit ] ])
 			              ifEmpty: [ nil ]
-			              ifNotEmpty: #max.
+			              ifNotEmpty: [:dirnames | dirnames inject: '' into: [:max :each | max < each ifTrue: [ each ] ifFalse: [ max ]]].
 		subdirname notNil ] whileTrue: [
 			t := t * modulo + subdirname asInteger.
 			ref := ref / subdirname ].

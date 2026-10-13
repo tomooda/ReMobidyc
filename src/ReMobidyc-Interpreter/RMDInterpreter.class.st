@@ -222,9 +222,9 @@ RMDInterpreter >> exportAPNG: aFileReference extent: aPoint [
 { #category : 'simulating' }
 RMDInterpreter >> fastForward [
 
-	self critical: [ 
-		memory time: memory latestTime.
-		self announceTimeChanged ]
+	self critical: [
+			memory time: memory latestTime.
+			self announceTimeChanged ]
 ]
 
 { #category : 'simulating' }
@@ -234,17 +234,21 @@ RMDInterpreter >> fireRunSimulationOnError: errorHandlerBlock [
 	runDirectory := memory basePath.
 	lockfile := runDirectory / ReMobidycFireApplication lockfilename.
 	pausefile := runDirectory / ReMobidycFireApplication pausefilename.
-	lockfile ensureDelete.
+	lockfile ensureCreateFile.
 	ReMobidycFireApplication run: runDirectory.
-	[ lockfile exists ] whileFalse: [ 1 second wait ].
-	[
-		| time latestTime |
-		time := memory time.
-		latestTime := memory latestTimeOnStorage.
-		time ~= latestTime ifTrue: [
-				memory setTime: latestTime.
-				self announceTimeChanged ].
-		runState = true and: [ lockfile exists ] ] whileTrue: [ 1 second wait ]
+	[ runState = true and: [ lockfile exists ] ] whileTrue: [
+			| time latestTime |
+			time := memory time.
+			latestTime := memory latestTimeOnStorage - 1.
+			time + 1 to: latestTime do: [ :t |
+					memory setTime: t.
+					self announceTimeChanged ].
+			100 milliSeconds wait ].
+	pausefile ensureCreateFile.
+	[ lockfile exists ] whileTrue: [ 1 second wait ].
+	pausefile ensureDelete.
+	memory setTime: memory latestTimeOnStorage.
+	self announceTimeChanged
 ]
 
 { #category : 'accessing - libraries' }

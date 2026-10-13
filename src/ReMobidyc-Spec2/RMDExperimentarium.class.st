@@ -126,6 +126,52 @@ RMDExperimentarium >> canProceed: aRMDInterpreter [
 		  <= numberOfIndividualField number ]
 ]
 
+{ #category : 'layout' }
+RMDExperimentarium >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignCenter;
+				   add: stepButton expand: false;
+				   add: runButton expand: false;
+				   add: timeProgressBar expand: true;
+				   yourself)
+		  expand: false;
+		  add: (SpBoxLayout newHorizontal
+				   add: limitsNumberOfIndividualsCheckBox expand: false;
+				   add: numberOfIndividualField width: 100;
+				   yourself)
+		  expand: false;
+		  add: (SpBoxLayout newVertical
+				   add: (SpPanedLayout newHorizontal
+						    positionOfSlider: 0.3;
+						    add: interpreterDropList;
+						    add: timeLabel)
+				   expand: false;
+				   add: (SpPanedLayout newHorizontal
+						    positionOfSlider: 0.45;
+						    add: populationTable;
+						    add: (SpBoxLayout newVertical
+								     add: (SpBoxLayout newHorizontal
+										      add: (SpBoxLayout newVertical add: showPopulationChartRadioButton expand: false) expand: false;
+										      add: (SpBoxLayout newVertical add: showVisualMapRadioButton expand: false) expand: false;
+										      yourself)
+								     expand: false;
+								     add: visualizationImage;
+								     yourself);
+						    yourself);
+				   yourself);
+		  add: (SpBoxLayout newHorizontal
+				   add: openTabularButton expand: false;
+				   add: openObservatoryButton expand: false;
+				   add: '    ' expand: false;
+				   add: saveRunAsButton expand: false;
+				   add: removeRunButton expand: false;
+				   yourself)
+		  expand: false;
+		  yourself
+]
+
 { #category : 'controlling' }
 RMDExperimentarium >> ifValidated: aBlock [
 

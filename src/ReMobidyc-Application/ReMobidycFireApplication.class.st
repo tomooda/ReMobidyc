@@ -20,7 +20,7 @@ ReMobidycFireApplication class >> commandName [
 ReMobidycFireApplication class >> fire [
 
 	<commandline>
-	^ (ClapCommandSpec id: #fire)
+	^ (ClapCommandSpec id: self commandName asSymbol)
 		  description: 'execute a run as a worker process';
 		  commandClass: self;
 		  addPositional: #path
@@ -39,7 +39,7 @@ ReMobidycFireApplication class >> lockfilename [
 { #category : 'accessing' }
 ReMobidycFireApplication class >> pausefilename [
 
-	^ 'lock'
+	^ 'pause'
 ]
 
 { #category : 'running' }
@@ -61,10 +61,13 @@ ReMobidycFireApplication >> execute [
 
 	| lockfile |
 	lockfile := self lockfile.
-	lockfile ifExists: [ ] ifAbsent: [
-			lockfile writeStreamDo: [ :stream | RMDLibC pid printOn: stream ].
-			self run.
-			lockfile ensureDelete ]
+	lockfile
+		ensureCreateFile;
+		writeStreamDo: [ :stream |
+				stream truncate.
+				RMDLibC pid printOn: stream ].
+	self run.
+	lockfile ensureDelete
 ]
 
 { #category : 'accessing' }
