@@ -70,10 +70,8 @@ ReMobidycApplication >> execute [
 ReMobidycApplication >> installIcon [
 
 	self currentWorld worldState worldRenderer ifNotNil: [ :renderer |
-		renderer windowTitle: 're:mobidyc'.
-		renderer osWindow icon: (Form fromFileNamed:
-				 FileLocator localDirectory / 'ReMobidyc' / 'icons'
-				 / 'remobidyc-icon.png') ]
+			renderer windowTitle: 're:mobidyc'.
+			renderer icon: (Form fromFileNamed: FileLocator localDirectory / 'ReMobidyc' / 'icons' / 'remobidyc-icon.png') ]
 ]
 
 { #category : 'utilities' }
