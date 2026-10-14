@@ -243,6 +243,12 @@ RMDMetaInterpreter >> typecheck [
 	self interpretersDo: #typecheck
 ]
 
+{ #category : 'accessing' }
+RMDMetaInterpreter >> usesFire: aBoolean [
+
+	self interpretersDo: [ :interpreter | interpreter usesFire: aBoolean ]
+]
+
 { #category : 'simulating' }
 RMDMetaInterpreter >> waitForPause [
 

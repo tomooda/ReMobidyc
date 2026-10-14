@@ -6,7 +6,8 @@ Class {
 		'libraries',
 		'runSemaphore',
 		'runState',
-		'guard'
+		'guard',
+		'usesFire'
 	],
 	#category : 'ReMobidyc-Interpreter-Core',
 	#package : 'ReMobidyc-Interpreter',
@@ -317,7 +318,8 @@ RMDInterpreter >> initialize [
 	super initialize.
 	runSemaphore := Semaphore forMutualExclusion.
 	libraries := OrderedCollection with: self standardLibrary.
-	guard := [ :interpreter | true ]
+	guard := [ :interpreter | true ].
+	usesFire := false
 ]
 
 { #category : 'simulating' }
@@ -697,7 +699,11 @@ RMDInterpreter >> runId [
 { #category : 'simulating' }
 RMDInterpreter >> runSimulationOnError: errorHandlerBlock [
 
-	[ self critical: [ self basicRunSimulationOnError: errorHandlerBlock ] ] forkAt: Processor userBackgroundPriority
+	[
+		self critical: [
+				usesFire = true
+					ifTrue: [ self fireRunSimulationOnError: errorHandlerBlock ]
+					ifFalse: [ self basicRunSimulationOnError: errorHandlerBlock ] ] ] forkAt: Processor userBackgroundPriority
 ]
 
 { #category : 'private' }
@@ -870,6 +876,18 @@ RMDInterpreter >> time: aNumber [
 RMDInterpreter >> typecheck [
 
 	self critical: [ simulationModel typecheck ]
+]
+
+{ #category : 'accessing' }
+RMDInterpreter >> usesFire [
+
+	^ usesFire = true
+]
+
+{ #category : 'accessing' }
+RMDInterpreter >> usesFire: aBoolean [
+
+	usesFire := aBoolean = true
 ]
 
 { #category : 'accessing' }
