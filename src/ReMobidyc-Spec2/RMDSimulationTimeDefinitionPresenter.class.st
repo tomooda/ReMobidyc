@@ -13,8 +13,9 @@ Class {
 }
 
 { #category : 'layout' }
-RMDSimulationTimeDefinitionPresenter class >> defaultLayout [
+RMDSimulationTimeDefinitionPresenter >> defaultLayout [
 
+	<script: 'self new open'>
 	<spec>
 	^ SpBoxLayout newVertical
 		  add: (SpBoxLayout newHorizontal
@@ -22,11 +23,11 @@ RMDSimulationTimeDefinitionPresenter class >> defaultLayout [
 				   borderWidth: 5;
 				   spacing: 10;
 				   add: 'during ' expand: false;
-				   add: #durationField width: 80;
-				   add: #durationUnitDropList width: 80;
+				   add: durationField width: 80;
+				   add: durationUnitDropList width: 80;
 				   add: ' step by ' expand: false;
-				   add: #stepField width: 60;
-				   add: #stepUnitDropList width: 80;
+				   add: stepField width: 60;
+				   add: stepUnitDropList width: 80;
 				   yourself)
 		  expand: false
 ]

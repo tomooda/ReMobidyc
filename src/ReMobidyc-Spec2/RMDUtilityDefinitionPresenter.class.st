@@ -11,18 +11,19 @@ Class {
 }
 
 { #category : 'specs' }
-RMDUtilityDefinitionPresenter class >> defaultLayout [
+RMDUtilityDefinitionPresenter >> defaultLayout [
 
+	<script: 'self new open'>
 	<spec>
 	^ SpBoxLayout newVertical
 		  add: (SpBoxLayout newHorizontal
 				   vAlignCenter;
-				   add: '     ' expand: false;
-				   add: #identifierField width: 100;
-				   add: ' = ' expand: false;
-				   add: #expressionField;
+				   add: '     ' asPresenter expand: false;
+				   add: identifierField width: 100;
+				   add: ' = ' asPresenter expand: false;
+				   add: expressionField;
 				   yourself)
-		  height: self inputTextHeight
+		  expand: false
 ]
 
 { #category : 'menu' }

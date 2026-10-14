@@ -11,19 +11,6 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'specs' }
-RMDPatchColorMapEntryPresenter class >> defaultLayout [
-	^ SpBoxLayout newHorizontal
-		borderWidth: 5;
-		spacing: 5;
-		add: '        ' expand: false;
-		add: #colorDropList width: 60;
-		add: ' if  ' expand: false;
-		add: #minValueField width: 100;
-		add: ' or above' expand: false;
-		yourself
-]
-
 { #category : 'instance creation' }
 RMDPatchColorMapEntryPresenter class >> on: anAssociation [
 	^ self new
@@ -41,6 +28,24 @@ RMDPatchColorMapEntryPresenter >> association: anAssociation [
 RMDPatchColorMapEntryPresenter >> associationChanged [
 	self updateColorDropList.
 	self updateMinValueField
+]
+
+{ #category : 'specs' }
+RMDPatchColorMapEntryPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   borderWidth: 5;
+				   spacing: 5;
+				   add: '        ' asPresenter expand: false;
+				   add: colorDropList width: 60;
+				   add: ' if  ' asPresenter expand: false;
+				   add: minValueField width: 100;
+				   add: ' or above' asPresenter expand: false;
+				   yourself)
+		  expand: false
 ]
 
 { #category : 'initialization' }

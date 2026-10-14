@@ -6,19 +6,20 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'specs' }
-RMDAnimatTriangleRendererPresenter class >> defaultLayout [
+{ #category : 'layout' }
+RMDAnimatTriangleRendererPresenter >> defaultLayout [
 
+	<script: 'self new open'>
 	<spec>
 	^ SpBoxLayout newVertical
 		  add: (SpBoxLayout newHorizontal
 				   borderWidth: 5;
 				   spacing: 5;
-				   add: #animatLabel expand: false;
-				   add: #colorDropList width: 60;
+				   add: animatLabel expand: false;
+				   add: colorDropList width: 60;
 				   add: ' triangle of ' expand: false;
-				   add: #shapeSizeField width: 40;
+				   add: shapeSizeField width: 40;
 				   add: ' pixels' expand: false;
 				   yourself)
-		  height: self inputTextHeight
+		  expand: false
 ]

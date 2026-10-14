@@ -38,6 +38,8 @@ RMDReplayObservatory >> canOpenAnalysis [
 { #category : 'layout' }
 RMDReplayObservatory >> defaultLayout [
 
+	<script: 'self new open'>
+	<spec>
 	^ SpBoxLayout newVertical
 		  add: (SpBoxLayout newHorizontal
 				   vAlignEnd;
@@ -50,12 +52,12 @@ RMDReplayObservatory >> defaultLayout [
 				   add: runDropList expand: true;
 				   yourself)
 		  expand: false;
-		  add: #timeLabel expand: false;
-		  add: #timeSlider expand: false;
-		  add: #image;
+		  add: timeLabel expand: false;
+		  add: timeSlider expand: false;
+		  add: image;
 		  add: (SpBoxLayout newHorizontal
-				   add: #openTabularButton expand: false;
-				   add: #openObservatoryButton expand: false;
+				   add: openTabularButton expand: false;
+				   add: openObservatoryButton expand: false;
 				   yourself)
 		  expand: false;
 		  yourself

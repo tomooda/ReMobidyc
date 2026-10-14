@@ -13,24 +13,6 @@ Class {
 	#tag : 'DataSource'
 }
 
-{ #category : 'layout' }
-RMDColumnConnectorPresenter class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   vAlignEnd;
-				   add: #columnDropList width: 150;
-				   add: #leftIcon width: self buttonHeight;
-				   add: #attributeField width: 150;
-				   add: ' [' expand: false;
-				   add: #unitField width: 60;
-				   add: '] ' expand: false;
-				   add: #interpolationDropList width: 100;
-				   yourself)
-		  height: self buttonHeight;
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDColumnConnectorPresenter class >> openDialogWithColumns: anArrayOfString connector: aRMDAttributeColumnConnector onAccept: aBlock [
 
@@ -101,6 +83,26 @@ RMDColumnConnectorPresenter >> columnConnector: aRMDAttributeColumnConnector [
 RMDColumnConnectorPresenter >> columns: anArrayOfString [
 
 	columnDropList items: anArrayOfString
+]
+
+{ #category : 'layout' }
+RMDColumnConnectorPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignEnd;
+				   add: columnDropList width: 150;
+				   add: leftIcon expand: false;
+				   add: attributeField width: 150;
+				   add: ' [' asPresenter expand: false;
+				   add: unitField width: 60;
+				   add: '] ' asPresenter expand: false;
+				   add: interpolationDropList width: 100;
+				   yourself)
+		  expand: false;
+		  yourself
 ]
 
 { #category : 'initialization' }

@@ -39,115 +39,6 @@ Class {
 	#tag : 'DataSource'
 }
 
-{ #category : 'layout' }
-RMDCSVImporter class >> defaultLayout [
-
-	<script: 'self new open'>
-	^ SpPanedLayout newHorizontal
-		  positionOfSlider: 0.4;
-		  add: #sourceTable;
-		  add: (SpPanedLayout newHorizontal
-				   positionOfSlider: 0.4 / 0.6;
-				   add: (SpGridLayout new
-						    beColumnNotHomogeneous;
-						    beRowNotHomogeneous;
-						    column: 1 expand: false;
-						    column: 3 expand: true;
-						    column: 4 expand: true;
-						    row: 1 expand: false;
-						    row: 2 expand: false;
-						    row: 3 expand: false;
-						    row: 4 expand: false;
-						    row: 5 expand: false;
-						    row: 6 expand: false;
-						    row: 7 expand: false;
-						    row: 8 expand: false;
-						    row: 9 expand: false;
-						    row: 10 expand: false;
-						    row: 11 expand: false;
-						    row: 12 expand: false;
-						    add: (SpBoxLayout newHorizontal
-								     vAlignEnd;
-								     add: '  unit of time  ' expand: false;
-								     add: (SpBoxLayout newVertical
-										      add: #timeUnitDropList
-										      height: self buttonHeight);
-								     yourself)
-						    at: 1 @ 1 span: 4 @ 1;
-						    add: (SpBoxLayout newHorizontal
-								     vAlignEnd;
-								     add: #cyclicCheckBox width: 50;
-								     add: #cycleField expand: true)
-						    at: 1 @ 2 span: 4 @ 1;
-						    add: #useElapsedTimeButton at: 1 @ 3 span: 4 @ 1;
-						    add: '    ' asPresenter at: 1 @ 4;
-						    add: 'Elapsed time' at: 2 @ 4;
-						    add: #timeDropList at: 3 @ 4;
-						    add: #useCalendarDateButton at: 1 @ 5 span: 4 @ 1;
-						    add: 'year' at: 2 @ 6;
-						    add: (SpBoxLayout newHorizontal
-								     vAlignEnd;
-								     add:
-									     (SpBoxLayout newVertical
-										      add: #yearDropList
-										      height: self buttonHeight);
-								     add: ' + ' expand: false)
-						    at: 3 @ 6;
-						    add: #baseYearField at: 4 @ 6;
-						    add: 'month' at: 2 @ 7;
-						    add:
-						    (SpBoxLayout newVertical
-							     add: #monthDropList
-							     height: self buttonHeight)
-						    at: 3 @ 7;
-						    add: #monthField at: 4 @ 7;
-						    add: 'day' at: 2 @ 8;
-						    add:
-						    (SpBoxLayout newVertical
-							     add: #dayDropList
-							     height: self buttonHeight)
-						    at: 3 @ 8;
-						    add: #dayField at: 4 @ 8;
-						    add: 'hour' at: 2 @ 9;
-						    add:
-						    (SpBoxLayout newVertical
-							     add: #hourDropList
-							     height: self buttonHeight)
-						    at: 3 @ 8;
-						    add: #hourField at: 4 @ 9;
-						    add: 'minute' at: 2 @ 10;
-						    add: (SpBoxLayout newVertical
-								     add: #minuteDropList
-								     height: self buttonHeight)
-						    at: 3 @ 10;
-						    add: #minuteField at: 4 @ 10;
-						    add: 'second' at: 2 @ 11;
-						    add: (SpBoxLayout newVertical
-								     add: #secondDropList
-								     height: self buttonHeight)
-						    at: 3 @ 11;
-						    add: #secondField at: 4 @ 11;
-						    add:
-						    (SpBoxLayout newVertical add: #connectorList height: 100)
-						    at: 1 @ 12
-						    span: 4 @ 1;
-						    add: (SpBoxLayout newHorizontal
-								     add: #addConnectorButton width: self buttonHeight;
-								     add: #removeConnectorButton width: self buttonHeight;
-								     add: #moveUpConnectorButton width: self buttonHeight;
-								     add: #moveDownConnectorButton width: self buttonHeight;
-								     add: #editConnectorButton width: self buttonHeight;
-								     yourself)
-						    at: 1 @ 13 span: 4 @ 1;
-						    yourself);
-				   add: (SpBoxLayout newVertical
-						    add: #table;
-						    add: #interpolateMissingValues expand: false;
-						    yourself);
-				   yourself);
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDCSVImporter class >> on: aFileReference [
 
@@ -187,6 +78,90 @@ RMDCSVImporter >> cyclicCheckBoxChanged [
 	self
 		updateCycleField;
 		updateTable
+]
+
+{ #category : 'layout' }
+RMDCSVImporter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpPanedLayout newHorizontal
+		  positionOfSlider: 0.35;
+		  add: sourceTable;
+		  add: (SpPanedLayout newHorizontal
+				   positionOfSlider: 0.4 / 0.6;
+				   add: (SpGridLayout new
+						    beColumnNotHomogeneous;
+						    beRowNotHomogeneous;
+						    column: 1 expand: false;
+						    column: 3 expand: true;
+						    column: 4 expand: true;
+						    row: 1 expand: false;
+						    row: 2 expand: false;
+						    row: 3 expand: false;
+						    row: 4 expand: false;
+						    row: 5 expand: false;
+						    row: 6 expand: false;
+						    row: 7 expand: false;
+						    row: 8 expand: false;
+						    row: 9 expand: false;
+						    row: 10 expand: false;
+						    row: 11 expand: false;
+						    row: 12 expand: false;
+						    add: (SpBoxLayout newHorizontal
+								     vAlignEnd;
+								     add: '  unit of time  ' expand: false;
+								     add: timeUnitDropList;
+								     yourself)
+						    atPoint: 1 @ 1 span: 4 @ 1;
+						    add: (SpBoxLayout newHorizontal
+								     vAlignEnd;
+								     add: cyclicCheckBox width: 50;
+								     add: cycleField expand: true)
+						    atPoint: 1 @ 2 span: 4 @ 1;
+						    add: useElapsedTimeButton atPoint: 1 @ 3 span: 4 @ 1;
+						    add: '    ' asPresenter atPoint: 1 @ 4;
+						    add: 'Elapsed time' at: 2 @ 4;
+						    add: timeDropList at: 3 @ 4;
+						    add: useCalendarDateButton at: 1 @ 5 span: 4 @ 1;
+						    add: 'year' at: 2 @ 6;
+						    add: (SpBoxLayout newHorizontal
+								     vAlignEnd;
+								     add: yearDropList;
+								     add: ' + ' asPresenter expand: false)
+						    at: 3 @ 6;
+						    add: baseYearField at: 4 @ 6;
+						    add: 'month' asPresenter at: 2 @ 7;
+						    add: monthDropList at: 3 @ 7;
+						    add: monthField at: 4 @ 7;
+						    add: 'day' asPresenter at: 2 @ 8;
+						    add: dayDropList at: 3 @ 8;
+						    add: dayField at: 4 @ 8;
+						    add: 'hour' asPresenter at: 2 @ 9;
+						    add: hourDropList at: 3 @ 8;
+						    add: hourField at: 4 @ 9;
+						    add: 'minute' asPresenter at: 2 @ 10;
+						    add: minuteDropList at: 3 @ 10;
+						    add: minuteField at: 4 @ 10;
+						    add: 'second' asPresenter at: 2 @ 11;
+						    add: secondDropList at: 3 @ 11;
+						    add: secondField at: 4 @ 11;
+						    add: (SpBoxLayout newVertical add: connectorList height: 100) at: 1 @ 12 span: 4 @ 1;
+						    add: (SpBoxLayout newHorizontal
+								     add: addConnectorButton expand: true;
+								     add: removeConnectorButton expand: true;
+								     add: moveUpConnectorButton expand: true;
+								     add: moveDownConnectorButton expand: true;
+								     add: editConnectorButton expand: true;
+								     yourself)
+						    at: 1 @ 13 span: 4 @ 1;
+						    yourself);
+				   add: (SpBoxLayout newVertical
+						    add: table;
+						    add: interpolateMissingValues expand: false;
+						    yourself);
+				   yourself);
+		  yourself
 ]
 
 { #category : 'accessing' }

@@ -10,15 +10,6 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'specs' }
-RMDSimulationDefinitionPresenter class >> defaultLayout [
-	<spec>
-	^ SpBoxLayout newVertical
-		spacing: 10;
-		add: 'N/A' expand: false;
-		yourself
-]
-
 { #category : 'private' }
 RMDSimulationDefinitionPresenter >> addAnimatInitializer [
 	addAnimatInitializerAction ifNotNil: #value.
@@ -35,6 +26,17 @@ RMDSimulationDefinitionPresenter >> addAnimatInitializerAction [
 RMDSimulationDefinitionPresenter >> addAnimatInitializerAction: aBlock [
 
 	addAnimatInitializerAction := aBlock
+]
+
+{ #category : 'specs' }
+RMDSimulationDefinitionPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  spacing: 10;
+		  add: 'N/A' expand: false;
+		  yourself
 ]
 
 { #category : 'initialization' }

@@ -50,6 +50,8 @@ RMDChronicleModelBrowser >> dateFieldChanged [
 { #category : 'layout' }
 RMDChronicleModelBrowser >> defaultLayout [
 
+	<script: 'self new open'>
+	<spec>
 	^ SpPanedLayout newVertical
 		  positionOfSlider: 0.5;
 		  add: (SpPanedLayout newHorizontal
@@ -59,13 +61,13 @@ RMDChronicleModelBrowser >> defaultLayout [
 						    add: (SpGridLayout new
 								     borderWidth: 0;
 								     add: '    name' asPresenter atPoint: 1 @ 1;
-								     add: #nameField atPoint: 2 @ 1;
+								     add: nameField atPoint: 2 @ 1;
 								     add: '    author' asPresenter atPoint: 1 @ 2;
-								     add: #authorField atPoint: 2 @ 2;
+								     add: authorField atPoint: 2 @ 2;
 								     add: '    timestamp' asPresenter atPoint: 1 @ 3;
-								     add: #dateField atPoint: 2 @ 3;
+								     add: dateField atPoint: 2 @ 3;
 								     add: '    description' asPresenter atPoint: 1 @ 4;
-								     add: #descriptionField atPoint: 2 @ 4;
+								     add: descriptionField atPoint: 2 @ 4;
 								     columnHomogeneous: false;
 								     rowHomogeneous: false;
 								     column: 1 expand: false;
@@ -77,21 +79,21 @@ RMDChronicleModelBrowser >> defaultLayout [
 								     yourself)
 						    expand: true;
 						    add: 'Full text search' asPresenter expand: false;
-						    add: #searchField expand: false;
+						    add: searchField expand: false;
 						    yourself);
 				   add: (SpBoxLayout newVertical
 						    add: 'Search by Tags' expand: false;
-						    add: #tagList;
+						    add: tagList;
 						    yourself);
 				   yourself);
 		  add: (SpBoxLayout newVertical
-				   add: #modelList;
+				   add: modelList;
 				   add: (SpBoxLayout newHorizontal
-						    add: #updateButton expand: false;
+						    add: updateButton expand: false;
 						    add: ' ' asPresenter expand: false;
-						    add: #modelerButton expand: false;
-						    add: #tagButton expand: false;
-						    add: #openChartsButton expand: false;
+						    add: modelerButton expand: false;
+						    add: tagButton expand: false;
+						    add: openChartsButton expand: false;
 						    yourself)
 				   expand: false;
 				   yourself);

@@ -23,21 +23,6 @@ RMDParameterInstantiationEditor class >> actionDefinition: aRMDActionDefinitionN
 		yourself
 ]
 
-{ #category : 'layout' }
-RMDParameterInstantiationEditor class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   vAlignCenter;
-				   add: #placeholderList width: 200;
-				   add: #replacementIcon width: 48;
-				   add: #expressionField;
-				   add: #viewExpressionButton width: self buttonHeight;
-				   yourself)
-		  height: self inputTextHeight;
-		  yourself
-]
-
 { #category : 'accessing' }
 RMDParameterInstantiationEditor >> actionDefinitionNode [
 	^ actionDefinitionNode
@@ -73,6 +58,23 @@ RMDParameterInstantiationEditor >> agentDirectiveMenu [
 						action: [ self paste: expr ] ] ]
 		ifNil: [ menu disable ].
 	^ menu
+]
+
+{ #category : 'layout' }
+RMDParameterInstantiationEditor >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignCenter;
+				   add: placeholderList width: 200;
+				   add: replacementIcon width: 48;
+				   add: expressionField;
+				   add: viewExpressionButton expand: false;
+				   yourself)
+		  expand: false;
+		  yourself
 ]
 
 { #category : 'accessing' }

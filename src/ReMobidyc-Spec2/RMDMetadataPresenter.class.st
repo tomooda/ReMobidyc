@@ -13,43 +13,36 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'layout' }
-RMDMetadataPresenter class >> defaultLayout [
-
-	^ SpBoxLayout newHorizontal
-		  add: (SpBoxLayout newVertical
-				   add:
-					   (SpBoxLayout newHorizontal add: 'model name' expand: false)
-				   height: self inputTextHeight;
-				   add: (SpBoxLayout newHorizontal add: 'author' expand: false)
-				   height: self inputTextHeight;
-				   add: (SpBoxLayout newHorizontal add: 'date' expand: false)
-				   height: self inputTextHeight;
-				   add:
-					   (SpBoxLayout newHorizontal add: 'description' expand: false)
-				   height: self inputTextHeight;
-				   yourself)
-		  expand: false;
-		  add: (SpBoxLayout newVertical
-				   add: (SpBoxLayout newHorizontal add: #nameField expand: true)
-				   height: self inputTextHeight;
-				   add: (SpBoxLayout newHorizontal add: #authorsField expand: true)
-				   height: self inputTextHeight;
-				   add: (SpBoxLayout newHorizontal add: #dateField expand: true)
-				   height: self inputTextHeight;
-				   add:
-					   (SpBoxLayout newHorizontal add: #descriptionText expand: true)
-				   expand: true;
-				   yourself)
-		  expand: true;
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDMetadataPresenter class >> on: aRMDMetadata [
 
 	^ self new
 		  metadata: aRMDMetadata;
+		  yourself
+]
+
+{ #category : 'layout' }
+RMDMetadataPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   add: (SpBoxLayout newHorizontal add: 'model name' asPresenter expand: true) width: 100;
+				   add: nameField expand: true)
+		  expand: false;
+		  add: (SpBoxLayout newHorizontal
+				   add: (SpBoxLayout newHorizontal add: 'author' asPresenter expand: true) width: 100;
+				   add: authorsField expand: true)
+		  expand: false;
+		  add: (SpBoxLayout newHorizontal
+				   add: (SpBoxLayout newHorizontal add: 'date' asPresenter expand: true) width: 100;
+				   add: dateField expand: true)
+		  expand: false;
+		  add: (SpBoxLayout newHorizontal
+				   add: (SpBoxLayout newHorizontal add: 'description' asPresenter expand: true) width: 100;
+				   add: descriptionText expand: true)
+		  expand: true;
 		  yourself
 ]
 

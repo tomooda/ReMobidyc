@@ -12,23 +12,6 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'specs' }
-RMDAnimatIconRendererPresenter class >> defaultLayout [
-
-	<spec>
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   borderWidth: 5;
-				   spacing: 5;
-				   add: #animatLabel expand: false;
-				   add: #iconNameButton expand: false;
-				   add: #scaleField width: 100;
-				   add: 'x ' expand: false;
-				   add: #iconImage width: 40;
-				   yourself)
-		  height: self inputTextHeight
-]
-
 { #category : 'operations' }
 RMDAnimatIconRendererPresenter >> addNewIconToSimulationModelDo: aBlock [
 
@@ -71,6 +54,24 @@ RMDAnimatIconRendererPresenter >> changeIconName [
 						 name: newIconName;
 						 action: [ self iconName: newIconName ] ] ] ])
 		openWithSpecAtPointer
+]
+
+{ #category : 'layout' }
+RMDAnimatIconRendererPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   borderWidth: 5;
+				   spacing: 5;
+				   add: animatLabel expand: false;
+				   add: iconNameButton expand: false;
+				   add: scaleField width: 100;
+				   add: 'x ' expand: false;
+				   add: iconImage width: 40;
+				   yourself)
+		  expand: false
 ]
 
 { #category : 'accessing' }

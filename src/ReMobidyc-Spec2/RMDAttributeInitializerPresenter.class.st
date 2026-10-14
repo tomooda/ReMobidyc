@@ -11,18 +11,19 @@ Class {
 }
 
 { #category : 'layout' }
-RMDAttributeInitializerPresenter class >> defaultLayout [
+RMDAttributeInitializerPresenter >> defaultLayout [
 
+	<script: 'self new open'>
 	<spec>
 	^ SpBoxLayout newVertical
 		  add: (SpBoxLayout newHorizontal
 				   vAlignCenter;
 				   add: '     ' expand: false;
-				   add: #identifierField width: 100;
+				   add: identifierField width: 100;
 				   add: ' = ' expand: false;
-				   add: #expressionField;
+				   add: expressionField;
 				   yourself)
-		  height: self inputTextHeight
+		  expand: false
 ]
 
 { #category : 'api' }

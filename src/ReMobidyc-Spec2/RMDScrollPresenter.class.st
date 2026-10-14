@@ -9,17 +9,17 @@ Class {
 	#tag : 'Widgets'
 }
 
-{ #category : 'layout' }
-RMDScrollPresenter class >> defaultLayout [
-
-	^ SpScrollableLayout with: #presenter
-]
-
 { #category : 'instance creation' }
 RMDScrollPresenter class >> with: aPresenter [
 	^ self new
 		presenter: aPresenter;
 		yourself
+]
+
+{ #category : 'layout' }
+RMDScrollPresenter >> defaultLayout [
+
+	^ SpScrollableLayout with: presenter
 ]
 
 { #category : 'initialization' }

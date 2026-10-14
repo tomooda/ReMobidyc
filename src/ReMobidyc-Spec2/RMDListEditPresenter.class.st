@@ -11,18 +11,6 @@ Class {
 	#tag : 'Widgets'
 }
 
-{ #category : 'layout' }
-RMDListEditPresenter class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: #list;
-		  add: (SpBoxLayout newHorizontal
-				   add: #addButton width: self buttonHeight;
-				   add: #removeButton width: self buttonHeight)
-		  expand: false;
-		  yourself
-]
-
 { #category : 'api' }
 RMDListEditPresenter >> addAction: aBlock [
 
@@ -33,6 +21,20 @@ RMDListEditPresenter >> addAction: aBlock [
 RMDListEditPresenter >> addButton [
 
 	^ addButton
+]
+
+{ #category : 'layout' }
+RMDListEditPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: list;
+		  add: (SpBoxLayout newHorizontal
+				   add: addButton expand: false;
+				   add: removeButton expand: false)
+		  expand: false;
+		  yourself
 ]
 
 { #category : 'api' }

@@ -7,16 +7,17 @@ Class {
 }
 
 { #category : 'layout' }
-RMDBackgroundColorRendererPresenter class >> defaultLayout [
+RMDBackgroundColorRendererPresenter >> defaultLayout [
+
+	<script: 'self new open'>
 	<spec>
 	^ SpBoxLayout newVertical
-		add:
-			(SpBoxLayout newHorizontal
-				borderWidth: 5;
-				spacing: 5;
-				add: 'Background' expand: false;
-				add: #colorDropList width: 60)
-		height: self inputTextHeight
+		  add: (SpBoxLayout newHorizontal
+				   borderWidth: 5;
+				   spacing: 5;
+				   add: 'Background' expand: false;
+				   add: colorDropList width: 60)
+		  expand: false
 ]
 
 { #category : 'accessing' }

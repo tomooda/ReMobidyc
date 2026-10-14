@@ -12,44 +12,6 @@ Class {
 	#tag : 'Tabulars'
 }
 
-{ #category : 'layout' }
-RMDIndividualHistoryTabular class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   vAlignEnd;
-				   add:
-					   (SpBoxLayout newVertical
-						    add: #reloadButton
-						    height: self buttonHeight)
-				   width: self buttonHeight;
-				   addSpace;
-				   add: (SpBoxLayout newVertical
-						    add: 'Run';
-						    add: #runDropList);
-				   add: (SpBoxLayout newVertical
-						    add: 'Stage';
-						    add: #stageDropList);
-				   yourself)
-		  expand: false;
-		  add: (SpPanedLayout newVertical
-				   positionOfSlider: 0.8;
-				   add: #table;
-				   add: (SpPanedLayout newHorizontal
-						    positionOfSlider: 0.3;
-						    add: #taskList;
-						    add: #traceableActionContext));
-		  add: (SpBoxLayout newHorizontal
-				   add: #openTabularButton width: self buttonHeight;
-				   add: #openObservatoryButton width: self buttonHeight;
-				   add: '    ' expand: false;
-				   add: #openLineChartsButton width: self buttonHeight;
-				   add: #exportCSVButton width: self buttonHeight;
-				   yourself)
-		  expand: false;
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDIndividualHistoryTabular class >> on: aRMDMetaInterpreter runId: runId individual: id time: secondsSinceEpoch [
 
@@ -57,6 +19,42 @@ RMDIndividualHistoryTabular class >> on: aRMDMetaInterpreter runId: runId indivi
 		  initializeWithRunId: runId
 		  animat: id
 		  time: secondsSinceEpoch
+]
+
+{ #category : 'layout' }
+RMDIndividualHistoryTabular >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignEnd;
+				   add: reloadButton expand: false;
+				   add: '   ' asPresenter expand: false;
+				   add: (SpBoxLayout newVertical
+						    add: 'Run';
+						    add: runDropList);
+				   add: (SpBoxLayout newVertical
+						    add: 'Stage';
+						    add: stageDropList);
+				   yourself)
+		  expand: false;
+		  add: (SpPanedLayout newVertical
+				   positionOfSlider: 0.8;
+				   add: table;
+				   add: (SpPanedLayout newHorizontal
+						    positionOfSlider: 0.3;
+						    add: taskList;
+						    add: traceableActionContext));
+		  add: (SpBoxLayout newHorizontal
+				   add: openTabularButton expand: false;
+				   add: openObservatoryButton expand: false;
+				   add: '   ' asPresenter expand: false;
+				   add: openLineChartsButton expand: false;
+				   add: exportCSVButton expand: false;
+				   yourself)
+		  expand: false;
+		  yourself
 ]
 
 { #category : 'initialization' }

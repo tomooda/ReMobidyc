@@ -98,17 +98,19 @@ RMDModelFileTextBrowser >> agentsFileParser [
 { #category : 'layout' }
 RMDModelFileTextBrowser >> defaultLayout [
 
+	<script: 'self new open'>
+	<spec>
 	^ SpBoxLayout newVertical
 		  add: menuBar expand: false;
 		  add: (SpBoxLayout newHorizontal
 				   add: saveButton expand: false;
-				   add: '  ' expand: false;
+				   add: '  ' asPresenter expand: false;
 				   add: openModelerButton expand: false;
 				   yourself)
 		  expand: false;
 		  add: (SpPanedLayout newHorizontal
-				   add: #fileList;
-				   add: #sourceText;
+				   add: fileList;
+				   add: sourceText;
 				   positionOfSlider: 0.3;
 				   yourself)
 ]

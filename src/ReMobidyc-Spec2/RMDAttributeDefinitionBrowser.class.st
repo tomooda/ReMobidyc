@@ -14,21 +14,6 @@ Class {
 	#tag : 'Components'
 }
 
-{ #category : 'layout' }
-RMDAttributeDefinitionBrowser class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   vAlignCenter;
-				   add: #agentList width: 100;
-				   add: #modifierList width: 50;
-				   add: #identifierField width: 150;
-				   add: ''' = ' expand: false;
-				   add: #definitionBodyField expand: true;
-				   yourself)
-		  height: self buttonHeight
-]
-
 { #category : 'examples' }
 RMDAttributeDefinitionBrowser class >> example1 [
 
@@ -46,6 +31,23 @@ RMDAttributeDefinitionBrowser >> agentChanged [
 	self isAfterNodeChanged ifTrue: [ ^ self ].
 	self selectedAssignableVariableNode ifNotNil: [ :v | 
 		node variable: v ]
+]
+
+{ #category : 'layout' }
+RMDAttributeDefinitionBrowser >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignCenter;
+				   add: agentList width: 100;
+				   add: modifierList width: 50;
+				   add: identifierField width: 150;
+				   add: ''' = ' asPresenter expand: false;
+				   add: definitionBodyField expand: true;
+				   yourself)
+		  expand: false
 ]
 
 { #category : 'private' }

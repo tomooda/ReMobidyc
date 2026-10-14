@@ -6,30 +6,26 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'specs' }
-RMDPatchColorMapRendererPresenter class >> defaultLayout [
+{ #category : 'layout' }
+RMDPatchColorMapRendererPresenter >> defaultLayout [
+
+	<script: 'self new open'>
 	<spec>
 	^ SpBoxLayout newVertical
-		borderWidth: 0;
-		spacing: 0;
-		add:
-			(SpBoxLayout newHorizontal
-				borderWidth: 5;
-				spacing: 5;
-				add: 'Patches' expand: false)
-			height: self inputTextHeight;
-		add:
-			(SpBoxLayout newVertical
-				borderWidth: 0;
-				spacing: 0);
-		add:
-			(SpBoxLayout newHorizontal
-				borderWidth: 0;
-				spacing: 0;
-				add: '        ' expand: false;
-				add: #colorDropList width: 60;
-				yourself)
-			height: self inputTextHeight
+		  borderWidth: 0;
+		  spacing: 0;
+		  add: (SpBoxLayout newHorizontal
+				   borderWidth: 5;
+				   spacing: 5;
+				   add: 'Patches' asPresenter expand: false)
+		  expand: false;
+		  add: (SpBoxLayout newHorizontal
+				   borderWidth: 0;
+				   spacing: 0;
+				   add: '        ' asPresenter expand: false;
+				   add: colorDropList width: 60;
+				   yourself)
+		  expand: false
 ]
 
 { #category : 'initialization' }
@@ -51,11 +47,12 @@ RMDPatchColorMapRendererPresenter >> rendererChanged [
 
 { #category : 'updating' }
 RMDPatchColorMapRendererPresenter >> updateSpec [
+
 	| theLayout |
 	layout ifNil: [ ^ self ].
 	theLayout := layout presenters second.
-	renderer
-		minAndColorEditorsDo: [ :presenter | 
-			theLayout add: presenter height: presenter preferredHeight.
-			presenter whenChangedSend: #valueChanged to: self ]
+	renderer ifNotNil: [
+			renderer minAndColorEditorsDo: [ :presenter |
+					theLayout add: presenter height: presenter preferredHeight.
+					presenter whenChangedSend: #valueChanged to: self ] ]
 ]

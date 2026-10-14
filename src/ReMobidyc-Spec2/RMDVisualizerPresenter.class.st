@@ -11,37 +11,6 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'layout' }
-RMDVisualizerPresenter class >> defaultLayout [
-	<spec>
-	^ SpPanedLayout newHorizontal
-		add: #image;
-		add:
-			(SpBoxLayout newVertical
-				spacing: 10;
-				beNotHomogeneous;
-				add: 'N/A' expand: false;
-				yourself);
-		yourself
-]
-
-{ #category : 'specs' }
-RMDVisualizerPresenter class >> defaultSpec0 [
-	<spec>
-	^ SpPanedLayout newHorizontal
-		add: #image;
-		add:
-			(SpScrollableLayout new
-				add:
-					(SpBoxLayout newVertical
-						spacing: 10;
-						beNotHomogeneous;
-						add: 'N/A' expand: false;
-						yourself);
-				yourself);
-		yourself
-]
-
 { #category : 'instance creation' }
 RMDVisualizerPresenter class >> on: aRMDVisualizer [
 	^ self new
@@ -55,6 +24,21 @@ RMDVisualizerPresenter class >> on: aRMDVisualizer interpreter: aRMDInterpreter 
 		visualizer: aRMDVisualizer;
 		interpreter: aRMDInterpreter;
 		yourself
+]
+
+{ #category : 'layout' }
+RMDVisualizerPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpPanedLayout newHorizontal
+		  add: image;
+		  add: (SpBoxLayout newVertical
+				   spacing: 10;
+				   beNotHomogeneous;
+				   add: 'N/A' asPresenter expand: false;
+				   yourself);
+		  yourself
 ]
 
 { #category : 'initialization' }

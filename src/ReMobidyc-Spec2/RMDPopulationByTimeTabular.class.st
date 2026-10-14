@@ -14,44 +14,6 @@ Class {
 	#tag : 'Tabulars'
 }
 
-{ #category : 'layout' }
-RMDPopulationByTimeTabular class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   vAlignEnd;
-				   add:
-					   (SpBoxLayout newVertical
-						    add: #reloadButton
-						    height: self buttonHeight)
-				   width: self buttonHeight;
-				   addSpace;
-				   add: (SpBoxLayout newVertical
-						    add: 'Run Aggregation';
-						    add: #runAggregationDropList);
-				   add: (SpBoxLayout newVertical
-						    add: 'meta-parameters';
-						    add: #runDropList);
-				   add: (SpBoxLayout newVertical
-						    add: 'Animat Aggregation';
-						    add: #animatAggregationDropList);
-				   add: (SpBoxLayout newVertical
-						    add: 'Species';
-						    add: #animatDropList);
-				   yourself)
-		  expand: false;
-		  add: #table;
-		  add: (SpBoxLayout newHorizontal
-				   add: #openTabularButton width: self buttonHeight;
-				   add: #openObservatoryButton width: self buttonHeight;
-				   add: '    ' expand: false;
-				   add: #openLineChartButton width: self buttonHeight;
-				   add: #exportCSVButton width: self buttonHeight;
-				   yourself)
-		  expand: false;
-		  yourself
-]
-
 { #category : 'aggregating' }
 RMDPopulationByTimeTabular >> aggregateAllAnimats [
 
@@ -153,6 +115,42 @@ RMDPopulationByTimeTabular >> animatAggregationChanged [
 RMDPopulationByTimeTabular >> animatChanged [
 
 	self updateColumns
+]
+
+{ #category : 'layout' }
+RMDPopulationByTimeTabular >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignEnd;
+				   add: #reloadButton expand: false;
+				   add: '   ' asPresenter expand: false;
+				   add: (SpBoxLayout newVertical
+						    add: 'Run Aggregation';
+						    add: runAggregationDropList);
+				   add: (SpBoxLayout newVertical
+						    add: 'meta-parameters';
+						    add: runDropList);
+				   add: (SpBoxLayout newVertical
+						    add: 'Animat Aggregation';
+						    add: animatAggregationDropList);
+				   add: (SpBoxLayout newVertical
+						    add: 'Species';
+						    add: animatDropList);
+				   yourself)
+		  expand: false;
+		  add: table;
+		  add: (SpBoxLayout newHorizontal
+				   add: openTabularButton expand: false;
+				   add: openObservatoryButton expand: false;
+				   add: '   ' asPresenter expand: false;
+				   add: openLineChartButton expand: false;
+				   add: exportCSVButton expand: false;
+				   yourself)
+		  expand: false;
+		  yourself
 ]
 
 { #category : 'initialization' }

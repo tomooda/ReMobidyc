@@ -12,51 +12,50 @@ Class {
 	#tag : 'Tabulars'
 }
 
-{ #category : 'layout' }
-RMDSnapshotTabular class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   add: #reloadButton width: self buttonHeight;
-				   yourself)
-		  height: self buttonHeight;
-		  add: (SpPanedLayout newHorizontal
-				   positionOfSlider: 0.2;
-				   add: (SpBoxLayout newVertical
-						    add: 'Run' expand: false;
-						    add: #runDropList expand: false;
-						    add: 'Time' expand: false;
-						    add: #timeList;
-						    add: (SpBoxLayout newHorizontal
-								     add: #openTabularButton width: self buttonHeight;
-								     add: #openObservatoryButton width: self buttonHeight;
-								     yourself)
-						    height: self buttonHeight;
-						    yourself);
-				   add: (SpBoxLayout newVertical
-						    add: 'Agent' expand: false;
-						    add: #agentDropList expand: false;
-						    add: (SpPanedLayout newVertical
-								     positionOfSlider: 0.8;
-								     add: #table;
-								     add: (SpPanedLayout newHorizontal
-										      positionOfSlider: 0.3;
-										      add: #taskList;
-										      add: #traceableActionContext));
-						    add: (SpBoxLayout newHorizontal
-								     add: #openBoxChartButton width: self buttonHeight;
-								     add: #exportCSVButton width: self buttonHeight;
-								     yourself)
-						    height: self buttonHeight;
-						    yourself);
-				   yourself);
-		  yourself
-]
-
 { #category : 'updating' }
 RMDSnapshotTabular >> agentChanged [
 
 	self updateTable
+]
+
+{ #category : 'layout' }
+RMDSnapshotTabular >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: reloadButton expand: false;
+		  add: (SpPanedLayout newHorizontal
+				   positionOfSlider: 0.2;
+				   add: (SpBoxLayout newVertical
+						    add: 'Run' expand: false;
+						    add: runDropList expand: false;
+						    add: 'Time' expand: false;
+						    add: timeList;
+						    add: (SpBoxLayout newHorizontal
+								     add: openTabularButton expand: false;
+								     add: openObservatoryButton expand: false;
+								     yourself)
+						    expand: false;
+						    yourself);
+				   add: (SpBoxLayout newVertical
+						    add: 'Agent' expand: false;
+						    add: agentDropList expand: false;
+						    add: (SpPanedLayout newVertical
+								     positionOfSlider: 0.8;
+								     add: table;
+								     add: (SpPanedLayout newHorizontal
+										      positionOfSlider: 0.3;
+										      add: taskList;
+										      add: traceableActionContext));
+						    add: (SpBoxLayout newHorizontal
+								     add: openBoxChartButton expand: false;
+								     add: exportCSVButton expand: false;
+								     yourself)
+						    expand: false;
+						    yourself);
+				   yourself);
+		  yourself
 ]
 
 { #category : 'initialization' }

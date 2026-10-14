@@ -11,13 +11,15 @@ Class {
 }
 
 { #category : 'layout' }
-RMDMetaSingleParameterSequencePresenter class >> defaultLayout [
+RMDMetaSingleParameterSequencePresenter >> defaultLayout [
 
+	<script: 'self new open'>
+	<spec>
 	^ SpBoxLayout newHorizontal
 		  vAlignCenter;
-		  add: #placeholderLabel expand: false;
+		  add: placeholderLabel expand: false;
 		  add: ' -> ' expand: false;
-		  add: #literalsField;
+		  add: literalsField;
 		  yourself
 ]
 

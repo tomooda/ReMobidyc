@@ -10,19 +10,6 @@ Class {
 	#tag : 'Components'
 }
 
-{ #category : 'layout' }
-RMDUtilityDefinitionBrowser class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   vAlignCenter;
-				   add: #identifierField width: 150;
-				   add: ' = ' expand: false;
-				   add: #definitionBodyField expand: true;
-				   yourself)
-		  height: self buttonHeight
-]
-
 { #category : 'examples' }
 RMDUtilityDefinitionBrowser class >> example1 [
 
@@ -31,6 +18,21 @@ RMDUtilityDefinitionBrowser class >> example1 [
 		            (RMDGrammar current utilityDefinition end parse:
 			             'foo = 10 [m]')) openDialog okAction: [
 		browser node inspect ]
+]
+
+{ #category : 'layout' }
+RMDUtilityDefinitionBrowser >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   vAlignCenter;
+				   add: identifierField width: 150;
+				   add: ' = ' asPresenter expand: false;
+				   add: definitionBodyField expand: true;
+				   yourself)
+		  expand: false
 ]
 
 { #category : 'private' }

@@ -17,12 +17,6 @@ Class {
 	#tag : 'Components'
 }
 
-{ #category : 'layout' }
-RMDTraceableActionContextPresenter class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-]
-
 { #category : 'accessing' }
 RMDTraceableActionContextPresenter >> context: aRMDActionContext [
 
@@ -68,6 +62,12 @@ RMDTraceableActionContextPresenter >> contextChanged [
 			attributeDefinitionTable items: #(  ).
 			attributeReferenceTable items: #(  ) ].
 	self layout: self layout
+]
+
+{ #category : 'layout' }
+RMDTraceableActionContextPresenter >> defaultLayout [
+
+	^ SpBoxLayout newVertical
 ]
 
 { #category : 'initialization' }

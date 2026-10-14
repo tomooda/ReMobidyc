@@ -28,63 +28,6 @@ Class {
 	#tag : 'Components'
 }
 
-{ #category : 'layout' }
-RMDTaskDefinitionBrowser class >> defaultLayout [
-
-	^ SpPanedLayout newVertical
-		  positionOfSlider: 0.4;
-		  add: (SpPanedLayout newHorizontal
-				   positionOfSlider: 0.6;
-				   add: (SpBoxLayout newVertical
-						    add: 'Actions' expand: false;
-						    add: #actionList;
-						    add: (SpBoxLayout newHorizontal
-								     add: #importActionButton width: self buttonHeight;
-								     add: #addActionButton width: self buttonHeight;
-								     addButton: #removeActionButton
-								     dropdownButton: #removeActionMenuButton;
-								     add: #editActionButton width: self buttonHeight;
-								     yourself)
-						    height: self buttonHeight;
-						    yourself);
-				   add: (SpBoxLayout newVertical
-						    add: 'Template' expand: false;
-						    add: #templateText;
-						    yourself));
-		  add: (SpBoxLayout newVertical
-				   add: 'Task Specialization' expand: false;
-				   add: (SpPanedLayout newHorizontal
-						    positionOfSlider: 0.6;
-						    add: (SpBoxLayout newVertical
-								     add: (SpBoxLayout newHorizontal
-										      vAlignCenter;
-										      add: #verbIdentifierField expand: true;
-										      add: #nearestCheckBox width: 80;
-										      add: #objectIdentifierField width: 120;
-										      add: (SpBoxLayout newHorizontal
-												       vAlignCenter;
-												       add: 'within ' expand: false;
-												       add: #rangeField width: 100)
-										      expand: false)
-								     height: self inputTextHeight;
-								     add: #parameterInstantiationList;
-								     add: (SpBoxLayout newHorizontal
-										      add: #addParameterInstantiationButton
-										      width: self buttonHeight;
-										      add: #removeParameterInstantiationButton
-										      width: self buttonHeight;
-										      add: #editParameterInstantiationButton
-										      width: self buttonHeight;
-										      add: #viewParameterInstantiationButton
-										      width: self buttonHeight;
-										      yourself)
-								     height: self buttonHeight;
-								     yourself);
-						    add: #sourceText;
-						    yourself));
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDTaskDefinitionBrowser class >> on: aRMDSimulationModel [
 	^ self new
@@ -237,6 +180,59 @@ RMDTaskDefinitionBrowser >> agentName: aString [
 	agentName := aString
 ]
 
+{ #category : 'layout' }
+RMDTaskDefinitionBrowser >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpPanedLayout newVertical
+		  positionOfSlider: 0.4;
+		  add: (SpPanedLayout newHorizontal
+				   positionOfSlider: 0.6;
+				   add: (SpBoxLayout newVertical
+						    add: 'Actions' expand: false;
+						    add: actionList;
+						    add: (SpBoxLayout newHorizontal
+								     add: importActionButton expand: false;
+								     add: addActionButton expand: false;
+								     add: removeActionButton expand: false;
+								     add: removeActionMenuButton expand: false;
+								     add: editActionButton expand: false;
+								     yourself)
+						    expand: false;
+						    yourself);
+				   add: (SpBoxLayout newVertical
+						    add: 'Template' expand: false;
+						    add: templateText;
+						    yourself));
+		  add: (SpBoxLayout newVertical
+				   add: 'Task Specialization' expand: false;
+				   add: (SpPanedLayout newHorizontal
+						    positionOfSlider: 0.6;
+						    add: (SpBoxLayout newVertical
+								     add: (SpBoxLayout newHorizontal
+										      vAlignCenter;
+										      add: verbIdentifierField expand: true;
+										      add: nearestCheckBox expand: false;
+										      add: objectIdentifierField width: 120;
+										      add: ' within ' asPresenter expand: false;
+										      add: rangeField width: 100;
+										      yourself)
+								     expand: false;
+								     add: parameterInstantiationList expand: true;
+								     add: (SpBoxLayout newHorizontal
+										      add: addParameterInstantiationButton expand: false;
+										      add: removeParameterInstantiationButton expand: false;
+										      add: editParameterInstantiationButton expand: false;
+										      add: viewParameterInstantiationButton expand: false;
+										      yourself)
+								     expand: false;
+								     yourself);
+						    add: sourceText;
+						    yourself));
+		  yourself
+]
+
 { #category : 'operations' }
 RMDTaskDefinitionBrowser >> editAction [
 
@@ -317,26 +313,22 @@ RMDTaskDefinitionBrowser >> initializePresenters [
 		              beSingleSelection;
 		              beResizable;
 		              showColumnHeaders;
-		              addColumn: (SpStringTableColumn
-				               title: 'verb'
-				               evaluated: [ :item | item identifier ]);
-		              addColumn: (SpStringTableColumn
-				               title: 'object'
-				               evaluated: [ :item | item object ifNil: [ '' ] ]);
+		              addColumn: (SpStringTableColumn title: 'verb' evaluated: [ :item | item identifier ]);
+		              addColumn: (SpStringTableColumn title: 'object' evaluated: [ :item | item object ifNil: [ '' ] ]);
 		              whenModelChangedDo: [ actionList selectItem: nil ];
 		              whenSelectionChangedDo: [
-			              self updateActionButtons.
-			              self updateTaskDefinition.
-			              self taskDefinition ifNotNil: [ :taskDefinition |
-					              self actionDefinition ifNotNil: [ :actionIdentifier |
-							              self updateVerbIdentifierField.
-							              self updateObjectIdentifierField.
-							              self updateNearestCheckBox.
-							              self updateRangeField ].
-					              self
-						              updateTemplateText;
-						              updateParameterInstantiationList;
-						              updateSourceText ] ];
+				              self updateActionButtons.
+				              self updateTaskDefinition.
+				              self taskDefinition ifNotNil: [ :taskDefinition |
+							              self actionDefinition ifNotNil: [ :actionIdentifier |
+										              self updateVerbIdentifierField.
+										              self updateObjectIdentifierField.
+										              self updateNearestCheckBox.
+										              self updateRangeField ].
+							              self
+								              updateTemplateText;
+								              updateParameterInstantiationList;
+								              updateSourceText ] ];
 		              contextMenu: [ self actionListMenu ];
 		              yourself.
 	importActionButton := self newButton
@@ -364,128 +356,93 @@ RMDTaskDefinitionBrowser >> initializePresenters [
 	editActionButton := self newButton
 		                    icon: self editIcon;
 		                    action: [ self editAction ];
-		                    help:
-			                    'Edit the definition of the selected action';
+		                    help: 'Edit the definition of the selected action';
 		                    disable;
 		                    yourself.
-	templateText := (self newSourceWith:
-			                 RMDGrammar current actionDefinition)
+	templateText := (self newSourceWith: RMDGrammar current actionDefinition)
 		                permitUnresolvedAttributeReference;
 		                enabled: false;
 		                beNotEditable;
 		                yourself.
 	verbIdentifierField := self newSyntaxNodeTextInput
 		                       beIdentifier;
-		                       whenLastValidSyntaxNodeChangedDo: [
-			                       self acceptVerbIdentifierField ];
+		                       whenLastValidSyntaxNodeChangedDo: [ self acceptVerbIdentifierField ];
+		                       help: 'verb';
 		                       yourself.
 	nearestCheckBox := self newCheckBox
 		                   label: 'nearest';
-		                   labelOnRight;
 		                   whenChangedDo: [ self acceptNearestCheckBox ];
 		                   yourself.
 	objectIdentifierField := self newSyntaxNodeTextInput
+		                         help: 'Object (animat)';
 		                         beAgentIdentifier;
 		                         allowEmpty;
-		                         whenLastValidSyntaxNodeChangedDo: [
-			                         self acceptObjectIdentifierField ];
+		                         whenLastValidSyntaxNodeChangedDo: [ self acceptObjectIdentifierField ];
 		                         yourself.
 	rangeField := self newHighlightingSyntaxNodeTextInput
+		              help: 'radius';
 		              beLiteral;
 		              allowEmpty;
 		              expectedType: RMDType length;
-		              whenLastValidSyntaxNodeChangedDo: [
-			              self acceptRangeField ];
+		              whenLastValidSyntaxNodeChangedDo: [ self acceptRangeField ];
 		              yourself.
 	parameterInstantiationList := self newTable
 		                              beSingleSelection;
 		                              beResizable;
-		                              addColumn:
-			                              ((SpStringTableColumn
-				                                title: 'placeholder'
-				                                evaluated: [ :item |
-					                                | actionAttribute actionDefinition |
-					                                actionAttribute := item
-						                                                   placeholder
-						                                                   printString
-						                                                   asText.
-					                                actionDefinition := self
-						                                                    actionDefinition.
-					                                (actionDefinition isNil or: [
-							                                 (actionDefinition
-								                                  includesNode:
-									                                  item placeholder) not ])
-						                                ifTrue: [
-							                                actionAttribute makeAllColor:
-									                                Color red ].
-					                                actionAttribute ])
+		                              addColumn: ((SpStringTableColumn title: 'placeholder' evaluated: [ :item |
+						                                | actionAttribute actionDefinition |
+						                                actionAttribute := item placeholder printString asText.
+						                                actionDefinition := self actionDefinition.
+						                                (actionDefinition isNil or: [ (actionDefinition includesNode: item placeholder) not ])
+							                                ifTrue: [ actionAttribute makeAllColor: Color red ].
+						                                actionAttribute ])
 				                               beExpandable;
 				                               yourself);
-		                              addColumn:
-			                              ((SpImageTableColumn evaluated: [
-					                                :item | self replacementIcon ])
+		                              addColumn: ((SpImageTableColumn evaluated: [ :item | self replacementIcon ])
 				                               width: 20;
 				                               beNotExpandable);
-		                              addColumn: ((SpStringTableColumn
-				                                title: 'specialized'
-				                                evaluated: [ :item |
-					                                item replacement printString ])
+		                              addColumn:
+			                              ((SpStringTableColumn title: 'specialized' evaluated: [ :item | item replacement printString ])
 				                               beExpandable;
 				                               yourself);
-		                              whenModelChangedDo: [
-		                              parameterInstantiationList
-			                              selectItem: nil ];
+		                              whenModelChangedDo: [ parameterInstantiationList selectItem: nil ];
 		                              whenSelectionChangedDo: [
-			                              | selected |
-			                              selected := parameterInstantiationList
-				                                          selection selectedItem
-				                                          notNil.
-			                              removeParameterInstantiationButton
-				                              enabled: selected.
-			                              editParameterInstantiationButton
-				                              enabled: selected.
-			                              viewParameterInstantiationButton
-				                              enabled: selected ];
-		                              contextMenu: [
-		                              self parameterInstiationListMenu ];
+				                              | selected |
+				                              selected := parameterInstantiationList selection selectedItem notNil.
+				                              removeParameterInstantiationButton enabled: selected.
+				                              editParameterInstantiationButton enabled: selected.
+				                              viewParameterInstantiationButton enabled: selected ];
+		                              contextMenu: [ self parameterInstiationListMenu ];
 		                              yourself.
 	addParameterInstantiationButton := self newButton
 		                                   icon: self addIcon;
-		                                   action: [
-			                                   self addParameterInstantiation ];
-		                                   help:
-			                                   'Add a new replacement rule with a placeholder';
+		                                   action: [ self addParameterInstantiation ];
+		                                   help: 'Add a new replacement rule with a placeholder';
 		                                   yourself.
 	removeParameterInstantiationButton := self newButton
 		                                      icon: self removeIcon;
-		                                      action: [
-			                                      self
-				                                      removeParameterInstantiation ];
-		                                      help:
-			                                      'Remove the selected replacement rule';
+		                                      action: [ self removeParameterInstantiation ];
+		                                      help: 'Remove the selected replacement rule';
 		                                      disable;
 		                                      yourself.
 	editParameterInstantiationButton := self newButton
 		                                    icon: self editIcon;
-		                                    action: [
-			                                    self editParameterInstantiation ];
-		                                    help:
-			                                    'Edit the selected replacement rule';
+		                                    action: [ self editParameterInstantiation ];
+		                                    help: 'Edit the selected replacement rule';
 		                                    disable;
 		                                    yourself.
 	viewParameterInstantiationButton := self newButton
 		                                    icon: self validatoriumIcon;
-		                                    action: [
-			                                    self viewParameterInstantiation ];
+		                                    action: [ self viewParameterInstantiation ];
 		                                    disable;
 		                                    help: 'View the definition';
 		                                    yourself.
-	sourceText := (self newSourceWith:
-			               RMDGrammar current actionDefinition)
+	sourceText := (self newSourceWith: RMDGrammar current actionDefinition)
 		              enabled: false;
 		              beNotEditable;
 		              whenLastValidSyntaxNodeChangedDo: [ :syntaxNode |  ];
 		              yourself.
+	self whenBuiltDo: [ nearestCheckBox withAdapterDo: [ :a | a widgetDo: [ :w | w width: 100 ] ] ].
 	self updateActionList
 ]
 

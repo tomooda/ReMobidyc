@@ -11,20 +11,20 @@ Class {
 	#tag : 'Components'
 }
 
-{ #category : 'layout' }
-RMDSpeciesDefinitionBrowser class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  add: #stagesNotebook;
-		  yourself
-]
-
 { #category : 'instance creation' }
 RMDSpeciesDefinitionBrowser class >> on: aRMDSimulationModeler species: aString [
 
 	^ self new
 		  modeler: aRMDSimulationModeler;
 		  species: aString;
+		  yourself
+]
+
+{ #category : 'layout' }
+RMDSpeciesDefinitionBrowser >> defaultLayout [
+
+	^ SpBoxLayout newVertical
+		  add: stagesNotebook;
 		  yourself
 ]
 

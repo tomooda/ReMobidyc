@@ -10,9 +10,11 @@ Class {
 }
 
 { #category : 'specs' }
-RMDTaskDefinitionPresenter class >> defaultLayout [
+RMDTaskDefinitionPresenter >> defaultLayout [
+
+	<script: 'self new open'>
 	<spec>
-	^ SpBoxLayout newVertical add: #source expand: true
+	^ SpBoxLayout newVertical add: source expand: true
 ]
 
 { #category : 'initialization' }

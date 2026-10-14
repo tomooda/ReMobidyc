@@ -13,22 +13,6 @@ Class {
 	#tag : 'Editors'
 }
 
-{ #category : 'layout' }
-RMDAttributeDeclarationPresenter class >> defaultLayout [
-
-	<spec>
-	^ SpBoxLayout newVertical
-		  add: (SpBoxLayout newHorizontal
-				   add: '     ' expand: false;
-				   add: #identifierField width: 180;
-				   add: ' [' expand: false;
-				   add: #unitField width: 50;
-				   add: '] = ' expand: false;
-				   add: #initializerExpressionField expand: true;
-				   yourself)
-		  height: self inputTextHeight
-]
-
 { #category : 'accessing' }
 RMDAttributeDeclarationPresenter >> agentName [
 
@@ -40,6 +24,23 @@ RMDAttributeDeclarationPresenter >> agentName: aString [
 
 	agentName := aString.
 	initializerExpressionField subjectBlock: [ agentName ]
+]
+
+{ #category : 'layout' }
+RMDAttributeDeclarationPresenter >> defaultLayout [
+
+	<script: 'self new open'>
+	<spec>
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   add: '     ' expand: false;
+				   add: identifierField width: 180;
+				   add: ' [' expand: false;
+				   add: unitField width: 50;
+				   add: '] = ' expand: false;
+				   add: initializerExpressionField expand: true;
+				   yourself)
+		  expand: false
 ]
 
 { #category : 'initialization' }
