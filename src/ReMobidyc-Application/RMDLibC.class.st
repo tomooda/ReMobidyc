@@ -6,9 +6,26 @@ Under windows I provide similar functionality through the functions defined in m
 Class {
 	#name : 'RMDLibC',
 	#superclass : 'FFILibrary',
+	#classVars : [
+		'P_DETACH',
+		'P_NOWAIT',
+		'P_NOWAITO',
+		'P_OVERLAY',
+		'P_WAIT'
+	],
 	#category : 'ReMobidyc-Application',
 	#package : 'ReMobidyc-Application'
 }
+
+{ #category : 'initialization' }
+RMDLibC class >> initialize [
+
+	P_WAIT := 0.
+	P_NOWAIT := 1.
+	P_OVERLAY := 2.
+	P_NOWAITO := 3.
+	P_DETACH := 4
+]
 
 { #category : 'operations' }
 RMDLibC class >> pid [
@@ -53,7 +70,7 @@ RMDLibC >> spawn: anArrayOfString [
 
 	self withArgv: anArrayOfString do: [ :argv |
 			OSPlatform current isWindows
-				ifTrue: [ self win32_spawnvp: anArrayOfString first argv: argv ]
+				ifTrue: [ self win32_spawnvp: P_NOWAIT cmdname: anArrayOfString first argv: argv ]
 				ifFalse: [
 						self
 							withArgv: (Array streamContents: [ :stream |
@@ -71,7 +88,7 @@ RMDLibC >> spawn: aFileReference arguments: anArrayOfString [
 	arg0 := aFileReference fullName.
 	self withArgv: (anArrayOfString copyWithFirst: arg0) do: [ :argv |
 			OSPlatform current isWindows
-				ifTrue: [ self win32_spawnvp: arg0 argv: argv ]
+				ifTrue: [ self win32_spawnvp: P_NOWAIT cmdname: arg0 argv: argv ]
 				ifFalse: [
 						self
 							withArgv: (Array streamContents: [ :stream |
@@ -101,9 +118,9 @@ RMDLibC >> win32_GetCurrentProcessId [
 ]
 
 { #category : 'private - spawn' }
-RMDLibC >> win32_spawnvp: cmdname argv: argv [
+RMDLibC >> win32_spawnvp: mode cmdname: cmdname argv: argv [
 
-	^ self ffiCall: #(int64 _spawnvp(1, String cmdname, void* argv))
+	^ self ffiCall: #(int64 _spawnvp(int mode, String cmdname, void* argv))
 ]
 
 { #category : 'private - argv' }
