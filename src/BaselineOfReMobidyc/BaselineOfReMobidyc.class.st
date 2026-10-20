@@ -319,6 +319,7 @@ BaselineOfReMobidyc >> baselineOf: spec [
 	<baseline>
 	spec for: #common do: [
 			spec
+				baseline: 'Fed' with: [ spec repository: 'github://tomooda/Fed:main/' ];
 				baseline: 'Micromaid' with: [ spec repository: 'github://tomooda/Micromaid:main/' ];
 				baseline: 'HiDeHo' with: [ spec repository: 'github://tomooda/HiDeHo:main/' ];
 				baseline: 'PetitParser2Core' with: [ spec repository: 'github://kursjan/petitparser2/' ];
@@ -332,7 +333,7 @@ BaselineOfReMobidyc >> baselineOf: spec [
 				package: 'ReMobidyc-Units' with: [ spec requires: #(  ) ];
 				package: 'ReMobidyc-Language' with: [ spec requires: #( 'PetitParser2Core' 'ReMobidyc-Units' ) ];
 				package: 'ReMobidyc-Interpreter'
-				with: [ spec requires: #( 'ReMobidyc-Storage' 'ReMobidyc-Language' 'ReMobidyc-DataSource' ) ];
+				with: [ spec requires: #( 'ReMobidyc-Storage' 'ReMobidyc-Language' 'ReMobidyc-DataSource' 'Fed' ) ];
 				package: 'ReMobidyc-Visualization'
 				with: [ spec requires: #( 'ReMobidyc-Language' 'ReMobidyc-Interpreter' 'ReMobidyc-Storage' ) ];
 				package: 'ReMobidyc-Repository' with: [ spec requires: #( 'ReMobidyc-Language' ) ];
