@@ -1,173 +1,46 @@
 Class {
 	#name : 'RMDSpaceModel',
 	#superclass : 'Object',
-	#instVars : [
-		'xPatches',
-		'yPatches',
-		'patchSize',
-		'xStep',
-		'yStep',
-		'patchLength'
-	],
-	#category : 'ReMobidyc-Interpreter-Core',
+	#category : 'ReMobidyc-Interpreter-Space',
 	#package : 'ReMobidyc-Interpreter',
-	#tag : 'Core'
+	#tag : 'Space'
 }
 
 { #category : 'accessing-geometry' }
-RMDSpaceModel >> east [
+RMDSpaceModel >> locationArea [
 
-	^ patchLength * xPatches
+	^ self subclassResponsibility
 ]
 
-{ #category : 'accessing-structure' }
-RMDSpaceModel >> eastOfOffset: anInteger do: aBlock [
+{ #category : 'enumerating' }
+RMDSpaceModel >> neighborsFromOffset: anInteger do: aBlock [
 
-	(self xIndexFromOffset: anInteger) < xPatches ifTrue: [ aBlock value: anInteger + xStep ]
+	| argumentCount |
+	argumentCount := aBlock argumentCount.
+	argumentCount = 1 ifTrue: [ ^ self neighborsFromOffset: anInteger offsetsDo: aBlock ].
+	argumentCount = 2 ifTrue: [ ^ self neighborsFromOffset: anInteger offsetsAndVectorsDo: aBlock ]
 ]
 
-{ #category : 'initialization' }
-RMDSpaceModel >> initialize [
+{ #category : 'enumerating' }
+RMDSpaceModel >> neighborsFromOffset: anInteger offsetsAndVectorsDo: aBlock [
 
-	super initialize.
-	xPatches := 1.
-	yPatches := 1.
-	patchSize := 1.
-	xStep := 1.
-	yStep := 1.
-	patchLength := 1.0
+	^ self subclassResponsibility
 ]
 
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> north [
+{ #category : 'enumerating' }
+RMDSpaceModel >> neighborsFromOffset: anInteger offsetsDo: aBlock [
 
-	^ patchLength * yPatches
-]
-
-{ #category : 'accessing-structure' }
-RMDSpaceModel >> northOfOffset: anInteger do: aBlock [
-
-	(self yIndexFromOffset: anInteger) < yPatches ifTrue: [ aBlock value: anInteger + yStep ]
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> offsetFromX: aNumber y: anotherNumber [
-
-	^ aNumber // patchLength * xStep + (anotherNumber // patchLength * yStep)
+	^ self subclassResponsibility
 ]
 
 { #category : 'accessing-memory' }
-RMDSpaceModel >> offsetFromXIndex: anInteger yIndex: anotherInteger [
+RMDSpaceModel >> offsetAtIndividual: anInteger definition: aRMDAgentDefinitionNode memory: aRMDMemory [
 
-	^ anInteger - 1 * xStep + (anotherInteger - 1 * yStep)
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> patchArea [
-
-	^ patchLength squared
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> patchLength [
-
-	^ patchLength
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> patchLength: aNumber [
-
-	patchLength := aNumber
+	^ self subclassResponsibility
 ]
 
 { #category : 'accessing-memory' }
-RMDSpaceModel >> patchSize [
+RMDSpaceModel >> totalMemorySize [
 
-	^ patchSize
-]
-
-{ #category : 'accessing-memory' }
-RMDSpaceModel >> patchSize: aNumber [
-
-	patchSize := aNumber.
-	self updateMemorySteps 
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> south [
-
-	^ 0.0
-]
-
-{ #category : 'accessing-structure' }
-RMDSpaceModel >> southOfOffset: anInteger do: aBlock [
-
-	(self yIndexFromOffset: anInteger) > 1 ifTrue: [ aBlock value: anInteger - yStep ]
-]
-
-{ #category : 'updating' }
-RMDSpaceModel >> updateMemorySteps [
-
-	xStep := patchSize.
-	yStep := xStep * xPatches
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> west [
-
-	^ 0.0
-]
-
-{ #category : 'accessing-structure' }
-RMDSpaceModel >> westOfOffset: anInteger do: aBlock [
-
-	(self xIndexFromOffset: anInteger) > 1 ifTrue: [ aBlock value: anInteger - xStep ]
-]
-
-{ #category : 'accessing-memory' }
-RMDSpaceModel >> xIndexFromOffset: anInteger [
-
-	^ anInteger // patchSize \\ xPatches + 1
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> xIndexFromX: aNumber [
-
-	^ aNumber // patchLength + 1
-]
-
-{ #category : 'accessing-structure' }
-RMDSpaceModel >> xPatches [
-
-	^ xPatches
-]
-
-{ #category : 'accessing-structure' }
-RMDSpaceModel >> xPatches: anInteger [
-
-	xPatches := anInteger
-]
-
-{ #category : 'accessing-memory' }
-RMDSpaceModel >> yIndexFromOffset: anInteger [
-
-	^ anInteger // yStep + 1
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> yIndexFromY: aNumber [
-
-	^ aNumber // patchLength + 1
-]
-
-{ #category : 'accessing-structure' }
-RMDSpaceModel >> yPatches [
-
-	^ yPatches
-]
-
-{ #category : 'accessing-structure' }
-RMDSpaceModel >> yPatches: anInteger [
-
-	yPatches := anInteger
+	^ self subclassResponsibility
 ]

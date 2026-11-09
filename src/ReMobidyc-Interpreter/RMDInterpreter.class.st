@@ -7,7 +7,8 @@ Class {
 		'runSemaphore',
 		'runState',
 		'guard',
-		'usesFire'
+		'usesFire',
+		'spaceModel'
 	],
 	#category : 'ReMobidyc-Interpreter-Core',
 	#package : 'ReMobidyc-Interpreter',
@@ -632,6 +633,16 @@ RMDInterpreter >> read: anInteger ifAbsent: errorBlock [
 ]
 
 { #category : 'variable access' }
+RMDInterpreter >> readAttribute: aString individual: anInteger definition: aRMDAgentDefinitionNode ifAbsent: absentBlock [
+
+	^ memory
+		  at: anInteger + (aRMDAgentDefinitionNode
+				   offsetAt: aString
+				   ifAbsent: [ ^ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
+		  ifAbsent: absentBlock
+]
+
+{ #category : 'variable access' }
 RMDInterpreter >> readUtility: aString ifAbsent: errorBlock [
 
 	| numberOrExpression |
@@ -737,15 +748,15 @@ RMDInterpreter >> setupRandomForIndividual: anInteger task: aRMDTaskDefinitionNo
 RMDInterpreter >> setupSimulation [
 
 	self critical: [
-		memory world ifNil: [
-			memory initialize.
-			self loadDataSources.
-			simulationModel worldInitializer evalIn: self.
-			simulationModel patchInitializer evalIn: self.
-			simulationModel animatInitializersDo: [ :initializer |
-				initializer evalIn: self ] ].
-		memory time: 0.
-		self announceTimeChanged ]
+			spaceModel := simulationModel spaceModel.
+			memory world ifNil: [
+					memory initialize.
+					self loadDataSources.
+					simulationModel worldInitializer evalIn: self.
+					simulationModel patchInitializer evalIn: self.
+					simulationModel animatInitializersDo: [ :initializer | initializer evalIn: self ] ].
+			memory time: 0.
+			self announceTimeChanged ]
 ]
 
 { #category : 'accessing' }

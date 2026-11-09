@@ -1192,6 +1192,16 @@ RMDSimulationModel >> south [
 	^ 0.0
 ]
 
+{ #category : 'accessing - patch' }
+RMDSimulationModel >> spaceModel [
+
+	^ RMD2DSpaceModel
+		  squarePatches: self patchXDivisions
+		  by: self patchYDivisions
+		  length: self patchLength
+		  numAttributes: self patchDefinition totalNumberOfAttributes
+]
+
 { #category : 'accessing - definitions' }
 RMDSimulationModel >> speciesNames [
 

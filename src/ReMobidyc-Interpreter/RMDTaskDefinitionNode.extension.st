@@ -123,8 +123,7 @@ RMDTaskDefinitionNode >> evalWithoutObjectIn: aRMDInterpreter [
 	| agent taskHash specializedAction |
 	agent := aRMDInterpreter simulationModel
 		         agentDefinitionAt: subjectIdentifier
-		         ifAbsent: [
-		         ^ RMDUndefinedAnimatError signal: subjectIdentifier ].
+		         ifAbsent: [ ^ RMDUndefinedAnimatError signal: subjectIdentifier ].
 	specializedAction := self actionWith: aRMDInterpreter simulationModel.
 	taskHash := specializedAction hasRandom
 		            ifTrue: [ aRMDInterpreter taskHashFor: self ]
