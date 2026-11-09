@@ -226,7 +226,7 @@ RMDActionDefinitionNode >> hasObject [
 { #category : 'testing' }
 RMDActionDefinitionNode >> hasRandom [
 
-	^ hasRandom ifNil: [ hasRandom := self computeHasRandom ]
+	^ true"hasRandom ifNil: [ hasRandom := self computeHasRandom ]"
 ]
 
 { #category : 'comparing' }
