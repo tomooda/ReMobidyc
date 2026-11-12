@@ -1,1 +1,1 @@
-Package { #name : #'ReMobidyc-Storage-Tests' }
+Package { #name : 'ReMobidyc-Storage-Tests' }

@@ -1,10 +1,11 @@
 Class {
-	#name : #RMDPatchColorBrightnessRenderer,
-	#superclass : #RMDPatchColorRangeRenderer,
-	#category : #'ReMobidyc-Visualization'
+	#name : 'RMDPatchColorBrightnessRenderer',
+	#superclass : 'RMDPatchColorRangeRenderer',
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDPatchColorBrightnessRenderer class >> color: aColor brightness: aRMDExpressionNode between: aRMDLiteralNode1 and: aRMDLiteralNode2 [
 	<script:
 		'(RMDPatchColorBrightnessRenderer color: Color green brightness: ''my grass'' asRMDExpression between: ''0 [kcal]'' asRMDExpression and: ''10000 [kcal]'' asRMDExpression) inspect'>
@@ -16,7 +17,7 @@ RMDPatchColorBrightnessRenderer class >> color: aColor brightness: aRMDExpressio
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorBrightnessRenderer >> colorFrom: aNumber [
 	^ Color
 		h: color hue
@@ -25,12 +26,12 @@ RMDPatchColorBrightnessRenderer >> colorFrom: aNumber [
 		alpha: color alpha
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorBrightnessRenderer >> name [
 	^ 'color brightness'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RMDPatchColorBrightnessRenderer >> printOn: aStream [
 
 	aStream nextPutAll: 'Patch -> '.

@@ -1,20 +1,21 @@
 Class {
-	#name : #RMDPatchRenderer,
-	#superclass : #RMDRenderer,
+	#name : 'RMDPatchRenderer',
+	#superclass : 'RMDRenderer',
 	#instVars : [
 		'borderWidth',
 		'borderColor'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDPatchRenderer class >> isAbstract [
 
 	^ self == RMDPatchRenderer
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDPatchRenderer >> = anObject [
 
 	^ super = anObject and: [ 
@@ -22,96 +23,97 @@ RMDPatchRenderer >> = anObject [
 			  borderColor = anObject borderColor ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchRenderer >> borderColor [
 	^ borderColor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchRenderer >> borderColor: aColor [
 	borderColor := aColor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchRenderer >> borderWidth [
 	^ borderWidth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchRenderer >> borderWidth: anInteger [
 	borderWidth := anInteger
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 RMDPatchRenderer >> defaultBorderColor [
 	^ Color black
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 RMDPatchRenderer >> defaultBorderWidth [
 	^ 2
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 RMDPatchRenderer >> defaultColor [
 	^ Color white
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDPatchRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
 
 	| xDivisions yDivisions patchLength |
 	xDivisions := aRMDInterpreter simulationModel patchXDivisions.
 	yDivisions := aRMDInterpreter simulationModel patchYDivisions.
 	patchLength := aRMDInterpreter simulationModel patchLength.
-	1 to: yDivisions do: [ :patchY | 
-		1 to: xDivisions do: [ :patchX | 
+	aRMDInterpreter patchesDo: [ :patch |
+			| rect |
+			rect := aRMDInterpreter geometryFromPatch: patch.
 			self
-				drawPatch: (aRMDInterpreter patchAtXIndex: patchX yIndex: patchY)
+				drawPatch: patch
 				interpreter: aRMDInterpreter
 				bounds: ((self
-						  pointFromX: patchX - 1 * patchLength
-						  y: patchY - 1 * patchLength
+						  pointFromX: rect left
+						  y: rect bottom
 						  interpreter: aRMDInterpreter
 						  scale: aNumber) corner: (self
-							  pointFromX: patchX * patchLength
-							  y: patchY * patchLength
+							  pointFromX: rect right
+							  y: rect top
 							  interpreter: aRMDInterpreter
 							  scale: aNumber))
-				on: aCanvas ] ].
-	0 to: xDivisions do: [ :x | 
-		aCanvas
-			line: x * aNumber @ 0
-			to: x * aNumber @ (yDivisions * aNumber)
-			width: borderWidth
-			color: borderColor ].
-	0 to: yDivisions do: [ :y | 
-		aCanvas
-			line: 0 @ (y * aNumber)
-			to: xDivisions * aNumber @ (y * aNumber)
-			width: borderWidth
-			color: borderColor ]
+				on: aCanvas ].
+	0 to: xDivisions do: [ :x |
+			aCanvas
+				line: x * aNumber @ 0
+				to: x * aNumber @ (yDivisions * aNumber)
+				width: borderWidth
+				color: borderColor ].
+	0 to: yDivisions do: [ :y |
+			aCanvas
+				line: 0 @ (y * aNumber)
+				to: xDivisions * aNumber @ (y * aNumber)
+				width: borderWidth
+				color: borderColor ]
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDPatchRenderer >> drawPatch: aNumber interpreter: aRMDInterpreter bounds: aRectangle on: aFormCanvas [
 	^ self subclassResponsibility
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDPatchRenderer >> hash [
 
 	^ (super hash bitXor: borderWidth hash) bitXor: borderColor hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RMDPatchRenderer >> initialize [
 	super initialize.
 	borderColor := self defaultBorderColor.
 	borderWidth := self defaultBorderWidth
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDPatchRenderer >> isPatchRenderer [
 	^ true
 ]

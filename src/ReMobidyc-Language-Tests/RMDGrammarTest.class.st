@@ -809,11 +809,11 @@ RMDGrammarTest >> testDirectionOfMaximumAmongFourNeighborsDirective [
 	| expr |
 	expr := grammar expression parse: 'direction maximum quuux among four neighbors'.
 	self deny: expr isPetit2Failure.
-	self assert: expr isDirectionOfMaximumInFourNeighborsDirectiveNode.
+	self assert: expr isDirectionOfMaximumNeighborDirectiveNode.
 	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
 	expr := grammar expression parse: 'direction maximum quuux among four neighbours'.
 	self deny: expr isPetit2Failure.
-	self assert: expr isDirectionOfMaximumInFourNeighborsDirectiveNode.
+	self assert: expr isDirectionOfMaximumNeighborDirectiveNode.
 	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
 	self assert: expr printString equals: 'direction maximum quuux among four neighbors'
 ]

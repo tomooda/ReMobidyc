@@ -1,14 +1,15 @@
 Class {
-	#name : #RMDAnimatIconRenderer,
-	#superclass : #RMDAnimatRenderer,
+	#name : 'RMDAnimatIconRenderer',
+	#superclass : 'RMDAnimatRenderer',
 	#instVars : [
 		'iconName',
 		'scale'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDAnimatIconRenderer class >> on: aString iconName: anotherString [
 
 	<script:
@@ -18,7 +19,7 @@ RMDAnimatIconRenderer class >> on: aString iconName: anotherString [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDAnimatIconRenderer class >> on: aString iconName: anotherString scale: aNumber [
 
 	<script:
@@ -29,18 +30,18 @@ RMDAnimatIconRenderer class >> on: aString iconName: anotherString scale: aNumbe
 		  yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDAnimatIconRenderer >> = anObject [
 
 	^ super = anObject and: [ iconName = anObject iconName ]
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 RMDAnimatIconRenderer >> defaultScale [
 	^ 1.0
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDAnimatIconRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
 
 	| form animatDefinition |
@@ -69,43 +70,43 @@ RMDAnimatIconRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
 						 scale: aNumber) - (form extent // 2) ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDAnimatIconRenderer >> hash [
 
 	^ super hash bitXor: iconName hash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatIconRenderer >> iconName [
 
 	^ iconName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatIconRenderer >> iconName: aString [
 
 	iconName := aString
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 RMDAnimatIconRenderer >> iconNamesDo: aBlock [
 
 	iconName ifNotNil: [ aBlock value: iconName ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RMDAnimatIconRenderer >> initialize [ 
 	super initialize.
 	scale := self defaultScale
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatIconRenderer >> name [
 
 	^ 'icon renderer'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RMDAnimatIconRenderer >> printOn: aStream [
 
 	aStream
@@ -118,12 +119,12 @@ RMDAnimatIconRenderer >> printOn: aStream [
 	aStream cr
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatIconRenderer >> scale [
 	^ scale
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatIconRenderer >> scale: aNumber [
 	scale := aNumber asFloat
 ]

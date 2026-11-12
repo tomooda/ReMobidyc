@@ -1,21 +1,22 @@
 Class {
-	#name : #RMDPatchColorRenderer,
-	#superclass : #RMDPatchExpressionRenderer,
-	#category : #'ReMobidyc-Visualization'
+	#name : 'RMDPatchColorRenderer',
+	#superclass : 'RMDPatchExpressionRenderer',
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDPatchColorRenderer class >> isAbstract [
 
 	^ self == RMDPatchColorRenderer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorRenderer >> colorFrom: aNumber [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDPatchColorRenderer >> drawValue: aNumber bounds: aRectangle on: aCanvas [
 	aCanvas fillRectangle: aRectangle color: (self colorFrom: aNumber)
 ]

@@ -7,6 +7,24 @@ Class {
 }
 
 { #category : 'accessing-geometry' }
+RMDSpaceModel >> directionOfOffset: anInteger fromX: aNumber y: anotherNumber [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'enumerating' }
+RMDSpaceModel >> fromX: x y: y withinRadius: range offsetsDo: aBlock [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
+RMDSpaceModel >> geometryFromOffset: anInteger [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
 RMDSpaceModel >> locationArea [
 
 	^ self subclassResponsibility
@@ -35,6 +53,24 @@ RMDSpaceModel >> neighborsFromOffset: anInteger offsetsDo: aBlock [
 
 { #category : 'accessing-memory' }
 RMDSpaceModel >> offsetAtIndividual: anInteger definition: aRMDAgentDefinitionNode memory: aRMDMemory [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'enumerating' }
+RMDSpaceModel >> offsetsDo: aBlock [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
+RMDSpaceModel >> patchInfoFromOffset: anInteger do: aBlock [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
+RMDSpaceModel >> patchInfoKeysDo: aBlock [
 
 	^ self subclassResponsibility
 ]

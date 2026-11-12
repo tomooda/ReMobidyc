@@ -1,10 +1,11 @@
 Class {
-	#name : #RMDPatchColorAlphaRenderer,
-	#superclass : #RMDPatchColorRangeRenderer,
-	#category : #'ReMobidyc-Visualization'
+	#name : 'RMDPatchColorAlphaRenderer',
+	#superclass : 'RMDPatchColorRangeRenderer',
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDPatchColorAlphaRenderer class >> color: aColor alpha: aRMDExpressionNode between: aRMDLiteralNode1 and: aRMDLiteralNode2 [
 	<script:
 		'(RMDPatchColorAlphaRenderer color: Color green alpha: ''my grass'' asRMDExpression between: ''0 [kcal]'' asRMDExpression and: ''10000 [kcal]'' asRMDExpression) inspect'>
@@ -16,17 +17,17 @@ RMDPatchColorAlphaRenderer class >> color: aColor alpha: aRMDExpressionNode betw
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorAlphaRenderer >> colorFrom: aNumber [
 	^ color alpha: (aNumber min: 1.0 max: 0.0)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorAlphaRenderer >> name [
 	^ 'color transparency'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RMDPatchColorAlphaRenderer >> printOn: aStream [
 
 	aStream nextPutAll: 'Patch -> '.

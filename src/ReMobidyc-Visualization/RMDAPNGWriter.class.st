@@ -1,6 +1,6 @@
 Class {
-	#name : #RMDAPNGWriter,
-	#superclass : #ImageReadWriter,
+	#name : 'RMDAPNGWriter',
+	#superclass : 'ImageReadWriter',
 	#instVars : [
 		'defaultImage',
 		'numFrames',
@@ -10,10 +10,11 @@ Class {
 		'blendOp',
 		'acTL'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 RMDAPNGWriter class >> examplePNG [
 
 	<script: 'RMDAPNGWriter examplePNG'>
@@ -34,7 +35,7 @@ RMDAPNGWriter class >> examplePNG [
 		writer close ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 RMDAPNGWriter class >> examplePNG2 [
 
 	<script: 'RMDAPNGWriter examplePNG2'>
@@ -54,7 +55,7 @@ RMDAPNGWriter class >> examplePNG2 [
 		writer close ]
 ]
 
-{ #category : #'stream access' }
+{ #category : 'stream access' }
 RMDAPNGWriter >> close [
 
 	self write_acTL.
@@ -62,7 +63,7 @@ RMDAPNGWriter >> close [
 	^ super close
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> defaultImage: aForm [
 
 	defaultImage := aForm.
@@ -73,13 +74,13 @@ RMDAPNGWriter >> defaultImage: aForm [
 		write_IDAT: aForm
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RMDAPNGWriter >> fileSignature [
 
 	^ #[ 16r89 16r50 16r4E 16r47 16r0D 16r0A 16r1A 16r0A ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RMDAPNGWriter >> frameDataFrom: aForm writeInto: aStream [
 
 	| zStream width height scanline hack hackBlt cm |
@@ -115,7 +116,7 @@ RMDAPNGWriter >> frameDataFrom: aForm writeInto: aStream [
 	zStream close
 ]
 
-{ #category : #initialize }
+{ #category : 'initialize' }
 RMDAPNGWriter >> initialize [
 
 	super initialize.
@@ -128,18 +129,18 @@ RMDAPNGWriter >> initialize [
 	acTL := nil.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> nextImage [
 
 	^ self shouldNotImplement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> nextPutImage: aForm [
 	self nextPutImage: aForm delay: 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> nextPutImage: aForm delay: anInteger [
 
 	acTL
@@ -157,56 +158,56 @@ RMDAPNGWriter >> nextPutImage: aForm delay: anInteger [
 				write_fdAT: aForm ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> numFrames [
 
 	^ numFrames
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> numFrames: anInteger [
 
 	numFrames := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> numPlays [
 
 	^ numPlays
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> numPlays: anInteger [
 
 	numPlays := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> setBlendOpOver [
 	blendOp := 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> setBlendOpSource [
 	blendOp := 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> setDisposeOpBackground [
 	disposeOp := 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> setDisposeOpNone [
 	disposeOp := 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAPNGWriter >> setDisposeOpPrevious [
 	disposeOp := 2
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RMDAPNGWriter >> writeChunk: aString streamContents: aBlock [
 
 	| chunk crc |
@@ -225,7 +226,7 @@ RMDAPNGWriter >> writeChunk: aString streamContents: aBlock [
 		nextLongPut: crc
 ]
 
-{ #category : #chunks }
+{ #category : 'chunks' }
 RMDAPNGWriter >> write_IDAT: aForm [
 
 	self
@@ -234,13 +235,13 @@ RMDAPNGWriter >> write_IDAT: aForm [
 		self frameDataFrom: aForm writeInto: byteStream ]
 ]
 
-{ #category : #chunks }
+{ #category : 'chunks' }
 RMDAPNGWriter >> write_IEND [
 
 	self writeChunk: 'IEND' streamContents: [ :byteStream |  ]
 ]
 
-{ #category : #chunks }
+{ #category : 'chunks' }
 RMDAPNGWriter >> write_IHDR: aForm [
 
 	self writeChunk: 'IHDR' streamContents: [ :byteStream | 
@@ -254,7 +255,7 @@ RMDAPNGWriter >> write_IHDR: aForm [
 			nextPut: 0 ]
 ]
 
-{ #category : #chunks }
+{ #category : 'chunks' }
 RMDAPNGWriter >> write_acTL [
 
 	| pos |
@@ -269,7 +270,7 @@ RMDAPNGWriter >> write_acTL [
 	pos ifNotNil: [ stream position: pos ]
 ]
 
-{ #category : #chunks }
+{ #category : 'chunks' }
 RMDAPNGWriter >> write_fcTL: aForm offset: aPoint delay: anInteger [
 
 	self writeChunk: 'fcTL' streamContents: [ :byteStream | 
@@ -290,7 +291,7 @@ RMDAPNGWriter >> write_fcTL: aForm offset: aPoint delay: anInteger [
 	numFrames := numFrames + 1
 ]
 
-{ #category : #chunks }
+{ #category : 'chunks' }
 RMDAPNGWriter >> write_fdAT: aForm [
 
 	self writeChunk: 'fdAT' streamContents: [ :byteStream | 

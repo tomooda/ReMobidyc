@@ -222,18 +222,17 @@ RMDAttributeByTimeTabular >> updateAgentDropList [
 RMDAttributeByTimeTabular >> updateColumns [
 
 	table columns: (Array streamContents: [ :stream |
-			 runDropList selectedItem ifNotNil: [ :runId |
-				 self simulationModelDo: [ :model |
-					 stream nextPut: (RMDTimeColumn unit: model durationUnit).
-					 agentDropList selectedItem ifNotNil: [ :agentDefinition |
-						 agentDefinition isPatchDefinitionNode ifTrue: [
-							 stream
-								 nextPut: (RMDPatchXColumn unit: model patchLengthUnit);
-								 nextPut: (RMDPatchYColumn unit: model patchLengthUnit) ].
-						 agentDefinition isAnimatDefinitionNode ifTrue: [
-							 stream nextPut: RMDIdColumn new ].
-						 agentDefinition allAttributeDeclarationsDo: [ :attributeDecl |
-							 stream nextPut: (RMDAttributeColumn attribute: attributeDecl) ] ] ] ] ])
+				 runDropList selectedItem ifNotNil: [ :runId |
+						 self simulationModelDo: [ :model |
+								 stream nextPut: (RMDTimeColumn unit: model durationUnit).
+								 agentDropList selectedItem ifNotNil: [ :agentDefinition |
+										 agentDefinition isPatchDefinitionNode ifTrue: [
+												 model spaceModel patchInfoKeysDo: [ :var |
+													 stream nextPut:
+														 (RMDAttributeColumn attribute: (RMDAttributeDeclarationNode identifier: var unit: model patchLengthUnit)) ] ].
+										 agentDefinition isAnimatDefinitionNode ifTrue: [ stream nextPut: RMDIdColumn new ].
+										 agentDefinition allAttributeDeclarationsDo: [ :attributeDecl |
+											 stream nextPut: (RMDAttributeColumn attribute: attributeDecl) ] ] ] ] ])
 ]
 
 { #category : 'updating' }
@@ -242,66 +241,42 @@ RMDAttributeByTimeTabular >> updateRows [
 	| latestTime |
 	table showColumnHeaders.
 	latestTime := self latestTime.
-	'Collecting data from the run record'
-		displayProgressFrom: 0
-		to: latestTime
-		during: [ :progress |
+	'Collecting data from the run record' displayProgressFrom: 0 to: latestTime during: [ :progress |
 			table
 				items: (Array streamContents: [ :stream |
-							 (metaInterpreter
-								  interpreterAt: runDropList selectedItem
-								  ifAbsent: [ nil ]) ifNotNil: [ :interpreter |
-									 | memory |
-									 memory := interpreter memory.
-									 0 to: latestTime do: [ :time |
-											 agentDropList selectedItem ifNotNil: [ :agentDefinition |
-													 memory time: time.
-													 agentDefinition isWorldDefinitionNode ifTrue: [
-															 | row |
-															 row := Dictionary new.
-															 row
-																 at: #time
-																 put: time * metaInterpreter simulationModel deltaTime.
-															 agentDefinition attributeOffsetsDo: [ :attribute :offset |
-																	 row
-																		 at: attribute
-																		 put:
-																			 (memory
-																				  at: memory world + offset
-																				  ifAbsent: [ 0.0 ]) ].
-															 stream nextPut: row ].
-													 agentDefinition isPatchDefinitionNode ifTrue: [
-															 memory patchesDo: [ :patch |
-																	 | row |
-																	 row := Dictionary new.
-																	 row
-																		 at: #time
-																		 put:
-																			 time * metaInterpreter simulationModel deltaTime.
-																	 row
-																		 at: 'id' put: patch;
-																		 at: 'x' put: (interpreter centerXOfPatch: patch);
-																		 at: 'y' put: (interpreter centerYOfPatch: patch).
-																	 agentDefinition attributeOffsetsDo: [
-																		 :attribute
-																		 :offset |
-																		 row at: attribute put: (memory at: patch + offset) ].
-																	 stream nextPut: row ] ].
-													 agentDefinition isAnimatDefinitionNode ifTrue: [
-														 (memory animatsOf: agentDefinition identifier)
-															 asSortedCollection do: [ :individual |
-															 | row |
-															 row := Dictionary new.
-															 row
-																 at: #time
-																 put: time * metaInterpreter simulationModel deltaTime.
-															 row at: #id put: individual.
-															 agentDefinition attributeOffsetsDo: [ :attribute :offset |
-																 row
-																	 at: attribute
-																	 put: (memory at: individual + offset) ].
-															 stream nextPut: row ] ] ].
-											 progress value: time ] ] ]);
+								 (metaInterpreter interpreterAt: runDropList selectedItem ifAbsent: [ nil ]) ifNotNil: [ :interpreter |
+											 | memory |
+											 memory := interpreter memory.
+											 0 to: latestTime do: [ :time |
+														 agentDropList selectedItem ifNotNil: [ :agentDefinition |
+																	 memory time: time.
+																	 agentDefinition isWorldDefinitionNode ifTrue: [
+																				 | row |
+																				 row := Dictionary new.
+																				 row at: #time put: time * metaInterpreter simulationModel deltaTime.
+																				 agentDefinition attributeOffsetsDo: [ :attribute :offset |
+																						 row at: attribute put: (memory at: memory world + offset ifAbsent: [ 0.0 ]) ].
+																				 stream nextPut: row ].
+																	 agentDefinition isPatchDefinitionNode ifTrue: [
+																				 memory patchesDo: [ :patch |
+																							 | row |
+																							 row := Dictionary new.
+																							 row at: #time put: time * metaInterpreter simulationModel deltaTime.
+																							 row at: 'id' put: patch.
+																							 interpreter patchInfo: patch do: [ :var :val | row at: var put: val ].
+																							 agentDefinition attributeOffsetsDo: [ :attribute :offset |
+																									 row at: attribute put: (memory at: patch + offset) ].
+																							 stream nextPut: row ] ].
+																	 agentDefinition isAnimatDefinitionNode ifTrue: [
+																				 (memory animatsOf: agentDefinition identifier) asSortedCollection do: [ :individual |
+																							 | row |
+																							 row := Dictionary new.
+																							 row at: #time put: time * metaInterpreter simulationModel deltaTime.
+																							 row at: #id put: individual.
+																							 agentDefinition attributeOffsetsDo: [ :attribute :offset |
+																									 row at: attribute put: (memory at: individual + offset) ].
+																							 stream nextPut: row ] ] ].
+														 progress value: time ] ] ]);
 				refresh ]
 ]
 

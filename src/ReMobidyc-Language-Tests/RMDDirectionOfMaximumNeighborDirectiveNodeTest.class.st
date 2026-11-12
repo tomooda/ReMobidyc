@@ -1,12 +1,12 @@
 Class {
-	#name : 'RMDDirectionOfMaximumInEightNeighborsDirectiveNodeTest',
+	#name : 'RMDDirectionOfMaximumNeighborDirectiveNodeTest',
 	#superclass : 'RMDSyntaxNodeTest',
 	#category : 'ReMobidyc-Language-Tests',
 	#package : 'ReMobidyc-Language-Tests'
 }
 
 { #category : 'running' }
-RMDDirectionOfMaximumInEightNeighborsDirectiveNodeTest >> setUpInterpreter [
+RMDDirectionOfMaximumNeighborDirectiveNodeTest >> setUpInterpreter [
 
 	super setUpInterpreter.
 	interpreter simulationModel
@@ -36,11 +36,11 @@ RMDDirectionOfMaximumInEightNeighborsDirectiveNodeTest >> setUpInterpreter [
 ]
 
 { #category : 'tests' }
-RMDDirectionOfMaximumInEightNeighborsDirectiveNodeTest >> testEvalIn [
+RMDDirectionOfMaximumNeighborDirectiveNodeTest >> testEvalIn [
 
 	| node memory a dir |
-	node := parser expression end parse: 'direction maximum v among eight neighbors'.
-	self assert: node isDirectionOfMaximumInEightNeighborsDirectiveNode .
+	node := parser expression end parse: 'direction maximum v neighbor'.
+	self assert: node isDirectionOfMaximumNeighborDirectiveNode .
 	memory := interpreter memory.
 	memory at: memory patch + 7 put: 1.0.
 	a := (memory animatsOf: 'A') anyOne.
@@ -62,13 +62,13 @@ RMDDirectionOfMaximumInEightNeighborsDirectiveNodeTest >> testEvalIn [
 ]
 
 { #category : 'tests' }
-RMDDirectionOfMaximumInEightNeighborsDirectiveNodeTest >> testPrintOn [
+RMDDirectionOfMaximumNeighborDirectiveNodeTest >> testPrintOn [
 
 	| node copy |
-	node := parser expression end parse: 'direction maximum x among eight neighbors'.
+	node := parser expression end parse: 'direction maximum x neighbor'.
 	copy := parser expression end parse: node printString.
 	self assert: copy equals: node.
-	node := parser expression end parse: '(direction maximum x among eight neighbors) + (direction maximum y among eight neighbors)'.
+	node := parser expression end parse: '(direction maximum x neighbor) + (direction maximum y neighbor)'.
 	copy := parser expression end parse: node printString.
 	self assert: copy equals: node
 ]

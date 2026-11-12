@@ -405,13 +405,13 @@ RMDSyntaxNode >> isDirectionOfMaximumInEightNeighborsDirectiveNode [
 ]
 
 { #category : 'testing' }
-RMDSyntaxNode >> isDirectionOfMaximumInFourNeighborsDirectiveNode [
+RMDSyntaxNode >> isDirectionOfMaximumInRadiusDirectiveNode [
 
 	^ false
 ]
 
 { #category : 'testing' }
-RMDSyntaxNode >> isDirectionOfMaximumInRadiusDirectiveNode [
+RMDSyntaxNode >> isDirectionOfMaximumNeighborDirectiveNode [
 
 	^ false
 ]

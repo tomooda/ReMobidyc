@@ -1,15 +1,16 @@
 Class {
-	#name : #RMDFileMemoryTest,
-	#superclass : #RMDMemoryTest,
-	#category : #'ReMobidyc-Storage-Tests'
+	#name : 'RMDFileMemoryTest',
+	#superclass : 'RMDMemoryTest',
+	#category : 'ReMobidyc-Storage-Tests',
+	#package : 'ReMobidyc-Storage-Tests'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 RMDFileMemoryTest >> basePath [
 	^ FileLocator localDirectory / 'ReMobidycTest'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RMDFileMemoryTest >> createMemory [
 	^ RMDFileMemory
 		on:
@@ -18,7 +19,7 @@ RMDFileMemoryTest >> createMemory [
 				yourself)
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RMDFileMemoryTest >> destroyMemory [
 	memory := nil.
 	self basePath ensureDeleteAll

@@ -1,20 +1,21 @@
 Class {
-	#name : #RMDOnMemoryTest,
-	#superclass : #RMDMemoryTest,
-	#category : #'ReMobidyc-Storage-Tests'
+	#name : 'RMDOnMemoryTest',
+	#superclass : 'RMDMemoryTest',
+	#category : 'ReMobidyc-Storage-Tests',
+	#package : 'ReMobidyc-Storage-Tests'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 RMDOnMemoryTest >> createMemory [
 	^ RMDOnMemory new
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RMDOnMemoryTest >> destroyMemory [
 	memory := nil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RMDOnMemoryTest >> testChangeStorageCapacityTo [
 
 	memory

@@ -1,10 +1,11 @@
 Class {
-	#name : #RMDAnimatRectangleRenderer,
-	#superclass : #RMDAnimatShapeRenderer,
-	#category : #'ReMobidyc-Visualization'
+	#name : 'RMDAnimatRectangleRenderer',
+	#superclass : 'RMDAnimatShapeRenderer',
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDAnimatRectangleRenderer >> drawIndividual: anInteger with: aRMDInterpreter at: aPoint on: aCanvas [
 
 	aCanvas
@@ -13,12 +14,12 @@ RMDAnimatRectangleRenderer >> drawIndividual: anInteger with: aRMDInterpreter at
 		color: self color
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatRectangleRenderer >> name [
 	^ 'rectangle renderer'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RMDAnimatRectangleRenderer >> printOn: aStream [
 
 	aStream

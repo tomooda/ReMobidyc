@@ -1,80 +1,81 @@
 Class {
-	#name : #RMDRenderer,
-	#superclass : #Object,
+	#name : 'RMDRenderer',
+	#superclass : 'Object',
 	#instVars : [
 		'color'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDRenderer class >> isAbstract [
 
 	^ self == RMDRenderer
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDRenderer >> = anObject [
 	^ self class = anObject class and: [ color = anObject color ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDRenderer >> color [
 	^ color ifNil: [ color := self defaultColor ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDRenderer >> color: aColor [
 	color := aColor
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 RMDRenderer >> defaultColor [
 	^ Color yellow
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
 	^ self subclassResponsibility
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDRenderer >> hash [
 
 	^ self class hash bitXor: color hash
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 RMDRenderer >> iconNamesDo: aBlock [
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RMDRenderer >> initialize [
 	super initialize.
 	color := self defaultColor
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDRenderer >> isAnimatRendererFor: aString [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDRenderer >> isPatchRenderer [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDRenderer >> isWorldRenderer [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDRenderer >> name [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RMDRenderer >> pointFromX: modelX y: modelY interpreter: aRMDInterpreter scale: scale [
 
 	| patchX patchY |
@@ -86,7 +87,7 @@ RMDRenderer >> pointFromX: modelX y: modelY interpreter: aRMDInterpreter scale: 
 		   * scale)
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RMDRenderer >> printColor: c on: aStream [
 
 	| colorName |
@@ -99,13 +100,13 @@ RMDRenderer >> printColor: c on: aStream [
 				nextPutAll: c asHexString ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RMDRenderer >> printColorOn: aStream [
 
 	self printColor: color on: aStream
 ]
 
-{ #category : #rewriting }
+{ #category : 'rewriting' }
 RMDRenderer >> renameAnimat: aString to: anotherString [
 
 	

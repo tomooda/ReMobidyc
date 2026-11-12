@@ -1,13 +1,14 @@
 Class {
-	#name : #RMDPatchExpressionRenderer,
-	#superclass : #RMDPatchRenderer,
+	#name : 'RMDPatchExpressionRenderer',
+	#superclass : 'RMDPatchRenderer',
 	#instVars : [
 		'expression'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDPatchExpressionRenderer class >> expression: aRMDExpressionNode min: aNumber max: anotherNumber [
 	^ self new
 		expression: aRMDExpressionNode;
@@ -16,19 +17,19 @@ RMDPatchExpressionRenderer class >> expression: aRMDExpressionNode min: aNumber 
 		yourself
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDPatchExpressionRenderer class >> isAbstract [
 
 	^ self == RMDPatchExpressionRenderer
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDPatchExpressionRenderer >> = anObject [
 
 	^ super = anObject and: [ expression = anObject expression ]
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDPatchExpressionRenderer >> drawPatch: anInteger interpreter: aRMDInterpreter bounds: aRectangle on: aCanvas [
 	self
 		drawValue:
@@ -37,34 +38,34 @@ RMDPatchExpressionRenderer >> drawPatch: anInteger interpreter: aRMDInterpreter 
 		on: aCanvas
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDPatchExpressionRenderer >> drawValue: aNumber bounds: aRectangle on: aFormCanvas [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchExpressionRenderer >> expression [
 	^ expression
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchExpressionRenderer >> expression: aRMDExpressionNode [
 	expression := aRMDExpressionNode
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDPatchExpressionRenderer >> hash [
 
 	^ super hash bitXor: expression hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RMDPatchExpressionRenderer >> initialize [
 	super initialize.
 	expression := '0 []' asRMDExpression
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchExpressionRenderer >> valueForIndividual: anInteger interpreter: aRMDInterpreter [
 
 	| patchDef |

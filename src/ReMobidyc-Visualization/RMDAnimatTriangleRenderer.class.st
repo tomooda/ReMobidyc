@@ -1,10 +1,11 @@
 Class {
-	#name : #RMDAnimatTriangleRenderer,
-	#superclass : #RMDAnimatShapeRenderer,
-	#category : #'ReMobidyc-Visualization'
+	#name : 'RMDAnimatTriangleRenderer',
+	#superclass : 'RMDAnimatShapeRenderer',
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDAnimatTriangleRenderer >> drawIndividual: anInteger with: aRMDInterpreter at: aPoint on: aCanvas [
 
 	aCanvas
@@ -18,12 +19,12 @@ RMDAnimatTriangleRenderer >> drawIndividual: anInteger with: aRMDInterpreter at:
 		borderColor: self color
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatTriangleRenderer >> name [
 	^ 'triangle renderer'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RMDAnimatTriangleRenderer >> printOn: aStream [
 
 	aStream

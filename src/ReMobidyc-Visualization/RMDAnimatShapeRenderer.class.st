@@ -1,19 +1,20 @@
 Class {
-	#name : #RMDAnimatShapeRenderer,
-	#superclass : #RMDAnimatRenderer,
+	#name : 'RMDAnimatShapeRenderer',
+	#superclass : 'RMDAnimatRenderer',
 	#instVars : [
 		'shapeSize'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDAnimatShapeRenderer class >> isAbstract [
 
 	^ self == RMDAnimatShapeRenderer
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDAnimatShapeRenderer class >> on: aString shapeSize: anInteger color: aColor [
 
 	^ (self on: aString)
@@ -22,19 +23,19 @@ RMDAnimatShapeRenderer class >> on: aString shapeSize: anInteger color: aColor [
 		  yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDAnimatShapeRenderer >> = anObject [
 
 	^ super = anObject and: [ shapeSize = anObject shapeSize ]
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 RMDAnimatShapeRenderer >> defaultShapeSize [
 
 	^ 3
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDAnimatShapeRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
 
 	| animatDefinition |
@@ -64,31 +65,31 @@ RMDAnimatShapeRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
 					on: aCanvas ] ]
 ]
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDAnimatShapeRenderer >> drawIndividual: anInteger with: aRMDInterpreter at: aPoint on: aCanvas [
 	^ self subclassResponsibility
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDAnimatShapeRenderer >> hash [
 
 	^ super hash bitXor: shapeSize hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RMDAnimatShapeRenderer >> initialize [
 
 	super initialize.
 	shapeSize := self defaultShapeSize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatShapeRenderer >> shapeSize [
 
 	^ shapeSize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatShapeRenderer >> shapeSize: anInteger [
 
 	shapeSize := anInteger asInteger

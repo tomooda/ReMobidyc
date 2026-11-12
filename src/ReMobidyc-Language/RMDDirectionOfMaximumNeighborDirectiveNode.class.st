@@ -1,5 +1,5 @@
 Class {
-	#name : 'RMDDirectionOfMaximumInFourNeighborsDirectiveNode',
+	#name : 'RMDDirectionOfMaximumNeighborDirectiveNode',
 	#superclass : 'RMDDirectionOfMaximumDirectiveNode',
 	#category : 'ReMobidyc-Language-AST',
 	#package : 'ReMobidyc-Language',
@@ -7,28 +7,28 @@ Class {
 }
 
 { #category : 'testing' }
-RMDDirectionOfMaximumInFourNeighborsDirectiveNode >> isDirectionOfMaximumInFourNeighborsDirectiveNode [
+RMDDirectionOfMaximumNeighborDirectiveNode >> isDirectionOfMaximumNeighborDirectiveNode [
 
 	^ true
 ]
 
 { #category : 'printing' }
-RMDDirectionOfMaximumInFourNeighborsDirectiveNode >> printOn: aStream [
+RMDDirectionOfMaximumNeighborDirectiveNode >> printOn: aStream [
 
 	aStream
 		nextPutAll: 'direction maximum ';
 		nextPutAll: self patchAttributeVariable identifier;
-		nextPutAll: ' among four neighbors'
+		nextPutAll: ' neighbor'
 ]
 
 { #category : 'printing' }
-RMDDirectionOfMaximumInFourNeighborsDirectiveNode >> printOn: aStream ifIncludedIn: aCollectionOfRMDSyntaxNode addSectionTo: aCollection [
+RMDDirectionOfMaximumNeighborDirectiveNode >> printOn: aStream ifIncludedIn: aCollectionOfRMDSyntaxNode addSectionTo: aCollection [
 
 	| start |
 	start := aStream position + 1.
 	aStream
 		nextPutAll: 'direction maximum ';
 		nextPutAll: self patchAttributeVariable identifier;
-		nextPutAll: ' among four neighbors'.
+		nextPutAll: ' neighbor'.
 	(aCollectionOfRMDSyntaxNode includes: self) ifTrue: [ aCollection add: (start to: aStream position) ]
 ]

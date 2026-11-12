@@ -101,18 +101,6 @@ RMDInterpreter >> byChanceOf: aNumber [
 	^ self random < aNumber
 ]
 
-{ #category : 'space access' }
-RMDInterpreter >> centerXOfPatch: anInteger [
-
-	^ (self xPatchOf: anInteger) - 0.5 * simulationModel patchLength
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> centerYOfPatch: anInteger [
-
-	^ (self yPatchOf: anInteger) - 0.5 * simulationModel patchLength
-]
-
 { #category : 'animat operations' }
 RMDInterpreter >> changeStage: animatString [
 
@@ -162,6 +150,12 @@ RMDInterpreter >> critical: aBlock [
 RMDInterpreter >> deltaTime [
 
 	^ self simulationModel deltaTime
+]
+
+{ #category : 'space access' }
+RMDInterpreter >> directionOfPatch: anInteger fromX: aNumber y: anotherNumber [
+
+	^ (spaceModel directionOfOffset: anInteger - memory patch fromX: aNumber y: anotherNumber) ifNil: [ self random * 2.0 * Float pi ]
 ]
 
 { #category : 'timing' }
@@ -249,12 +243,30 @@ RMDInterpreter >> fireRunSimulationOnError: errorHandlerBlock [
 	self announceTimeChanged
 ]
 
+{ #category : 'space access' }
+RMDInterpreter >> fromX: x y: y withinRadius: range patchesDo: aBlock [
+
+	| patch |
+	patch := memory patch.
+	spaceModel
+		fromX: x
+		y: y
+		withinRadius: range
+		offsetsDo: [ :offset | aBlock value: patch + offset ]
+]
+
 { #category : 'accessing - libraries' }
 RMDInterpreter >> functionAt: aString ifAbsent: errorBlock [
 	libraries
 		do:
 			[ :library | library at: aString ifPresent: [ :function | ^ function ] ].
 	^ errorBlock value
+]
+
+{ #category : 'space access' }
+RMDInterpreter >> geometryFromPatch: anInteger [
+
+	^ spaceModel geometryFromOffset: anInteger - memory patch
 ]
 
 { #category : 'accessing' }
@@ -272,14 +284,7 @@ RMDInterpreter >> guard: aBlock [
 { #category : 'space access' }
 RMDInterpreter >> here [
 
-	| patchX patchY |
-	patchX := (self patchX: (self my: 'x')) floor + 1
-		          min: simulationModel patchXDivisions
-		          max: 1.
-	patchY := (self patchY: (self my: 'y')) floor + 1
-		          min: simulationModel patchYDivisions
-		          max: 1.
-	^ memory patchAtXIndex: patchX yIndex: patchY
+	^ (spaceModel offsetAtIndividual: context subject definition: context subjectDefinition memory: memory) + memory patch
 ]
 
 { #category : 'variable access' }
@@ -405,6 +410,16 @@ RMDInterpreter >> name [
 			  nextPutAll: '[';
 			  nextPutAll: self metaparametersString;
 			  nextPutAll: ']' ]
+]
+
+{ #category : 'space access' }
+RMDInterpreter >> neighborsAndVectorsDo: aBlock [
+
+	| patch |
+	patch := memory patch.
+	spaceModel
+		neighborsFromOffset: context location - patch
+		offsetsAndVectorsDo: [ :offset :vector | aBlock value: patch + offset value: vector ]
 ]
 
 { #category : 'animat operations' }
@@ -551,9 +566,27 @@ RMDInterpreter >> patchArea [
 ]
 
 { #category : 'space access' }
+RMDInterpreter >> patchAtX: aNumber y: anotherNumber [
+
+	^ (spaceModel offsetFromX: aNumber y: anotherNumber) + memory patch
+]
+
+{ #category : 'space access' }
 RMDInterpreter >> patchAtXIndex: anInteger yIndex: anotherInteger [
 
 	^ memory patchAtXIndex: anInteger yIndex: anotherInteger
+]
+
+{ #category : 'space access' }
+RMDInterpreter >> patchInfo: anInteger do: aBlock [
+
+	spaceModel patchInfoFromOffset: anInteger - memory patch do: aBlock
+]
+
+{ #category : 'space access' }
+RMDInterpreter >> patchInfoKeysDo: aBlock [
+
+	spaceModel patchInfoKeysDo: aBlock
 ]
 
 { #category : 'directives' }
@@ -577,24 +610,9 @@ RMDInterpreter >> patchY: aNumber [
 { #category : 'space access' }
 RMDInterpreter >> patchesDo: aBlock [
 
-	memory patchesDo: aBlock
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> patchesWithin: distance fromX: x y: y do: aBlock [
-
-	distance >= 0.0 ifTrue: [
-			| patchLength d2 |
-			patchLength := simulationModel patchLength.
-			d2 := distance squared.
-			((self patchX: x - distance) floor + 1 max: 1) to: ((self patchX: x + distance) floor + 1 min: memory xPatches) do: [ :xIndex |
-					| x1 x2 dx dy |
-					x1 := xIndex * patchLength.
-					x2 := x1 - patchLength.
-					dx := (x1 - x) abs min: (x2 - x) abs.
-					dy := (d2 - dx squared) sqrt.
-					((self patchY: y - dy) floor + 1 max: 1) to: ((self patchY: y + dy) floor + 1 min: memory yPatches) do: [ :yIndex |
-					aBlock value: (self patchAtXIndex: xIndex yIndex: yIndex) ] ] ]
+	| patch |
+	patch := memory patch.
+	spaceModel offsetsDo: [ :offset | aBlock value: patch + offset ]
 ]
 
 { #category : 'simulating' }
@@ -633,13 +651,21 @@ RMDInterpreter >> read: anInteger ifAbsent: errorBlock [
 ]
 
 { #category : 'variable access' }
-RMDInterpreter >> readAttribute: aString individual: anInteger definition: aRMDAgentDefinitionNode ifAbsent: absentBlock [
+RMDInterpreter >> readAttribute: aString individual: anInteger definition: aRMDAgentDefinitionNode [
+
+	^ memory at: anInteger + (aRMDAgentDefinitionNode
+			   offsetAt: aString
+			   ifAbsent: [ ^ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
+]
+
+{ #category : 'variable access' }
+RMDInterpreter >> readAttribute: aString patch: anInteger [
 
 	^ memory
-		  at: anInteger + (aRMDAgentDefinitionNode
+		  at: anInteger + (context locationDefinition
 				   offsetAt: aString
-				   ifAbsent: [ ^ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
-		  ifAbsent: absentBlock
+				   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
+		  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ]
 ]
 
 { #category : 'variable access' }
@@ -954,9 +980,7 @@ RMDInterpreter >> withActionContextWith: aRMDActionDefinitionNode subject: anInt
 RMDInterpreter >> withActionContextWith: aRMDActionDefinitionNode subject: anInteger definition: aRMDAnimatDefinitionNode taskHash: anotherInteger do: aBlock [
 
 	| newContext |
-	newContext := (RMDActionContext
-		               subject: anInteger
-		               definition: aRMDAnimatDefinitionNode)
+	newContext := (RMDActionContext subject: anInteger definition: aRMDAnimatDefinitionNode)
 		              space: memory;
 		              action: aRMDActionDefinitionNode;
 		              yourself.
@@ -967,20 +991,9 @@ RMDInterpreter >> withActionContextWith: aRMDActionDefinitionNode subject: anInt
 					(memory seedAt: anInteger).
 					anotherInteger } ].
 	aRMDAnimatDefinitionNode isAnimatDefinitionNode ifTrue: [
-			newContext
-				location: [
-						memory
-							patchAtXIndex: ((self patchX: (self my: 'x')) floor + 1
-									 min: simulationModel patchXDivisions
-									 max: 1)
-							yIndex: ((self patchY: (self my: 'y')) floor + 1
-									 min: simulationModel patchYDivisions
-									 max: 1) ]
-				definition: simulationModel patchDefinition ].
+		newContext location: [ self here ] definition: simulationModel patchDefinition ].
 	aRMDAnimatDefinitionNode isPatchDefinitionNode ifTrue: [
-			newContext
-				location: anInteger
-				definition: simulationModel patchDefinition ].
+		newContext location: anInteger definition: simulationModel patchDefinition ].
 	^ self withContext: newContext do: aBlock
 ]
 

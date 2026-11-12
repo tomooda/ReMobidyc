@@ -30,31 +30,6 @@ RMDActionContext >> action: aRMDActionDefinitionNode [
 ]
 
 { #category : 'memory access' }
-RMDActionContext >> attributeDictFor: aString [
-
-	aString = 'here' ifTrue: [ 
-		^ self createPatchAttributeDict: self location ].
-	aString = 'east' ifTrue: [ 
-		space
-			eastOf: self location
-			do: [ :east | ^ self createPatchAttributeDict: east ] ].
-	aString = 'west' ifTrue: [ 
-		space
-			westOf: self location
-			do: [ :west | ^ self createPatchAttributeDict: west ].
-		^ Dictionary new ].
-	aString = 'south' ifTrue: [ 
-		space
-			southOf: self location
-			do: [ :south | ^ self createPatchAttributeDict: south ] ].
-	aString = 'north' ifTrue: [ 
-		space
-			northOf: self location
-			do: [ :north | ^ self createPatchAttributeDict: north ] ].
-	^ Dictionary new
-]
-
-{ #category : 'memory access' }
 RMDActionContext >> createPatchAttributeDict: anInteger [
 
 	^ patchDefinition attributeOffsets copy associationsDo: [ :assoc | 

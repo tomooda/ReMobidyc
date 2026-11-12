@@ -1,16 +1,17 @@
 Class {
-	#name : #RMDBackgroundRenderer,
-	#superclass : #RMDRenderer,
-	#category : #'ReMobidyc-Visualization'
+	#name : 'RMDBackgroundRenderer',
+	#superclass : 'RMDRenderer',
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDBackgroundRenderer class >> isAbstract [
 
 	^ self == RMDBackgroundRenderer
 ]
 
-{ #category : #defaults }
+{ #category : 'defaults' }
 RMDBackgroundRenderer >> defaultColor [
 	^ Color black
 ]

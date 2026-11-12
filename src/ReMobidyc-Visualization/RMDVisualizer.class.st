@@ -1,23 +1,24 @@
 Class {
-	#name : #RMDVisualizer,
-	#superclass : #Object,
+	#name : 'RMDVisualizer',
+	#superclass : 'Object',
 	#instVars : [
 		'extent',
 		'renderers',
 		'formToWrite',
 		'formToRead'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDVisualizer class >> extent: aPoint [
 	^ self new
 		extent: aPoint;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDVisualizer class >> sugarScape [
 	^ (self extent: 500 @ 500)
 		addBackgroundRendererColor: Color brown;
@@ -29,19 +30,19 @@ RMDVisualizer class >> sugarScape [
 		yourself
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 RMDVisualizer >> addAnimatDotRenderer: aString diameter: aNumber color: aColor [
 
 	^ self addRenderer:
 		  (RMDAnimatDotRenderer on: aString shapeSize: aNumber color: aColor)
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 RMDVisualizer >> addBackgroundRendererColor: aColor [
 	^ self addRendererFirst: (RMDBackgroundColorRenderer color: aColor)
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 RMDVisualizer >> addPatchRenderer: aRMDExpressionNode color: aColor1 value: aRMDLiteralNode1 color: aColor2 value: aRMDLiteralnode2 color: aColor3 [
 	^ self
 		addRenderer:
@@ -54,7 +55,7 @@ RMDVisualizer >> addPatchRenderer: aRMDExpressionNode color: aColor1 value: aRMD
 				color: aColor3)
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 RMDVisualizer >> addPatchRendererColor: aColor alpha: aRMDExpressionNode between: aNumber and: anotherNumber [
 	^ self
 		addRenderer:
@@ -65,7 +66,7 @@ RMDVisualizer >> addPatchRendererColor: aColor alpha: aRMDExpressionNode between
 				and: anotherNumber)
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 RMDVisualizer >> addPatchRendererColor: aColor brightness: aRMDExpressionNode between: aNumber and: anotherNumber [
 	^ self
 		addRenderer:
@@ -76,24 +77,24 @@ RMDVisualizer >> addPatchRendererColor: aColor brightness: aRMDExpressionNode be
 				and: anotherNumber)
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 RMDVisualizer >> addRenderer: aRMDRenderer [
 	renderers add: aRMDRenderer.
 	^ aRMDRenderer
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 RMDVisualizer >> addRendererFirst: aRMDRenderer [
 	renderers addFirst: aRMDRenderer.
 	^ aRMDRenderer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDVisualizer >> extent [
 	^ extent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDVisualizer >> extent: aPoint [
 	extent := aPoint.
 	(formToRead isNil or: [ formToRead extent ~= aPoint ])
@@ -102,34 +103,34 @@ RMDVisualizer >> extent: aPoint [
 		ifTrue: [ formToWrite := Form extent: aPoint depth: 32 ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 RMDVisualizer >> formToWrite [
 	^ formToWrite
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RMDVisualizer >> initialize [
 	super initialize.
 	renderers := OrderedCollection new
 ]
 
-{ #category : #'adding-removing' }
+{ #category : 'adding-removing' }
 RMDVisualizer >> removeRenderer: aRMDRenderer ifAbsent: errorBlock [
 	renderers remove: aRMDRenderer ifAbsent: [ ^ errorBlock value ].
 	^ aRMDRenderer
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 RMDVisualizer >> renderersDo: aBlock [
 	renderers do: aBlock
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 RMDVisualizer >> renderersReverseDo: aBlock [
 	renderers reverseDo: aBlock
 ]
 
-{ #category : #visualizing }
+{ #category : 'visualizing' }
 RMDVisualizer >> visualize: aRMDInterpreter [
 
 	| scale form canvas |

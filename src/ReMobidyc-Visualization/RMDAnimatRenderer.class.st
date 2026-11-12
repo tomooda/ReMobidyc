@@ -1,53 +1,54 @@
 Class {
-	#name : #RMDAnimatRenderer,
-	#superclass : #RMDRenderer,
+	#name : 'RMDAnimatRenderer',
+	#superclass : 'RMDRenderer',
 	#instVars : [
 		'animat'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDAnimatRenderer class >> isAbstract [
 
 	^ self == RMDAnimatRenderer
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 RMDAnimatRenderer class >> on: aString [
 	^ self new
 		animat: aString;
 		yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDAnimatRenderer >> = anObject [
 
 	^ super = anObject and: [ animat = anObject animat ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatRenderer >> animat [
 	^ animat
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatRenderer >> animat: aString [
 	animat := aString
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDAnimatRenderer >> hash [
 
 	^ super hash bitXor: animat hash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDAnimatRenderer >> isAnimatRendererFor: aString [
 	^ animat = aString
 ]
 
-{ #category : #rewriting }
+{ #category : 'rewriting' }
 RMDAnimatRenderer >> renameAnimat: aString to: anotherString [
 
 	super renameAnimat: aString to: anotherString.

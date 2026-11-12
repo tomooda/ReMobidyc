@@ -1,10 +1,11 @@
 Class {
-	#name : #RMDAnimatDotRenderer,
-	#superclass : #RMDAnimatShapeRenderer,
-	#category : #'ReMobidyc-Visualization'
+	#name : 'RMDAnimatDotRenderer',
+	#superclass : 'RMDAnimatShapeRenderer',
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #drawing }
+{ #category : 'drawing' }
 RMDAnimatDotRenderer >> drawIndividual: anInteger with: aRMDInterpreter at: aPoint on: aCanvas [
 
 	aCanvas
@@ -12,12 +13,12 @@ RMDAnimatDotRenderer >> drawIndividual: anInteger with: aRMDInterpreter at: aPoi
 		color: self color
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatDotRenderer >> name [
 	^ 'dot renderer'
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 RMDAnimatDotRenderer >> printOn: aStream [
 
 	aStream

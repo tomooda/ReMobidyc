@@ -163,18 +163,17 @@ RMDSnapshotTabular >> updateAgentDropList [
 { #category : 'updating' }
 RMDSnapshotTabular >> updateColumns [
 
-	table columns: (Array streamContents: [ :stream | 
-			 runDropList selectedItem ifNotNil: [ :runId | 
-				 agentDropList selectedItem ifNotNil: [ :agentDefinition | 
-					 agentDefinition isPatchDefinitionNode ifTrue: [ 
-						 self simulationModelDo: [ :model | 
-							 stream
-								 nextPut: (RMDPatchXColumn unit: model patchLengthUnit);
-								 nextPut: (RMDPatchYColumn unit: model patchLengthUnit) ] ].
-					 agentDefinition isAnimatDefinitionNode ifTrue: [ 
-						 stream nextPut: RMDIdColumn new ].
-					 agentDefinition allAttributeDeclarationsDo: [ :attributeDecl | 
-						 stream nextPut: (RMDAttributeColumn attribute: attributeDecl) ] ] ] ])
+	table columns: (Array streamContents: [ :stream |
+				 runDropList selectedItem ifNotNil: [ :runId |
+						 agentDropList selectedItem ifNotNil: [ :agentDefinition |
+								 agentDefinition isPatchDefinitionNode ifTrue: [
+										 self simulationModelDo: [ :model |
+												 model spaceModel patchInfoKeysDo: [ :var |
+													 stream nextPut:
+														 (RMDAttributeColumn attribute: (RMDAttributeDeclarationNode identifier: var unit: model patchLengthUnit)) ] ] ].
+								 agentDefinition isAnimatDefinitionNode ifTrue: [ stream nextPut: RMDIdColumn new ].
+								 agentDefinition allAttributeDeclarationsDo: [ :attributeDecl |
+									 stream nextPut: (RMDAttributeColumn attribute: attributeDecl) ] ] ] ])
 ]
 
 { #category : 'updating' }
@@ -182,42 +181,35 @@ RMDSnapshotTabular >> updateRows [
 
 	table
 		items: (Array streamContents: [ :stream |
-					 (metaInterpreter
-						  interpreterAt: runDropList selectedItem
-						  ifAbsent: [ nil ]) ifNotNil: [ :interpreter |
-							 | memory |
-							 memory := interpreter memory.
-							 timeList selectedItem ifNotNil: [ :time |
-									 agentDropList selectedItem ifNotNil: [ :agentDefinition |
-											 memory time: time.
-											 agentDefinition isWorldDefinitionNode ifTrue: [
-													 | row |
-													 row := Dictionary new.
-													 agentDefinition attributeOffsetsDo: [ :attribute :offset |
-															 row
-																 at: attribute
-																 put: (memory at: memory world + offset) ].
-													 stream nextPut: row ].
-											 agentDefinition isPatchDefinitionNode ifTrue: [
-													 memory patchesDo: [ :patch |
-															 | row |
-															 row := Dictionary new.
-															 row
-																 at: 'id' put: patch;
-																 at: 'x' put: (interpreter centerXOfPatch: patch);
-																 at: 'y' put: (interpreter centerYOfPatch: patch).
-															 agentDefinition attributeOffsetsDo: [ :attribute :offset |
-																 row at: attribute put: (memory at: patch + offset) ].
-															 stream nextPut: row ] ].
-											 agentDefinition isAnimatDefinitionNode ifTrue: [
-												 (memory animatsOf: agentDefinition identifier)
-													 asSortedCollection do: [ :individual |
-													 | row |
-													 row := Dictionary new.
-													 row at: #id put: individual.
-													 agentDefinition attributeOffsetsDo: [ :attribute :offset |
-														 row at: attribute put: (memory at: individual + offset) ].
-													 stream nextPut: row ] ] ] ] ] ]);
+						 (metaInterpreter interpreterAt: runDropList selectedItem ifAbsent: [ nil ]) ifNotNil: [ :interpreter |
+									 | memory |
+									 memory := interpreter memory.
+									 timeList selectedItem ifNotNil: [ :time |
+												 agentDropList selectedItem ifNotNil: [ :agentDefinition |
+															 memory time: time.
+															 agentDefinition isWorldDefinitionNode ifTrue: [
+																		 | row |
+																		 row := Dictionary new.
+																		 agentDefinition attributeOffsetsDo: [ :attribute :offset |
+																				 row at: attribute put: (memory at: memory world + offset) ].
+																		 stream nextPut: row ].
+															 agentDefinition isPatchDefinitionNode ifTrue: [
+																		 memory patchesDo: [ :patch |
+																					 | row |
+																					 row := Dictionary new.
+																					 row at: 'id' put: patch.
+																					 interpreter patchInfo: patch do: [ :var :val | row at: var put: val ].
+																					 agentDefinition attributeOffsetsDo: [ :attribute :offset |
+																							 row at: attribute put: (memory at: patch + offset) ].
+																					 stream nextPut: row ] ].
+															 agentDefinition isAnimatDefinitionNode ifTrue: [
+																		 (memory animatsOf: agentDefinition identifier) asSortedCollection do: [ :individual |
+																					 | row |
+																					 row := Dictionary new.
+																					 row at: #id put: individual.
+																					 agentDefinition attributeOffsetsDo: [ :attribute :offset |
+																							 row at: attribute put: (memory at: individual + offset) ].
+																					 stream nextPut: row ] ] ] ] ] ]);
 		refresh
 ]
 

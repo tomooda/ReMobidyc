@@ -1,60 +1,61 @@
 Class {
-	#name : #RMDPatchColorRangeRenderer,
-	#superclass : #RMDPatchColorRenderer,
+	#name : 'RMDPatchColorRangeRenderer',
+	#superclass : 'RMDPatchColorRenderer',
 	#instVars : [
 		'min',
 		'max'
 	],
-	#category : #'ReMobidyc-Visualization'
+	#category : 'ReMobidyc-Visualization',
+	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDPatchColorRangeRenderer class >> isAbstract [
 
 	^ self == RMDPatchColorRangeRenderer
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDPatchColorRangeRenderer >> = anObject [
 
 	^ super = anObject and: [ 
 		  min = anObject min and: [ max = anObject max ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 RMDPatchColorRangeRenderer >> hash [
 
 	^ (super hash bitXor: min hash) bitXor: max hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RMDPatchColorRangeRenderer >> initialize [
 	super initialize.
 	min := 0.0.
 	max := 1.0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorRangeRenderer >> max [
 	^ max
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorRangeRenderer >> max: aRMDLiteral [
 	max := aRMDLiteral
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorRangeRenderer >> min [
 	^ min
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorRangeRenderer >> min: aRMDLiteral [
 	min := aRMDLiteral
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDPatchColorRangeRenderer >> valueForIndividual: anInteger interpreter: aRMDInterpreter [
 
 	| patchDef value |

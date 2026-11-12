@@ -280,9 +280,8 @@ RMDGrammar >> agentDirective [
 	^ self numberOfIndividualsInPatchDirective / self numberOfIndividualsInWorldDirective / self numberOfIndividualsInRadiusDirective
 	  / self densityOfIndividualsInPatchDirective / self densityOfIndividualsInWorldDirective
 	  / self densityOfIndividualsInRadiusDirective / self directionOfGradientDirective
-	  / self directionOfMaximumAmongFourNeighborsDirective / self directionOfMaximumAmongEightNeighborsDirective
-	  / self directionOfMaximumInRadiusDirective / self distanceDirective / self directionDirective / self timeDirective
-	  / self lengthDirective / self areaDirective
+	  / self directionOfMaximumNeighborDirective / self directionOfMaximumInRadiusDirective / self distanceDirective
+	  / self directionDirective / self timeDirective / self lengthDirective / self areaDirective
 ]
 
 { #category : 'parsers-atoms' }
@@ -938,38 +937,6 @@ RMDGrammar >> directionOfGradientDirectiveNodeClass [
 ]
 
 { #category : 'parsers-directives' }
-RMDGrammar >> directionOfMaximumAmongEightNeighborsDirective [
-
-	^ 'direction' asPParser trimLeft , #blank asPParser plus , 'maximum' asPParser trim , _identifier , 'among' asPParser trimLeft
-	  , #blank asPParser , 'eight' asPParser trimLeft , #blank asPParser , ('neighbors' asPParser / 'neighbours' asPParser) trim
-	  ==> [ :array |
-			  self directionOfMaximumAmongEightNeighborsDirectiveNodeClass variable:
-				  (RMDAttributeVariableNode identifier: array fourth agent: 'here') ]
-]
-
-{ #category : 'class access' }
-RMDGrammar >> directionOfMaximumAmongEightNeighborsDirectiveNodeClass [
-
-	^ RMDDirectionOfMaximumInEightNeighborsDirectiveNode
-]
-
-{ #category : 'parsers-directives' }
-RMDGrammar >> directionOfMaximumAmongFourNeighborsDirective [
-
-	^ 'direction' asPParser trimLeft , #blank asPParser plus , 'maximum' asPParser trim , _identifier , 'among' asPParser trimLeft
-	  , #blank asPParser , 'four' asPParser trimLeft , #blank asPParser , ('neighbors' asPParser / 'neighbours' asPParser) trim
-	  ==> [ :array |
-			  self directionOfMaximumAmongFourNeighborsDirectiveNodeClass variable:
-				  (RMDAttributeVariableNode identifier: array fourth agent: 'here') ]
-]
-
-{ #category : 'class access' }
-RMDGrammar >> directionOfMaximumAmongFourNeighborsDirectiveNodeClass [
-
-	^ RMDDirectionOfMaximumInFourNeighborsDirectiveNode
-]
-
-{ #category : 'parsers-directives' }
 RMDGrammar >> directionOfMaximumInRadiusDirective [
 
 	^ 'direction' asPParser trimLeft , #blank asPParser plus , 'maximum' asPParser trim , _identifier , 'in' asPParser trimLeft
@@ -983,6 +950,21 @@ RMDGrammar >> directionOfMaximumInRadiusDirective [
 RMDGrammar >> directionOfMaximumInRadiusDirectiveNodeClass [
 
 	^ RMDDirectionOfMaximumInRadiusDirectiveNode
+]
+
+{ #category : 'parsers-directives' }
+RMDGrammar >> directionOfMaximumNeighborDirective [
+
+	^ 'direction' asPParser trimLeft , #blank asPParser plus , 'maximum' asPParser trim , _identifier
+	  , ('neighbor' asPParser / 'neighbour' asPParser) trim ==> [ :array |
+		  self directionOfMaximumNeighborDirectiveNodeClass variable:
+			  (RMDAttributeVariableNode identifier: array fourth agent: 'here') ]
+]
+
+{ #category : 'class access' }
+RMDGrammar >> directionOfMaximumNeighborDirectiveNodeClass [
+
+	^ RMDDirectionOfMaximumNeighborDirectiveNode
 ]
 
 { #category : 'parsers-definitions' }
