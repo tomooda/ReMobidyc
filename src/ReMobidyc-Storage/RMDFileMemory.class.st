@@ -186,11 +186,16 @@ RMDFileMemory >> initializeAllocation [
 
 { #category : 'initialization' }
 RMDFileMemory >> initializeSpace [
+
+	| x y |
+	x := y := nil.
 	self readSpace
 		at: 'patch' ifPresent: [ :v | patch := v ];
-		at: 'xPatches' ifPresent: [ :v | xPatches := v ];
-		at: 'yPatches' ifPresent: [ :v | yPatches := v ];
+		at: 'xPatches' ifPresent: [ :v | x := v ];
+		at: 'yPatches' ifPresent: [ :v | y := v ];
+		at: 'numPatches' ifPresent: [ :v | numPatches := v ];
 		at: 'patchSize' ifPresent: [ :v | patchSize := v ].
+	(x notNil and: [ y notNil ]) ifTrue: [ numPatches := x * y ].
 	spaceDirty := false
 ]
 
@@ -265,6 +270,13 @@ RMDFileMemory >> nextAvailableSlot: anInteger [
 	super nextAvailableSlot: anInteger.
 	oldSlot = anInteger
 		ifTrue: [ allocationDirty := true ]
+]
+
+{ #category : 'accessing-individuals' }
+RMDFileMemory >> numPatches: anInteger [
+
+	super numPatches: anInteger.
+	spaceDirty := true
 ]
 
 { #category : 'accessing-individuals' }
@@ -644,22 +656,19 @@ RMDFileMemory >> writeSeeds: aDictionary forTime: anInteger [
 { #category : 'accessing-storage' }
 RMDFileMemory >> writeSpace [
 
-	self writeCritical: [ 
-		self spaceFile writeStreamDo: [ :stream | 
-			stream truncate.
-			stream nextPutAll: 'patch,'.
-			patch storeOn: stream.
-			stream lf.
-			stream nextPutAll: 'xPatches,'.
-			xPatches storeOn: stream.
-			stream lf.
-			stream nextPutAll: 'yPatches,'.
-			yPatches storeOn: stream.
-			stream lf.
-			stream nextPutAll: 'patchSize,'.
-			patchSize storeOn: stream.
-			stream lf.
-			stream close ] ]
+	self writeCritical: [
+			self spaceFile writeStreamDo: [ :stream |
+					stream truncate.
+					stream nextPutAll: 'patch,'.
+					patch storeOn: stream.
+					stream lf.
+					stream nextPutAll: 'numPatches,'.
+					numPatches storeOn: stream.
+					stream lf.
+					stream nextPutAll: 'patchSize,'.
+					patchSize storeOn: stream.
+					stream lf.
+					stream close ] ]
 ]
 
 { #category : 'accessing-storage' }
@@ -691,16 +700,4 @@ RMDFileMemory >> writeValues: aDictionary forTime: anInteger [
 					uint32: (value basicAt: 1);
 					uint32: (value basicAt: 2) ].
 			stream close ] ]
-]
-
-{ #category : 'accessing-individuals' }
-RMDFileMemory >> xPatches: anInteger [
-	super xPatches: anInteger.
-	spaceDirty := true
-]
-
-{ #category : 'accessing-individuals' }
-RMDFileMemory >> yPatches: anInteger [
-	super yPatches: anInteger.
-	spaceDirty := true
 ]

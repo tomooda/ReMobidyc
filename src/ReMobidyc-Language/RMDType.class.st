@@ -69,6 +69,12 @@ RMDType class >> unitTypeClass [
 	^ RMDUnitType
 ]
 
+{ #category : 'instance creation' }
+RMDType class >> volume [
+
+	^ self length ** 3
+]
+
 { #category : 'arithmetics' }
 RMDType >> * aRMDType [
 

@@ -78,13 +78,10 @@ RMDRenderer >> name [
 { #category : 'private' }
 RMDRenderer >> pointFromX: modelX y: modelY interpreter: aRMDInterpreter scale: scale [
 
-	| patchX patchY |
-	patchX := aRMDInterpreter patchX: modelX.
-	patchY := aRMDInterpreter patchY: modelY.
-	^ patchX * scale
-	  @
-		  (aRMDInterpreter simulationModel patchYDivisions asFloat - patchY
-		   * scale)
+	| patchLength |
+	patchLength := aRMDInterpreter patchLength.
+	^ modelX / patchLength * scale
+	  @ (aRMDInterpreter simulationModel patchYDivisions asFloat - (modelY / aRMDInterpreter patchLength) * scale)
 ]
 
 { #category : 'printing' }

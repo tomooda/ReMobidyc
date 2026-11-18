@@ -258,7 +258,7 @@ RMDAttributeByTimeTabular >> updateRows [
 																						 row at: attribute put: (memory at: memory world + offset ifAbsent: [ 0.0 ]) ].
 																				 stream nextPut: row ].
 																	 agentDefinition isPatchDefinitionNode ifTrue: [
-																				 memory patchesDo: [ :patch |
+																				 interpreter patchesDo: [ :patch |
 																							 | row |
 																							 row := Dictionary new.
 																							 row at: #time put: time * metaInterpreter simulationModel deltaTime.

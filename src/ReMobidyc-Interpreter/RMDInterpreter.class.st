@@ -98,6 +98,7 @@ RMDInterpreter >> bounceOutOfBoundsAnimats [
 
 { #category : 'directives' }
 RMDInterpreter >> byChanceOf: aNumber [
+
 	^ self random < aNumber
 ]
 
@@ -152,30 +153,19 @@ RMDInterpreter >> deltaTime [
 	^ self simulationModel deltaTime
 ]
 
-{ #category : 'space access' }
-RMDInterpreter >> directionOfPatch: anInteger fromX: aNumber y: anotherNumber [
+{ #category : 'directives' }
+RMDInterpreter >> directionOfPatch: anInteger [
 
-	^ (spaceModel directionOfOffset: anInteger - memory patch fromX: aNumber y: anotherNumber) ifNil: [ self random * 2.0 * Float pi ]
+	^ spaceModel
+		  directionOfOffset: anInteger - memory patch
+		  fromIndividual: context subject
+		  definition: context subjectDefinition
+		  memory: memory
 ]
 
 { #category : 'timing' }
 RMDInterpreter >> duration [
 	^ simulationModel duration
-]
-
-{ #category : 'variable access' }
-RMDInterpreter >> easts: aString ifAbsent: errorBlock [
-
-	memory eastOf: context location do: [ :id | 
-		^ memory
-			  at:
-				  id + (context locationDefinition offsetAt: aString ifAbsent: [ 
-					   RMDUndefinedAttributeError signal:
-						   (RMDAttributeVariableNode identifier: aString agent: nil) ])
-			  ifAbsent: [ 
-				  RMDAddressError signal:
-					  (RMDAttributeVariableNode identifier: aString agent: nil) ] ].
-	^ errorBlock value
 ]
 
 { #category : 'exporting' }
@@ -243,18 +233,6 @@ RMDInterpreter >> fireRunSimulationOnError: errorHandlerBlock [
 	self announceTimeChanged
 ]
 
-{ #category : 'space access' }
-RMDInterpreter >> fromX: x y: y withinRadius: range patchesDo: aBlock [
-
-	| patch |
-	patch := memory patch.
-	spaceModel
-		fromX: x
-		y: y
-		withinRadius: range
-		offsetsDo: [ :offset | aBlock value: patch + offset ]
-]
-
 { #category : 'accessing - libraries' }
 RMDInterpreter >> functionAt: aString ifAbsent: errorBlock [
 	libraries
@@ -264,7 +242,7 @@ RMDInterpreter >> functionAt: aString ifAbsent: errorBlock [
 ]
 
 { #category : 'space access' }
-RMDInterpreter >> geometryFromPatch: anInteger [
+RMDInterpreter >> geometryOfPatch: anInteger [
 
 	^ spaceModel geometryFromOffset: anInteger - memory patch
 ]
@@ -284,7 +262,7 @@ RMDInterpreter >> guard: aBlock [
 { #category : 'space access' }
 RMDInterpreter >> here [
 
-	^ (spaceModel offsetAtIndividual: context subject definition: context subjectDefinition memory: memory) + memory patch
+	^ self patchOfIndividual: context subject definition: context subjectDefinition
 ]
 
 { #category : 'variable access' }
@@ -303,15 +281,15 @@ RMDInterpreter >> heres: aString [
 { #category : 'animat operations' }
 RMDInterpreter >> individualsOf: aRMDAgentDefinitionNode do: aBlock [
 
-	aRMDAgentDefinitionNode isAnimatDefinitionNode ifTrue: [ 
-		memory animatsOf: aRMDAgentDefinitionNode identifier do: aBlock.
-		^ self ].
-	aRMDAgentDefinitionNode isPatchDefinitionNode ifTrue: [ 
-		memory patchesDo: aBlock.
-		^ self ].
-	aRMDAgentDefinitionNode isWorldDefinitionNode ifTrue: [ 
-		memory worldDo: aBlock.
-		^ self ].
+	aRMDAgentDefinitionNode isAnimatDefinitionNode ifTrue: [
+			memory animatsOf: aRMDAgentDefinitionNode identifier do: aBlock.
+			^ self ].
+	aRMDAgentDefinitionNode isPatchDefinitionNode ifTrue: [
+			self patchesDo: aBlock.
+			^ self ].
+	aRMDAgentDefinitionNode isWorldDefinitionNode ifTrue: [
+			memory worldDo: aBlock.
+			^ self ].
 	^ self error: 'Unknown agent type'
 ]
 
@@ -459,47 +437,6 @@ RMDInterpreter >> nextSeed [
 	^ context nextSeed
 ]
 
-{ #category : 'variable access' }
-RMDInterpreter >> northEasts: aString ifAbsent: errorBlock [
-
-	memory northOf: context location do: [ :north |
-			memory eastOf: north do: [ :id |
-					^ memory
-						  at: id + (context locationDefinition
-								   offsetAt: aString
-								   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
-						  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ] ] ].
-	^ errorBlock value
-]
-
-{ #category : 'variable access' }
-RMDInterpreter >> northWests: aString ifAbsent: errorBlock [
-
-	memory northOf: context location do: [ :north |
-			memory westOf: north do: [ :id |
-					^ memory
-						  at: id + (context locationDefinition
-								   offsetAt: aString
-								   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
-						  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ] ] ].
-	^ errorBlock value
-]
-
-{ #category : 'variable access' }
-RMDInterpreter >> norths: aString ifAbsent: errorBlock [
-
-	memory northOf: context location do: [ :id | 
-		^ memory
-			  at:
-				  id + (context locationDefinition offsetAt: aString ifAbsent: [ 
-					   RMDUndefinedAttributeError signal:
-						   (RMDAttributeVariableNode identifier: aString agent: nil) ])
-			  ifAbsent: [ 
-				  RMDAddressError signal:
-					  (RMDAttributeVariableNode identifier: aString agent: nil) ] ].
-	^ errorBlock value
-]
-
 { #category : 'directives' }
 RMDInterpreter >> numberOfIndividuals [
 
@@ -509,22 +446,16 @@ RMDInterpreter >> numberOfIndividuals [
 { #category : 'directives' }
 RMDInterpreter >> numberOfIndividualsInPatch: animatName [
 
-	| total |
-	total := 0.
-	simulationModel stagesOf: animatName do: [ :animatDef |
-		total := total + (memory
-			          numberOfAnimats: animatDef identifier
-			          patch: context location
-			          patchBlock: [ :x :y |
-				          | patchX patchY |
-				          patchX := (self patchX: x) floor + 1
-					                    min: simulationModel patchXDivisions
-					                    max: 1.
-				          patchY := (self patchY: y) floor + 1
-					                    min: simulationModel patchYDivisions
-					                    max: 1.
-				          memory patchAtXIndex: patchX yIndex: patchY ]) ].
-	^ total
+	| here |
+	here := self here.
+	^ (memory at: #numberOfIndividualsInPatch ifAbsentPut: [ Dictionary new ]) at: here ifAbsentPut: [
+			  | total |
+			  total := 0.
+			  simulationModel stagesOf: animatName do: [ :animatDef |
+					  memory
+						  animatsOf: animatDef identifier
+						  do: [ :individual | here = (self patchOfIndividual: individual definition: animatDef) ifTrue: [ total := total + 1 ] ] ].
+			  total ]
 ]
 
 { #category : 'directives' }
@@ -541,8 +472,7 @@ RMDInterpreter >> numberOfIndividualsInWorld: animatName [
 RMDInterpreter >> numberOfIndividualsOf: aRMDAgentDefinitionNode [
 
 	aRMDAgentDefinitionNode isWorldDefinitionNode ifTrue: [ ^ 1 ].
-	aRMDAgentDefinitionNode isPatchDefinitionNode ifTrue: [ 
-		^ memory xPatches * memory yPatches ].
+	aRMDAgentDefinitionNode isPatchDefinitionNode ifTrue: [ ^ spaceModel numberOfPatches ].
 	^ memory numberOfAnimats: aRMDAgentDefinitionNode identifier
 ]
 
@@ -562,19 +492,7 @@ RMDInterpreter >> objects: aString [
 { #category : 'directives' }
 RMDInterpreter >> patchArea [
 
-	^ self simulationModel patchLength squared
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> patchAtX: aNumber y: anotherNumber [
-
-	^ (spaceModel offsetFromX: aNumber y: anotherNumber) + memory patch
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> patchAtXIndex: anInteger yIndex: anotherInteger [
-
-	^ memory patchAtXIndex: anInteger yIndex: anotherInteger
+	^ spaceModel patchSize
 ]
 
 { #category : 'space access' }
@@ -592,19 +510,15 @@ RMDInterpreter >> patchInfoKeysDo: aBlock [
 { #category : 'directives' }
 RMDInterpreter >> patchLength [
 
-	^ self simulationModel patchLength
+	^ spaceModel patchLength
 ]
 
 { #category : 'space access' }
-RMDInterpreter >> patchX: aNumber [
+RMDInterpreter >> patchOfIndividual: anInteger definition: aRMDAnimatDefinitionNode [
 
-	^ aNumber - self simulationModel west / simulationModel patchLength
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> patchY: aNumber [
-
-	^ aNumber - self simulationModel south / simulationModel patchLength
+	^ (memory at: #patchesByIndividuals ifAbsentPut: [ Dictionary new ])
+		  at: anInteger
+		  ifAbsentPut: [ (spaceModel patchOffsetAtIndividual: anInteger definition: aRMDAnimatDefinitionNode memory: memory) + memory patch ]
 ]
 
 { #category : 'space access' }
@@ -612,7 +526,7 @@ RMDInterpreter >> patchesDo: aBlock [
 
 	| patch |
 	patch := memory patch.
-	spaceModel offsetsDo: [ :offset | aBlock value: patch + offset ]
+	spaceModel patchOffsetsDo: [ :offset | aBlock value: patch + offset ]
 ]
 
 { #category : 'simulating' }
@@ -791,47 +705,6 @@ RMDInterpreter >> shortName [
 	^ self runId printString, ':', self metaparametersString
 ]
 
-{ #category : 'variable access' }
-RMDInterpreter >> southEasts: aString ifAbsent: errorBlock [
-
-	memory southOf: context location do: [ :south |
-			memory eastOf: south do: [ :id |
-					^ memory
-						  at: id + (context locationDefinition
-								   offsetAt: aString
-								   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
-						  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ] ] ].
-	^ errorBlock value
-]
-
-{ #category : 'variable access' }
-RMDInterpreter >> southWests: aString ifAbsent: errorBlock [
-
-	memory southOf: context location do: [ :south |
-			memory westOf: south do: [ :id |
-					^ memory
-						  at: id + (context locationDefinition
-								   offsetAt: aString
-								   ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ])
-						  ifAbsent: [ RMDAddressError signal: (RMDAttributeVariableNode identifier: aString agent: nil) ] ] ].
-	^ errorBlock value
-]
-
-{ #category : 'variable access' }
-RMDInterpreter >> souths: aString ifAbsent: errorBlock [
-
-	memory southOf: context location do: [ :id | 
-		^ memory
-			  at:
-				  id + (context locationDefinition offsetAt: aString ifAbsent: [ 
-					   RMDUndefinedAttributeError signal:
-						   (RMDAttributeVariableNode identifier: aString agent: nil) ])
-			  ifAbsent: [ 
-				  RMDAddressError signal:
-					  (RMDAttributeVariableNode identifier: aString agent: nil) ] ].
-	^ errorBlock value
-]
-
 { #category : 'accessing - libraries' }
 RMDInterpreter >> standardLibrary [
 	^ self class standardLibrary 
@@ -928,21 +801,6 @@ RMDInterpreter >> usesFire: aBoolean [
 RMDInterpreter >> waitingTime [
 
 	^ 200 milliSecond
-]
-
-{ #category : 'variable access' }
-RMDInterpreter >> wests: aString ifAbsent: errorBlock [
-
-	memory westOf: context location do: [ :id | 
-		^ memory
-			  at:
-				  id + (context locationDefinition offsetAt: aString ifAbsent: [ 
-					   RMDUndefinedAttributeError signal:
-						   (RMDAttributeVariableNode identifier: aString agent: nil) ])
-			  ifAbsent: [ 
-				  RMDAddressError signal:
-					  (RMDAttributeVariableNode identifier: aString agent: nil) ] ].
-	^ errorBlock value
 ]
 
 { #category : 'context controls' }
@@ -1047,6 +905,19 @@ RMDInterpreter >> withSubInitializerContextWithSubject: anInteger definition: aR
 ]
 
 { #category : 'space access' }
+RMDInterpreter >> withinRadius: range patchesDo: aBlock [
+
+	| patch |
+	patch := memory patch.
+	spaceModel
+		fromIndividual: context subject
+		definition: context subjectDefinition
+		memory: memory
+		withinRadius: range
+		offsetsDo: [ :offset | aBlock value: patch + offset ]
+]
+
+{ #category : 'space access' }
 RMDInterpreter >> world [
 
 	^ memory world
@@ -1089,28 +960,4 @@ RMDInterpreter >> writeNext: aFloat to: anInteger [
 
 	memory nextAt: anInteger put: aFloat.
 	^ aFloat
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> xIndexOfPatch: anInteger [
-
-	^ anInteger - memory patch // memory patchSize // memory xPatches + 1
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> xPatchOf: anInteger [
-
-	^ memory xPatchOf: anInteger
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> yIndexOfPatch: anInteger [
-
-	^ anInteger - memory patch // memory patchSize \\ memory xPatches + 1
-]
-
-{ #category : 'space access' }
-RMDInterpreter >> yPatchOf: anInteger [
-
-	^ memory yPatchOf: anInteger
 ]

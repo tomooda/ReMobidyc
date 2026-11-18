@@ -55,19 +55,16 @@ RMDMemoryTest >> testAllocateAnimat [
 ]
 
 { #category : 'tests' }
-RMDMemoryTest >> testAllocatePatchesXY [
+RMDMemoryTest >> testAllocatePatchesDefinition [
+
 	| patch individual |
-	patch := parser patchDefinition end
-		parse:
-			'Patch with
+	patch := parser patchDefinition end parse: 'Patch with
 	grass [kcal]
 	fertility [kcal].'.
-	individual := memory allocatePatches: patch x: 2 y: 3.
+	individual := memory allocatePatches: 6 definition: patch.
 	self
 		assert: individual + (patch totalNumberOfAttributes * 2 * 3)
-		equals:
-			(memory
-				allocateAnimat: (parser animatDefinition end parse: 'Goat is Animat.'))
+		equals: (memory allocateAnimat: (parser animatDefinition end parse: 'Goat is Animat.'))
 ]
 
 { #category : 'tests' }
@@ -150,22 +147,20 @@ RMDMemoryTest >> testLoadInputsIntoNextAt [
 	interpreter
 		load: ((parser worldDefinition end parse: 'World with
 	temperature [DegreeC].')
-				 dataSource: (RMDDataSource dataFrame: (DataFrame
-								   withRows: #( #( 0.0 30.0 ) #( 10.0 30.1 ) )
-								   columnNames: #( 'time[s]' 'temperature[DegreeC] linear' )));
+				 dataSource: (RMDDataSource dataFrame:
+							  (DataFrame withRows: #( #( 0.0 30.0 ) #( 10.0 30.1 ) ) columnNames: #( 'time[s]' 'temperature[DegreeC] linear' )));
 				 yourself);
 		load: ((parser patchDefinition end parse: 'Patch with
 	grass [m].')
-				 dataSource: (RMDDataSource dataFrame: (DataFrame
-								   withRows: #( #( 0.0 1.0 ) #( 10.0 0.0 ) )
-								   columnNames: #( 'time[s]' 'grass[m] linear' )));
+				 dataSource:
+					 (RMDDataSource dataFrame:
+							  (DataFrame withRows: #( #( 0.0 1.0 ) #( 10.0 0.0 ) ) columnNames: #( 'time[s]' 'grass[m] linear' )));
 				 yourself);
-		load:
-			(goatDef := (parser animatDefinition parse: 'Goat is Animat with
+		load: (goatDef := (parser animatDefinition parse: 'Goat is Animat with
 	body [kg].')
-				            dataSource: (RMDDataSource dataFrame: (DataFrame
-								              withRows: #( #( 0.0 100.0 ) #( 10.0 200.0 ) )
-								              columnNames: #( 'time[s]' 'body[kg] linear' )));
+				            dataSource:
+					            (RMDDataSource dataFrame:
+							             (DataFrame withRows: #( #( 0.0 100.0 ) #( 10.0 200.0 ) ) columnNames: #( 'time[s]' 'body[kg] linear' )));
 				            yourself);
 		load: (parser simulationDefinition parse: 'Simulation with
 	during 10 [s] by 2 [s]
@@ -174,29 +169,20 @@ RMDMemoryTest >> testLoadInputsIntoNextAt [
 	2 Goat.').
 	interpreter setupSimulation.
 	self assert: (memory at: memory world) closeTo: 30.0.
-	memory patchesDo: [ :patch |
-		self assert: (memory at: patch) closeTo: 1.0 ].
+	memory patchesDo: [ :patch | self assert: (memory at: patch) closeTo: 1.0 ].
 	oldGoats := memory animatsOf: 'Goat'.
-	oldGoats do: [ :goat |
-		self assert: (memory at: goat + 2) closeTo: 100.0 ].
+	oldGoats do: [ :goat | self assert: (memory at: goat + 2) closeTo: 100.0 ].
 	newGoats := Array streamContents: [ :stream |
-		            oldGoats do: [ :goat |
-			            stream nextPut:
-				            (memory reproduceAnimat: goatDef with: goat) ] ].
+		            oldGoats do: [ :goat | stream nextPut: (memory reproduceAnimat: goatDef with: goat) ] ].
 	memory tick.
 	self assert: (memory at: memory world) closeTo: 30.02.
-	memory patchesDo: [ :patch |
-		self assert: (memory at: patch) closeTo: 0.8 ].
-	oldGoats do: [ :goat |
-		self assert: (memory at: goat + 2) closeTo: 120.0 ].
-	newGoats do: [ :goat |
-		self assert: (memory at: goat + 2) closeTo: 100.0 ].
+	memory patchesDo: [ :patch | self assert: (memory at: patch) closeTo: 0.8 ].
+	oldGoats do: [ :goat | self assert: (memory at: goat + 2) closeTo: 120.0 ].
+	newGoats do: [ :goat | self assert: (memory at: goat + 2) closeTo: 100.0 ].
 	memory time: 0.
 	self assert: (memory at: memory world) closeTo: 30.0.
-	memory patchesDo: [ :patch |
-		self assert: (memory at: patch) closeTo: 1.0 ].
-	oldGoats do: [ :goat |
-		self assert: (memory at: goat + 2) closeTo: 100.0 ]
+	memory patchesDo: [ :patch | self assert: (memory at: patch) closeTo: 1.0 ].
+	oldGoats do: [ :goat | self assert: (memory at: goat + 2) closeTo: 100.0 ]
 ]
 
 { #category : 'tests' }
@@ -237,47 +223,37 @@ RMDMemoryTest >> testNextAtPut [
 
 { #category : 'tests' }
 RMDMemoryTest >> testPatch [
+
 	| patch individual |
-	patch := parser patchDefinition end
-		parse:
-			'Patch with
+	patch := parser patchDefinition end parse: 'Patch with
 	grass [kcal]
 	fertility [kcal].'.
-	individual := memory allocatePatches: patch x: 2 y: 3.
+	individual := memory allocatePatches: 6 definition: patch.
 	self assert: memory patch equals: individual
 ]
 
 { #category : 'tests' }
 RMDMemoryTest >> testPatchSize [
+
 	| patch |
-	patch := parser patchDefinition end
-		parse:
-			'Patch with
+	patch := parser patchDefinition end parse: 'Patch with
 	grass [kcal]
 	fertility [kcal].'.
-	memory allocatePatches: patch x: 2 y: 3.
-	self
-		assert: memory patchSize
-		equals: patch totalNumberOfAttributes
+	memory allocatePatches: 6 definition: patch.
+	self assert: memory patchSize equals: patch totalNumberOfAttributes
 ]
 
 { #category : 'tests' }
 RMDMemoryTest >> testPatchesDo [
+
 	| patch |
-	patch := parser patchDefinition end
-		parse:
-			'Patch with
+	patch := parser patchDefinition end parse: 'Patch with
 	grass [kcal]
 	fertility [kcal].'.
-	memory allocatePatches: patch x: 2 y: 3.
+	memory allocatePatches: 6 definition: patch.
 	self
-		assert:
-			(Array
-				streamContents:
-					[ :stream | memory patchesDo: [ :individual | stream nextPut: individual ] ])
-		equals:
-			(memory patch to: memory patch + (patch totalNumberOfAttributes * 5) by: patch totalNumberOfAttributes)
-				asArray
+		assert: (Array streamContents: [ :stream | memory patchesDo: [ :individual | stream nextPut: individual ] ])
+		equals: (memory patch to: memory patch + (patch totalNumberOfAttributes * 5) by: patch totalNumberOfAttributes) asArray
 ]
 
 { #category : 'tests' }

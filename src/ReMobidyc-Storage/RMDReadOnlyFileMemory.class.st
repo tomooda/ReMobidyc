@@ -108,7 +108,7 @@ RMDReadOnlyFileMemory >> sunrise [
 	stageLinks := nil.
 	reproductionLinks := nil.
 	numberOfAnimats := nil.
-	animatsInPatch := nil
+	memo removeAll
 ]
 
 { #category : 'timing' }

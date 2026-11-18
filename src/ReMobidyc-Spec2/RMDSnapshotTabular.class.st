@@ -194,7 +194,7 @@ RMDSnapshotTabular >> updateRows [
 																				 row at: attribute put: (memory at: memory world + offset) ].
 																		 stream nextPut: row ].
 															 agentDefinition isPatchDefinitionNode ifTrue: [
-																		 memory patchesDo: [ :patch |
+																		 interpreter patchesDo: [ :patch |
 																					 | row |
 																					 row := Dictionary new.
 																					 row at: 'id' put: patch.

@@ -4,7 +4,7 @@ Extension { #name : 'RMDDensityOfIndividualsInPatchDirectiveNode' }
 RMDDensityOfIndividualsInPatchDirectiveNode >> evalIn: aRMDInterpreter [
 
 	| area |
-	area := aRMDInterpreter simulationModel patchArea.
+	area := aRMDInterpreter patchArea.
 	^ area = 0.0
 		  ifTrue: [ 0.0 ]
 		  ifFalse: [ 

@@ -15,18 +15,14 @@ RMDDirectionOfMaximumInRadiusDirectiveNode >> evalIn: aRMDInterpreter [
 		        read: aRMDInterpreter context location + attributeOffset
 		        ifAbsent: [ RMDAddressError signal: patchAttributeVariable ].
 	bestPatch := nil.
-	aRMDInterpreter
-		fromX: x
-		y: y
-		withinRadius: range
-		patchesDo: [ :patch |
-				| value |
-				value := aRMDInterpreter read: patch + attributeOffset ifAbsent: [ RMDAddressError signal: patchAttributeVariable ].
-				best < value ifTrue: [
-						best := value.
-						bestPatch := patch ] ].
+	aRMDInterpreter withinRadius: range patchesDo: [ :patch |
+			| value |
+			value := aRMDInterpreter read: patch + attributeOffset ifAbsent: [ RMDAddressError signal: patchAttributeVariable ].
+			best < value ifTrue: [
+					best := value.
+					bestPatch := patch ] ].
 	^ bestPatch
-		  ifNotNil: [ aRMDInterpreter directionOfPatch: bestPatch fromX: x y: y ]
+		  ifNotNil: [ aRMDInterpreter directionOfPatch: bestPatch]
 		  ifNil: [ aRMDInterpreter random * 2.0 * Float pi ]
 ]
 

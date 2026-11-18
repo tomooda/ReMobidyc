@@ -67,7 +67,7 @@ RMDPatchRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
 	patchLength := aRMDInterpreter simulationModel patchLength.
 	aRMDInterpreter patchesDo: [ :patch |
 			| rect |
-			rect := aRMDInterpreter geometryFromPatch: patch.
+			rect := aRMDInterpreter geometryOfPatch: patch.
 			self
 				drawPatch: patch
 				interpreter: aRMDInterpreter

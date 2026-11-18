@@ -5,9 +5,9 @@ Class {
 		'xStep',
 		'yStep',
 		'patchLength',
-		'patchSize',
 		'xDivisions',
-		'yDivisions'
+		'yDivisions',
+		'patchMemorySize'
 	],
 	#category : 'ReMobidyc-Interpreter-Space',
 	#package : 'ReMobidyc-Interpreter',
@@ -21,7 +21,7 @@ RMD2DSpaceModel class >> squarePatches: xDivisions by: yDivisions length: patchL
 		  patchLength: patchLength;
 		  xDivisions: xDivisions;
 		  yDivisions: yDivisions;
-		  patchSize: patchSize;
+		  patchMemorySize: patchSize;
 		  yourself
 ]
 
@@ -38,11 +38,19 @@ RMD2DSpaceModel >> centerYFromOffset: anInteger [
 ]
 
 { #category : 'accessing-geometry' }
-RMD2DSpaceModel >> directionOfOffset: anInteger fromX: aNumber y: anotherNumber [
+RMD2DSpaceModel >> dimension [
+
+	^ RMDType area
+]
+
+{ #category : 'accessing-geometry' }
+RMD2DSpaceModel >> directionOfOffset: anInteger fromIndividual: anotherInteger definition: aRMDAnimatDefinitionNode memory: aRMDMemory [
 
 	| x y |
-	x := (self centerXFromOffset: anInteger) - aNumber.
-	y := (self centerYFromOffset: anInteger) - anotherNumber.
+	x := (self centerXFromOffset: anInteger)
+	     - (aRMDMemory at: anotherInteger + (aRMDAnimatDefinitionNode offsetAt: 'x' ifAbsent: [ ])).
+	y := (self centerYFromOffset: anInteger)
+	     - (aRMDMemory at: anotherInteger + (aRMDAnimatDefinitionNode offsetAt: 'y' ifAbsent: [ ])).
 	^ (x isZero and: [ y isZero ])
 		  ifTrue: [ nil ]
 		  ifFalse: [ (x @ y) theta ]
@@ -61,9 +69,11 @@ RMD2DSpaceModel >> eastOfOffset: anInteger do: aBlock [
 ]
 
 { #category : 'enumerating' }
-RMD2DSpaceModel >> fromX: x y: y withinRadius: range offsetsDo: aBlock [
+RMD2DSpaceModel >> fromIndividual: anInteger definition: aRMDAnimatDefinitionNode memory: aRMDMemory withinRadius: range offsetsDo: aBlock [
 
-	| d2 |
+	| x y d2 |
+	x := aRMDMemory at: anInteger + (aRMDAnimatDefinitionNode offsetAt: 'x' ifAbsent: [ ]).
+	y := aRMDMemory at: anInteger + (aRMDAnimatDefinitionNode offsetAt: 'y' ifAbsent: [ ]).
 	d2 := range squared.
 	((self xIndexFromX: x - range) max: 1) to: ((self xIndexFromX: x + range) min: xDivisions) do: [ :xIndex |
 			| x1 x2 dx dy |
@@ -87,16 +97,10 @@ RMD2DSpaceModel >> initialize [
 	super initialize.
 	xDivisions := 1.
 	yDivisions := 1.
-	patchSize := 1.
+	patchMemorySize := 1.
 	xStep := 1.
 	yStep := 1.
 	patchLength := 1.0
-]
-
-{ #category : 'accessing-geometry' }
-RMD2DSpaceModel >> locationArea [
-
-	^ patchLength squared
 ]
 
 { #category : 'enumerating' }
@@ -141,17 +145,10 @@ RMD2DSpaceModel >> northOfOffset: anInteger do: aBlock [
 	(self yIndexFromOffset: anInteger) < yDivisions ifTrue: [ aBlock value: anInteger + yStep ]
 ]
 
-{ #category : 'accessing-memory' }
-RMD2DSpaceModel >> offsetAtIndividual: anInteger definition: aRMDAgentDefinitionNode memory: aRMDMemory [
+{ #category : 'accessing-structure' }
+RMD2DSpaceModel >> numberOfPatches [
 
-	| x y |
-	x := aRMDMemory at: anInteger + (aRMDAgentDefinitionNode
-			      offsetAt: 'x'
-			      ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: 'x' agent: nil) ]).
-	y := aRMDMemory at: anInteger + (aRMDAgentDefinitionNode
-			      offsetAt: 'y'
-			      ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: 'y' agent: nil) ]).
-	^ self offsetFromX: x y: y
+	^ xDivisions * yDivisions
 ]
 
 { #category : 'accessing-memory' }
@@ -165,12 +162,6 @@ RMD2DSpaceModel >> offsetFromX: aNumber y: anotherNumber [
 RMD2DSpaceModel >> offsetFromXIndex: anInteger yIndex: anotherInteger [
 
 	^ (anInteger min: xDivisions max: 1) - 1 * xStep + ((anotherInteger min: yDivisions max: 1) - 1 * yStep)
-]
-
-{ #category : 'enumerating' }
-RMD2DSpaceModel >> offsetsDo: aBlock [
-
-	0 to: self totalMemorySize - 1 by: patchSize do: aBlock
 ]
 
 { #category : 'accessing-geometry' }
@@ -200,17 +191,42 @@ RMD2DSpaceModel >> patchLength: aNumber [
 	patchLength := aNumber
 ]
 
-{ #category : 'accessing-memory' }
-RMD2DSpaceModel >> patchSize [
+{ #category : 'accessing-geometry' }
+RMD2DSpaceModel >> patchMemorySize [
 
-	^ patchSize
+	^ patchMemorySize
 ]
 
 { #category : 'accessing-memory' }
-RMD2DSpaceModel >> patchSize: aNumber [
+RMD2DSpaceModel >> patchMemorySize: aNumber [
 
-	patchSize := aNumber.
+	patchMemorySize := aNumber.
 	self updateMemorySteps 
+]
+
+{ #category : 'accessing-memory' }
+RMD2DSpaceModel >> patchOffsetAtIndividual: anInteger definition: aRMDAgentDefinitionNode memory: aRMDMemory [
+
+	| x y |
+	x := aRMDMemory at: anInteger + (aRMDAgentDefinitionNode
+			      offsetAt: 'x'
+			      ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: 'x' agent: nil) ]).
+	y := aRMDMemory at: anInteger + (aRMDAgentDefinitionNode
+			      offsetAt: 'y'
+			      ifAbsent: [ RMDUndefinedAttributeError signal: (RMDAttributeVariableNode identifier: 'y' agent: nil) ]).
+	^ self offsetFromX: x y: y
+]
+
+{ #category : 'enumerating' }
+RMD2DSpaceModel >> patchOffsetsDo: aBlock [
+
+	0 to: self totalMemorySize - 1 by: patchMemorySize do: aBlock
+]
+
+{ #category : 'accessing-geometry' }
+RMD2DSpaceModel >> patchSize [
+
+	^ patchLength squared
 ]
 
 { #category : 'accessing-geometry' }
@@ -228,13 +244,13 @@ RMD2DSpaceModel >> southOfOffset: anInteger do: aBlock [
 { #category : 'accessing-memory' }
 RMD2DSpaceModel >> totalMemorySize [
 
-	^ xDivisions * yDivisions * patchSize
+	^ xDivisions * yDivisions * patchMemorySize
 ]
 
 { #category : 'updating' }
 RMD2DSpaceModel >> updateMemorySteps [
 
-	xStep := patchSize.
+	xStep := patchMemorySize.
 	yStep := xStep * xDivisions
 ]
 
@@ -265,7 +281,7 @@ RMD2DSpaceModel >> xDivisions: anInteger [
 { #category : 'accessing-memory' }
 RMD2DSpaceModel >> xIndexFromOffset: anInteger [
 
-	^ anInteger // patchSize \\ xDivisions + 1 min: xDivisions max: 1
+	^ anInteger // patchMemorySize \\ xDivisions + 1 min: xDivisions max: 1
 ]
 
 { #category : 'accessing-geometry' }

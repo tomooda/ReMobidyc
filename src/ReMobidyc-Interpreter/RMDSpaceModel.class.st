@@ -7,25 +7,25 @@ Class {
 }
 
 { #category : 'accessing-geometry' }
-RMDSpaceModel >> directionOfOffset: anInteger fromX: aNumber y: anotherNumber [
+RMDSpaceModel >> dimension [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
+RMDSpaceModel >> directionOfOffset: anInteger fromIndividual: anotherInteger definition: aRMDAnimatDefinitionNode memory: aRMDMemory [
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'enumerating' }
-RMDSpaceModel >> fromX: x y: y withinRadius: range offsetsDo: aBlock [
+RMDSpaceModel >> fromIndividual: anInteger definition: aRMDAnimatDefinitionNode memory: aRMDMemory withinRadius: range offsetsDo: aBlock [
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'accessing-geometry' }
 RMDSpaceModel >> geometryFromOffset: anInteger [
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'accessing-geometry' }
-RMDSpaceModel >> locationArea [
 
 	^ self subclassResponsibility
 ]
@@ -51,14 +51,8 @@ RMDSpaceModel >> neighborsFromOffset: anInteger offsetsDo: aBlock [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'accessing-memory' }
-RMDSpaceModel >> offsetAtIndividual: anInteger definition: aRMDAgentDefinitionNode memory: aRMDMemory [
-
-	^ self subclassResponsibility
-]
-
-{ #category : 'enumerating' }
-RMDSpaceModel >> offsetsDo: aBlock [
+{ #category : 'accessing-structure' }
+RMDSpaceModel >> numberOfPatches [
 
 	^ self subclassResponsibility
 ]
@@ -71,6 +65,30 @@ RMDSpaceModel >> patchInfoFromOffset: anInteger do: aBlock [
 
 { #category : 'accessing-geometry' }
 RMDSpaceModel >> patchInfoKeysDo: aBlock [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
+RMDSpaceModel >> patchLength [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-memory' }
+RMDSpaceModel >> patchOffsetAtIndividual: anInteger definition: aRMDAgentDefinitionNode memory: aRMDMemory [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'enumerating' }
+RMDSpaceModel >> patchOffsetsDo: aBlock [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
+RMDSpaceModel >> patchSize [
 
 	^ self subclassResponsibility
 ]
