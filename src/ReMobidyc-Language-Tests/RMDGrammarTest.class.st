@@ -789,36 +789,6 @@ RMDGrammarTest >> testDirectionOfGradientDirective [
 ]
 
 { #category : 'tests' }
-RMDGrammarTest >> testDirectionOfMaximumAmongEigihtNeighborsDirective [
-
-	| expr |
-	expr := grammar expression parse: 'direction maximum quuux among eight neighbors'.
-	self deny: expr isPetit2Failure.
-	self assert: expr isDirectionOfMaximumInEightNeighborsDirectiveNode.
-	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
-	expr := grammar expression parse: 'direction maximum quuux among eight neighbours'.
-	self deny: expr isPetit2Failure.
-	self assert: expr isDirectionOfMaximumInEightNeighborsDirectiveNode.
-	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
-	self assert: expr printString equals: 'direction maximum quuux among eight neighbors'
-]
-
-{ #category : 'tests' }
-RMDGrammarTest >> testDirectionOfMaximumAmongFourNeighborsDirective [
-
-	| expr |
-	expr := grammar expression parse: 'direction maximum quuux among four neighbors'.
-	self deny: expr isPetit2Failure.
-	self assert: expr isDirectionOfMaximumNeighborDirectiveNode.
-	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
-	expr := grammar expression parse: 'direction maximum quuux among four neighbours'.
-	self deny: expr isPetit2Failure.
-	self assert: expr isDirectionOfMaximumNeighborDirectiveNode.
-	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
-	self assert: expr printString equals: 'direction maximum quuux among four neighbors'
-]
-
-{ #category : 'tests' }
 RMDGrammarTest >> testDirectionOfMaximumInRadiusDirective [
 
 	| expr |
@@ -831,6 +801,21 @@ RMDGrammarTest >> testDirectionOfMaximumInRadiusDirective [
 	self assert: expr isDirectionOfMaximumInRadiusDirectiveNode.
 	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
 	self assert: expr printString equals: 'direction maximum quuux in my sight radius'
+]
+
+{ #category : 'tests' }
+RMDGrammarTest >> testDirectionOfMaximumNeighborDirective [
+
+	| expr |
+	expr := grammar expression parse: 'direction maximum quuux neighbor'.
+	self deny: expr isPetit2Failure.
+	self assert: expr isDirectionOfMaximumNeighborDirectiveNode.
+	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
+	expr := grammar expression parse: 'direction maximum quuux neighbour'.
+	self deny: expr isPetit2Failure.
+	self assert: expr isDirectionOfMaximumNeighborDirectiveNode.
+	self assert: expr patchAttributeVariable identifier equals: 'quuux'.
+	self assert: expr printString equals: 'direction maximum quuux neighbor'
 ]
 
 { #category : 'tests' }

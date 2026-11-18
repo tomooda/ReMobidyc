@@ -168,6 +168,12 @@ RMDInterpreter >> duration [
 	^ simulationModel duration
 ]
 
+{ #category : 'space access' }
+RMDInterpreter >> ensureSpaceModel [
+
+	^ spaceModel ifNil: [ spaceModel := simulationModel spaceModel ]
+]
+
 { #category : 'exporting' }
 RMDInterpreter >> exportAPNG: aFileReference [
 
@@ -688,7 +694,7 @@ RMDInterpreter >> setupRandomForIndividual: anInteger task: aRMDTaskDefinitionNo
 RMDInterpreter >> setupSimulation [
 
 	self critical: [
-			spaceModel := simulationModel spaceModel.
+			self ensureSpaceModel.
 			memory world ifNil: [
 					memory initialize.
 					self loadDataSources.
