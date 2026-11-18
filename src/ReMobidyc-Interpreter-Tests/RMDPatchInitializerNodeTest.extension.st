@@ -11,6 +11,7 @@ RMDPatchInitializerNodeTest >> testEvalIn [
 			grass = 1000 [ kcal ]
 			fertility = 1100 [kcal]'.
 	interpreter simulationModel patchDefinition: patchDef.
+	interpreter simulationModel simulationDefinition patchInitializer: patchInitializer.
 	interpreter ensureSpaceModel.
 	patchInitializer evalIn: interpreter.
 	interpreter memory tick.

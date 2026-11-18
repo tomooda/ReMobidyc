@@ -791,6 +791,12 @@ RMDInterpreter >> typecheck [
 	self critical: [ simulationModel typecheck ]
 ]
 
+{ #category : 'space access' }
+RMDInterpreter >> updateSpaceModel [
+
+	spaceModel := simulationModel spaceModel
+]
+
 { #category : 'accessing' }
 RMDInterpreter >> usesFire [
 
