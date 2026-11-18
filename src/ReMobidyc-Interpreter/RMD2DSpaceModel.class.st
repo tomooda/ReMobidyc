@@ -200,8 +200,8 @@ RMD2DSpaceModel >> patchMemorySize [
 { #category : 'accessing-memory' }
 RMD2DSpaceModel >> patchMemorySize: aNumber [
 
-	patchMemorySize := aNumber.
-	self updateMemorySteps 
+	patchMemorySize := aNumber max: 1.
+	self updateMemorySteps
 ]
 
 { #category : 'accessing-memory' }
