@@ -7,19 +7,25 @@ Class {
 }
 
 { #category : 'accessing-geometry' }
+RMDSpaceModel >> centroidFromPatchOffset: anInteger do: aBlock [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
 RMDSpaceModel >> dimension [
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'accessing-geometry' }
-RMDSpaceModel >> directionOfOffset: anInteger fromIndividual: anotherInteger definition: aRMDAnimatDefinitionNode memory: aRMDMemory [
+RMDSpaceModel >> directionOfPatchOffset: anInteger fromIndividual: anotherInteger definition: aRMDAnimatDefinitionNode memory: aRMDMemory [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'enumerating' }
-RMDSpaceModel >> fromIndividual: anInteger definition: aRMDAnimatDefinitionNode memory: aRMDMemory withinRadius: range offsetsDo: aBlock [
+{ #category : 'enumerating-geometry' }
+RMDSpaceModel >> fromIndividual: anInteger definition: aRMDAnimatDefinitionNode memory: aRMDMemory withinRadius: range patchOffsetsDo: aBlock [
 
 	^ self subclassResponsibility
 ]
@@ -36,23 +42,23 @@ RMDSpaceModel >> is2dSpace [
 	^ false
 ]
 
-{ #category : 'enumerating' }
+{ #category : 'enumerating-structure' }
 RMDSpaceModel >> neighborsFromOffset: anInteger do: aBlock [
 
 	| argumentCount |
 	argumentCount := aBlock argumentCount.
-	argumentCount = 1 ifTrue: [ ^ self neighborsFromOffset: anInteger offsetsDo: aBlock ].
-	argumentCount = 2 ifTrue: [ ^ self neighborsFromOffset: anInteger offsetsAndVectorsDo: aBlock ]
+	argumentCount = 1 ifTrue: [ ^ self neighborsFromPatchOffset: anInteger patchOffsetsDo: aBlock ].
+	argumentCount = 2 ifTrue: [ ^ self neighborsFromPatchOffset: anInteger patchOffsetsAndVectorsDo: aBlock ]
 ]
 
-{ #category : 'enumerating' }
-RMDSpaceModel >> neighborsFromOffset: anInteger offsetsAndVectorsDo: aBlock [
+{ #category : 'enumerating-structure' }
+RMDSpaceModel >> neighborsFromPatchOffset: anInteger patchOffsetsAndVectorsDo: aBlock [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : 'enumerating' }
-RMDSpaceModel >> neighborsFromOffset: anInteger offsetsDo: aBlock [
+{ #category : 'enumerating-structure' }
+RMDSpaceModel >> neighborsFromPatchOffset: anInteger patchOffsetsDo: aBlock [
 
 	^ self subclassResponsibility
 ]
@@ -87,7 +93,13 @@ RMDSpaceModel >> patchOffsetAtIndividual: anInteger definition: aRMDAgentDefinit
 	^ self subclassResponsibility
 ]
 
-{ #category : 'enumerating' }
+{ #category : 'enumerating-geometry' }
+RMDSpaceModel >> patchOffsetsAndCentroidsDo: aBlock [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'enumerating-memory' }
 RMDSpaceModel >> patchOffsetsDo: aBlock [
 
 	^ self subclassResponsibility

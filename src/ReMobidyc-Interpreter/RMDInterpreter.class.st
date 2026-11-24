@@ -157,7 +157,7 @@ RMDInterpreter >> deltaTime [
 RMDInterpreter >> directionOfPatch: anInteger [
 
 	^ spaceModel
-		  directionOfOffset: anInteger - memory patch
+		  directionOfPatchOffset: anInteger - memory patch
 		  fromIndividual: context subject
 		  definition: context subjectDefinition
 		  memory: memory
@@ -402,8 +402,8 @@ RMDInterpreter >> neighborsAndVectorsDo: aBlock [
 	| patch |
 	patch := memory patch.
 	spaceModel
-		neighborsFromOffset: context location - patch
-		offsetsAndVectorsDo: [ :offset :vector | aBlock value: patch + offset value: vector ]
+		neighborsFromPatchOffset: context location - patch
+		patchOffsetsAndVectorsDo: [ :offset :vector | aBlock value: patch + offset value: vector ]
 ]
 
 { #category : 'animat operations' }
@@ -525,6 +525,12 @@ RMDInterpreter >> patchOfIndividual: anInteger definition: aRMDAnimatDefinitionN
 	^ (memory at: #patchesByIndividuals ifAbsentPut: [ Dictionary new ])
 		  at: anInteger
 		  ifAbsentPut: [ (spaceModel patchOffsetAtIndividual: anInteger definition: aRMDAnimatDefinitionNode memory: memory) + memory patch ]
+]
+
+{ #category : 'space access' }
+RMDInterpreter >> patchesAndCentroidsDoDo: aBlock [
+
+	spaceModel patchOffsetsAndCentroidsDo: (RMDPatchOffsetBlockAdapter patch: memory patch block: aBlock)
 ]
 
 { #category : 'space access' }
@@ -926,7 +932,7 @@ RMDInterpreter >> withinRadius: range patchesDo: aBlock [
 		definition: context subjectDefinition
 		memory: memory
 		withinRadius: range
-		offsetsDo: [ :offset | aBlock value: patch + offset ]
+		patchOffsetsDo: [ :offset | aBlock value: patch + offset ]
 ]
 
 { #category : 'space access' }
