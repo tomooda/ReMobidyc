@@ -45,7 +45,7 @@ RMDBackgroundColorRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
 ]
 
 { #category : 'testing' }
-RMDBackgroundColorRenderer >> isPatchRenderer [
+RMDBackgroundColorRenderer >> isWorldRenderer [
 	^ true
 ]
 

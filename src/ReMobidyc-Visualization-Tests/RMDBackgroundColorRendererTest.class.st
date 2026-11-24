@@ -1,10 +1,11 @@
 Class {
-	#name : #RMDBackgroundColorRendererTest,
-	#superclass : #RMDRendererTest,
-	#category : #'ReMobidyc-Visualization-Tests'
+	#name : 'RMDBackgroundColorRendererTest',
+	#superclass : 'RMDRendererTest',
+	#category : 'ReMobidyc-Visualization-Tests',
+	#package : 'ReMobidyc-Visualization-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDBackgroundColorRendererTest >> renderer [
 
 	^ RMDBackgroundColorRenderer black

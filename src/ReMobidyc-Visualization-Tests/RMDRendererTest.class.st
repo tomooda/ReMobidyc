@@ -1,32 +1,33 @@
 Class {
-	#name : #RMDRendererTest,
-	#superclass : #TestCase,
+	#name : 'RMDRendererTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'parser',
 		'renderer'
 	],
-	#category : #'ReMobidyc-Visualization-Tests'
+	#category : 'ReMobidyc-Visualization-Tests',
+	#package : 'ReMobidyc-Visualization-Tests'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 RMDRendererTest class >> isAbstract [
 
 	^ self = RMDRendererTest
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDRendererTest >> renderer [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 RMDRendererTest >> setUp [
 	parser := RMDGrammar current renderer end.
 	renderer := self renderer
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RMDRendererTest >> testPrintOn [
 
 	self assert: (parser parse: renderer printString) equals: renderer

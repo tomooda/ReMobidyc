@@ -2,7 +2,9 @@ Class {
 	#name : 'RMDVisualizer',
 	#superclass : 'Object',
 	#instVars : [
-		'extent',
+		'formExtent',
+		'worldExtent',
+		'scale',
 		'renderers',
 		'formToWrite',
 		'formToRead'
@@ -91,12 +93,12 @@ RMDVisualizer >> addRendererFirst: aRMDRenderer [
 
 { #category : 'accessing' }
 RMDVisualizer >> extent [
-	^ extent
+	^ formExtent
 ]
 
 { #category : 'accessing' }
 RMDVisualizer >> extent: aPoint [
-	extent := aPoint.
+	formExtent := aPoint.
 	(formToRead isNil or: [ formToRead extent ~= aPoint ])
 		ifTrue: [ formToRead := Form extent: aPoint depth: 32 ].
 	(formToWrite isNil or: [ formToWrite extent ~= aPoint ])
@@ -133,16 +135,14 @@ RMDVisualizer >> renderersReverseDo: aBlock [
 { #category : 'visualizing' }
 RMDVisualizer >> visualize: aRMDInterpreter [
 
-	| scale form canvas |
-	scale := extent x asFloat
-	         / aRMDInterpreter simulationModel patchXDivisions asFloat 
-		         min: extent y asFloat
-			         / aRMDInterpreter simulationModel patchYDivisions asFloat.
+	| form canvas |
+	scale ifNil: [
+			scale := formExtent x asFloat / aRMDInterpreter simulationModel patchXDivisions asFloat min:
+				         formExtent y asFloat / aRMDInterpreter simulationModel patchYDivisions asFloat ].
 	form := self formToWrite.
 	canvas := form getCanvas.
 	canvas fillColor: Color white.
-	renderers do: [ :renderer | 
-		renderer draw: aRMDInterpreter scale: scale on: canvas ].
+	renderers do: [ :renderer | renderer draw: aRMDInterpreter scale: scale on: canvas ].
 	form := formToRead.
 	formToRead := formToWrite.
 	formToWrite := form.

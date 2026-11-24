@@ -30,6 +30,12 @@ RMDSpaceModel >> geometryFromOffset: anInteger [
 	^ self subclassResponsibility
 ]
 
+{ #category : 'testing' }
+RMDSpaceModel >> is2dSpace [
+
+	^ false
+]
+
 { #category : 'enumerating' }
 RMDSpaceModel >> neighborsFromOffset: anInteger do: aBlock [
 

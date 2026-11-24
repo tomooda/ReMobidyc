@@ -38,6 +38,14 @@ RMD2DSpaceModel >> centerYFromOffset: anInteger [
 ]
 
 { #category : 'accessing-geometry' }
+RMD2DSpaceModel >> centroidFromOffset: anInteger [
+
+	^ {
+		  (self centerXFromOffset: anInteger).
+		  (self centerYFromOffset: anInteger) }
+]
+
+{ #category : 'accessing-geometry' }
 RMD2DSpaceModel >> dimension [
 
 	^ RMDType area
@@ -101,6 +109,12 @@ RMD2DSpaceModel >> initialize [
 	xStep := 1.
 	yStep := 1.
 	patchLength := 1.0
+]
+
+{ #category : 'testing' }
+RMD2DSpaceModel >> is2dSpace [
+
+	^ true
 ]
 
 { #category : 'enumerating' }

@@ -1,10 +1,11 @@
 Class {
-	#name : #RMDAnimatDotRendererTest,
-	#superclass : #RMDRendererTest,
-	#category : #'ReMobidyc-Visualization-Tests'
+	#name : 'RMDAnimatDotRendererTest',
+	#superclass : 'RMDRendererTest',
+	#category : 'ReMobidyc-Visualization-Tests',
+	#package : 'ReMobidyc-Visualization-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RMDAnimatDotRendererTest >> renderer [
 
 	^ RMDAnimatDotRenderer on: 'Turtle' shapeSize: 15 color: Color green
