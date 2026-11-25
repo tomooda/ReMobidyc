@@ -23,9 +23,7 @@ RMDPatchColorRenderer >> colorFrom: aNumber [
 ]
 
 { #category : 'drawing' }
-RMDPatchColorRenderer >> renderPatch: anInteger at: aPoint on: aRMDVisualization with: aRMDInterpreter [
+RMDPatchColorRenderer >> renderPatch: anInteger on: aRMDVisualization [
 
-	aRMDVisualization
-		drawRectangle: (Rectangle center: aPoint extent: patchLength asPoint)
-		color: (self colorFor: anInteger interpreter: aRMDInterpreter)
+	aRMDVisualization drawPatch: anInteger color: (self colorFor: anInteger interpreter: aRMDVisualization interpreter)
 ]

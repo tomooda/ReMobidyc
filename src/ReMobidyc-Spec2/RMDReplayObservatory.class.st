@@ -374,11 +374,8 @@ RMDReplayObservatory >> updateVisual [
 
 	self interpreterDo: [ :interpreter |
 			| visualizer |
-			visualizer := RMDVisualizer new.
+			visualizer := RMDVisualizer extent: self imageExtent interpreter: interpreter.
 			interpreter simulationModel renderersDo: [ :renderer | visualizer addRenderer: renderer ].
-			visualizer
-				extent: self imageExtent;
-				initializeWith: interpreter.
 			image image: (visualizer visualize: interpreter) ]
 ]
 

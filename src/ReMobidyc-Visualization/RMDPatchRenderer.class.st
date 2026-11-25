@@ -85,33 +85,14 @@ RMDPatchRenderer >> isPatchRenderer [
 ]
 
 { #category : 'drawing' }
-RMDPatchRenderer >> renderOn: aRMDVisualization with: aRMDInterpreter [
+RMDPatchRenderer >> renderOn: aRMDVisualization [
 
-	| xDivisions yDivisions |
-	aRMDInterpreter patchesAndCentroidsDoDo: [ :patch :x :y |
-			self
-				renderPatch: patch
-				at: x @ y
-				on: aRMDVisualization
-				with: aRMDInterpreter ].
-	xDivisions := aRMDInterpreter spaceModel xDivisions.
-	yDivisions := aRMDInterpreter spaceModel yDivisions.
-	0 to: xDivisions do: [ :x |
-			aRMDVisualization
-				drawLine: x * patchLength @ 0
-				to: x * patchLength @ (yDivisions * patchLength)
-				width: borderWidth
-				color: borderColor ].
-	0 to: yDivisions do: [ :y |
-			aRMDVisualization
-				drawLine: 0 @ (y * patchLength)
-				to: xDivisions * patchLength @ (y * patchLength)
-				width: borderWidth
-				color: borderColor ]
+	aRMDVisualization interpreter patchesDo: [ :patch | self renderPatch: patch on: aRMDVisualization ].
+	aRMDVisualization drawPatchGridWidth: self borderWidth color: self borderColor
 ]
 
 { #category : 'drawing' }
-RMDPatchRenderer >> renderPatch: anInteger at: aPoint on: aRMDVisualization with: aRMDInterpreter [
+RMDPatchRenderer >> renderPatch: anInteger on: aRMDVisualization [
 
 	^ self subclassResponsibility
 ]

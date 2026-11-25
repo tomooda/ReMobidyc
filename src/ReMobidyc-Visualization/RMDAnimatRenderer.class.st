@@ -65,17 +65,15 @@ RMDAnimatRenderer >> renameAnimat: aString to: anotherString [
 ]
 
 { #category : 'drawing' }
-RMDAnimatRenderer >> renderAt: aPoint on: aRMDVisualizer [
+RMDAnimatRenderer >> renderIndividual: anInteger on: aRMDVisualizer [
 
 	^ self subclassResponsibility
 ]
 
 { #category : 'drawing' }
-RMDAnimatRenderer >> renderOn: aRMDVisualization with: aRMDInterpreter [
+RMDAnimatRenderer >> renderOn: aRMDVisualization [
 
-	aRMDInterpreter individualsOf: animatDefinition do: [ :individual |
-			| x y |
-			x := aRMDInterpreter readAttribute: 'x' individual: individual definition: animatDefinition.
-			y := aRMDInterpreter readAttribute: 'y' individual: individual definition: animatDefinition.
-			self renderAt: x @ y on: aRMDVisualization ]
+	aRMDVisualization interpreter
+		individualsOf: animatDefinition
+		do: [ :individual | self renderIndividual: individual on: aRMDVisualization ]
 ]

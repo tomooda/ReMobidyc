@@ -24,7 +24,11 @@ RMDAnimatDotRenderer >> printOn: aStream [
 ]
 
 { #category : 'drawing' }
-RMDAnimatDotRenderer >> renderAt: aPoint on: aRMDVisualizer [
+RMDAnimatDotRenderer >> renderIndividual: anInteger on: aRMDVisualizer [
 
-	aRMDVisualizer drawRectangleAt: aPoint extent: self shapeSize color: self color
+	aRMDVisualizer
+		drawRectangleExtent: self shapeSize
+		color: self color
+		forIndividual: anInteger
+		definition: animatDefinition
 ]

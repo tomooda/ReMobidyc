@@ -186,29 +186,26 @@ RMDInterpreter >> exportAPNG: aFileReference extent: aPoint [
 	| oldTime |
 	oldTime := self time.
 	[
-	self time: 0.
-	aFileReference binaryWriteStreamDo: [ :stream |
-		| writer visualizer |
-		writer := RMDAPNGWriter on: stream.
-		"writer numPlays: 1."
-		visualizer := RMDVisualizer extent: 500 @ 500.
-		self simulationModel renderersDo: [ :renderer |
-			visualizer addRenderer: renderer ].
-		[
-		UIManager default
-			displayProgress: 'exporting animated png'
-			from: 0.0
-			to: self duration
-			during: [ :progress |
-				[ self time < self duration ] whileTrue: [
-					writer nextPutImage:
-						((visualizer visualize: self) scaledToSize: aPoint).
-					self performTasks.
-					self bounceOutOfBoundsAnimats.
-					self tick.
-					progress value: self time ] ].
-		writer nextPutImage: (visualizer visualize: self) ] ensure: [
-			writer close ] ] ] ensure: [ self time: oldTime ]
+		self time: 0.
+		aFileReference binaryWriteStreamDo: [ :stream |
+				| writer visualizer |
+				writer := RMDAPNGWriter on: stream.
+				"writer numPlays: 1."
+				visualizer := RMDVisualizer extent: 500 @ 500 interpreter: self.
+				self simulationModel renderersDo: [ :renderer | visualizer addRenderer: renderer ].
+				[
+					UIManager default
+						displayProgress: 'exporting animated png'
+						from: 0.0
+						to: self duration
+						during: [ :progress |
+								[ self time < self duration ] whileTrue: [
+										writer nextPutImage: ((visualizer visualize: self) scaledToSize: aPoint).
+										self performTasks.
+										self bounceOutOfBoundsAnimats.
+										self tick.
+										progress value: self time ] ].
+					writer nextPutImage: (visualizer visualize: self) ] ensure: [ writer close ] ] ] ensure: [ self time: oldTime ]
 ]
 
 { #category : 'simulating' }
@@ -534,7 +531,7 @@ RMDInterpreter >> patchOfIndividual: anInteger definition: aRMDAnimatDefinitionN
 ]
 
 { #category : 'space access' }
-RMDInterpreter >> patchesAndCentroidsDoDo: aBlock [
+RMDInterpreter >> patchesAndCentroidsDo: aBlock [
 
 	spaceModel patchOffsetsAndCentroidsDo: (RMDPatchOffsetBlockAdapter patch: memory patch block: aBlock)
 ]

@@ -99,9 +99,9 @@ RMDAnimatIconRenderer >> printOn: aStream [
 ]
 
 { #category : 'drawing' }
-RMDAnimatIconRenderer >> renderAt: aPoint on: aRMDVisualizer [
+RMDAnimatIconRenderer >> renderIndividual: anInteger on: aRMDVisualizer [
 
-	aRMDVisualizer drawImage: icon at: aPoint
+	aRMDVisualizer drawImage: icon forIndividual: anInteger definition: animatDefinition
 ]
 
 { #category : 'accessing' }

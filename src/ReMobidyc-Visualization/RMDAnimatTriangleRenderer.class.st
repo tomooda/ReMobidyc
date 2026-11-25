@@ -24,12 +24,14 @@ RMDAnimatTriangleRenderer >> printOn: aStream [
 ]
 
 { #category : 'drawing' }
-RMDAnimatTriangleRenderer >> renderAt: aPoint on: aRMDVisualizer [
+RMDAnimatTriangleRenderer >> renderIndividual: anInteger on: aRMDVisualizer [
 
 	aRMDVisualizer
 		drawPolygon: ({
 				 0.0.
 				 (Float pi * 2.0 / 3.0).
-				 (Float pi * -2.0 / 3.0) } collect: [ :theta | theta sin negated @ theta cos negated * self shapeSize / 2.0 + aPoint ])
+				 (Float pi * -2.0 / 3.0) } collect: [ :theta | theta sin negated @ theta cos negated * self shapeSize / 2.0 ])
 		color: self color
+		forIndividual: anInteger
+		definition: animatDefinition
 ]
