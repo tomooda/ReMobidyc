@@ -23,7 +23,7 @@ RMDPatchColorRenderer >> colorFrom: aNumber [
 ]
 
 { #category : 'drawing' }
-RMDPatchColorRenderer >> renderPatch: anInteger on: aRMDVisualization [
+RMDPatchColorRenderer >> renderPatch: anInteger on: aRMDVisualizer [
 
-	aRMDVisualization drawPatch: anInteger color: (self colorFor: anInteger interpreter: aRMDVisualization interpreter)
+	aRMDVisualizer drawPatch: anInteger color: (self colorFor: anInteger interpreter: aRMDVisualizer interpreter)
 ]

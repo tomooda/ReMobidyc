@@ -122,3 +122,9 @@ RMDSpaceModel >> totalMemorySize [
 
 	^ self subclassResponsibility
 ]
+
+{ #category : 'class access' }
+RMDSpaceModel >> visualizerClass [
+
+	^ self subclassResponsibility
+]

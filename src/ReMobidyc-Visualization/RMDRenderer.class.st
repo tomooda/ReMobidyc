@@ -109,7 +109,7 @@ RMDRenderer >> renameAnimat: aString to: anotherString [
 ]
 
 { #category : 'drawing' }
-RMDRenderer >> renderOn: aRMDVisualization [
+RMDRenderer >> renderOn: aRMDVisualizer [
 
 	^ self subclassResponsibility
 ]

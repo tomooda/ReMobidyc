@@ -3,8 +3,7 @@ Class {
 	#superclass : 'RMDRenderer',
 	#instVars : [
 		'borderWidth',
-		'borderColor',
-		'patchLength'
+		'borderColor'
 	],
 	#category : 'ReMobidyc-Visualization',
 	#package : 'ReMobidyc-Visualization'
@@ -72,27 +71,20 @@ RMDPatchRenderer >> initialize [
 	borderWidth := self defaultBorderWidth
 ]
 
-{ #category : 'initialization' }
-RMDPatchRenderer >> initializeWith: aRMDInterpreter [
-
-	super initializeWith: aRMDInterpreter.
-	patchLength := aRMDInterpreter patchLength
-]
-
 { #category : 'testing' }
 RMDPatchRenderer >> isPatchRenderer [
 	^ true
 ]
 
 { #category : 'drawing' }
-RMDPatchRenderer >> renderOn: aRMDVisualization [
+RMDPatchRenderer >> renderOn: aRMDVisualizer [
 
-	aRMDVisualization interpreter patchesDo: [ :patch | self renderPatch: patch on: aRMDVisualization ].
-	aRMDVisualization drawPatchGridWidth: self borderWidth color: self borderColor
+	aRMDVisualizer interpreter patchesDo: [ :patch | self renderPatch: patch on: aRMDVisualizer ].
+	aRMDVisualizer drawPatchGridWidth: self borderWidth color: self borderColor
 ]
 
 { #category : 'drawing' }
-RMDPatchRenderer >> renderPatch: anInteger on: aRMDVisualization [
+RMDPatchRenderer >> renderPatch: anInteger on: aRMDVisualizer [
 
 	^ self subclassResponsibility
 ]

@@ -55,5 +55,5 @@ RMDBackgroundColorRenderer >> printOn: aStream [
 { #category : 'drawing' }
 RMDBackgroundColorRenderer >> renderOn: aRMDVisualizer [
 
-	aRMDVisualizer drawRectangle: (Rectangle origin: 0.0 @ 0.0 corner: aRMDVisualizer worldExtent) color: self color
+	aRMDVisualizer drawWorldColor: self color
 ]

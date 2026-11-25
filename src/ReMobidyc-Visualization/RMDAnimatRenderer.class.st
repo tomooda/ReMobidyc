@@ -44,14 +44,6 @@ RMDAnimatRenderer >> hash [
 	^ super hash bitXor: animat hash
 ]
 
-{ #category : 'initialization' }
-RMDAnimatRenderer >> initializeWith: aRMDInterpreter [
-
-	animatDefinition := animat isString
-		                    ifTrue: [ aRMDInterpreter simulationModel animatDefinitionAt: animat ifAbsent: [ nil ] ]
-		                    ifFalse: [ animat ]
-]
-
 { #category : 'testing' }
 RMDAnimatRenderer >> isAnimatRendererFor: aString [
 	^ animat = aString
@@ -71,9 +63,12 @@ RMDAnimatRenderer >> renderIndividual: anInteger on: aRMDVisualizer [
 ]
 
 { #category : 'drawing' }
-RMDAnimatRenderer >> renderOn: aRMDVisualization [
+RMDAnimatRenderer >> renderOn: aRMDVisualizer [
 
-	aRMDVisualization interpreter
+	animatDefinition := animat isString
+		                    ifTrue: [ aRMDVisualizer interpreter simulationModel animatDefinitionAt: animat ifAbsent: [ nil ] ]
+		                    ifFalse: [ animat ].
+	aRMDVisualizer interpreter
 		individualsOf: animatDefinition
-		do: [ :individual | self renderIndividual: individual on: aRMDVisualization ]
+		do: [ :individual | self renderIndividual: individual on: aRMDVisualizer ]
 ]

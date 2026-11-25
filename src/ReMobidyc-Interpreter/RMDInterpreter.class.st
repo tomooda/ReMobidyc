@@ -191,7 +191,7 @@ RMDInterpreter >> exportAPNG: aFileReference extent: aPoint [
 				| writer visualizer |
 				writer := RMDAPNGWriter on: stream.
 				"writer numPlays: 1."
-				visualizer := RMDVisualizer extent: 500 @ 500 interpreter: self.
+				visualizer := self spaceModel visualizerClass extent: 500 @ 500 interpreter: self.
 				self simulationModel renderersDo: [ :renderer | visualizer addRenderer: renderer ].
 				[
 					UIManager default

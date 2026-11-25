@@ -279,6 +279,12 @@ RMD2DSpaceModel >> updateMemorySteps [
 	yStep := xStep * xDivisions
 ]
 
+{ #category : 'class access' }
+RMD2DSpaceModel >> visualizerClass [
+
+	^ RMD2dVisualizer
+]
+
 { #category : 'accessing-geometry' }
 RMD2DSpaceModel >> west [
 

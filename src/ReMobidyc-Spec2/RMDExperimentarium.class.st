@@ -820,7 +820,7 @@ RMDExperimentarium >> updateVisualMap [
 	(showVisualMapRadioButton state and: [ visualizationImage adapter notNil ]) ifTrue: [
 			self interpreterDo: [ :interpreter |
 					| visualizer |
-					visualizer := RMDVisualizer extent: visualizationImage adapter extent interpreter: interpreter.
+					visualizer := interpreter spaceModel visualizerClass extent: visualizationImage adapter extent interpreter: interpreter.
 					interpreter simulationModel renderersDo: [ :renderer | visualizer addRenderer: renderer ].
 					visualizationImage image: (visualizer visualize: interpreter) ] ]
 ]
