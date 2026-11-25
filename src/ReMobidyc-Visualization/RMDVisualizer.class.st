@@ -162,11 +162,9 @@ RMDVisualizer >> initialize [
 { #category : 'initialization' }
 RMDVisualizer >> initializeWith: aRMDInterpreter [
 
-	| s |
 	worldExtent := aRMDInterpreter geometryOfWorld extent.
-	s := formExtent x asFloat / worldExtent x min: formExtent y asFloat / worldExtent y.
-	scale := s @ s negated.
-	offset := formExtent x - (worldExtent x * s) / 2.0 @ (formExtent y - (formExtent y - (worldExtent y * s) / 2.0)).
+	scale := formExtent x asFloat / worldExtent x min: formExtent y asFloat / worldExtent y.
+	offset := formExtent x - (worldExtent x * scale) / 2.0 @ (formExtent y - (formExtent y - (worldExtent y * scale) / 2.0)).
 	renderers do: [ :renderer | renderer initializeWith: aRMDInterpreter ]
 ]
 
@@ -199,7 +197,7 @@ RMDVisualizer >> swapForms [
 { #category : 'drawing' }
 RMDVisualizer >> transform: aPoint [
 
-	^ aPoint * scale + offset
+	^ aPoint x * scale + offset x @ (aPoint y * scale negated + offset y)
 ]
 
 { #category : 'visualizing' }
