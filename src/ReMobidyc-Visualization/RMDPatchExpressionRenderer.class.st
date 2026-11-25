@@ -29,20 +29,6 @@ RMDPatchExpressionRenderer >> = anObject [
 	^ super = anObject and: [ expression = anObject expression ]
 ]
 
-{ #category : 'drawing' }
-RMDPatchExpressionRenderer >> drawPatch: anInteger interpreter: aRMDInterpreter bounds: aRectangle on: aCanvas [
-	self
-		drawValue:
-			(self valueForIndividual: anInteger interpreter: aRMDInterpreter)
-		bounds: aRectangle
-		on: aCanvas
-]
-
-{ #category : 'drawing' }
-RMDPatchExpressionRenderer >> drawValue: aNumber bounds: aRectangle on: aFormCanvas [
-	^ self subclassResponsibility
-]
-
 { #category : 'accessing' }
 RMDPatchExpressionRenderer >> expression [
 	^ expression

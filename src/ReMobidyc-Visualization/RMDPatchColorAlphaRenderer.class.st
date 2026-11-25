@@ -1,6 +1,6 @@
 Class {
 	#name : 'RMDPatchColorAlphaRenderer',
-	#superclass : 'RMDPatchColorRangeRenderer',
+	#superclass : 'RMDPatchColorScaleRenderer',
 	#category : 'ReMobidyc-Visualization',
 	#package : 'ReMobidyc-Visualization'
 }

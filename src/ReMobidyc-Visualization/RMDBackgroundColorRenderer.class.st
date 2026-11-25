@@ -32,18 +32,6 @@ RMDBackgroundColorRenderer class >> white [
 	^ self color: Color white
 ]
 
-{ #category : 'drawing' }
-RMDBackgroundColorRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
-
-	| xDivisions yDivisions |
-	xDivisions := aRMDInterpreter simulationModel patchXDivisions.
-	yDivisions := aRMDInterpreter simulationModel patchYDivisions.
-	aCanvas
-		fillRectangle: (0 @ 0 extent:
-				 (aNumber * xDivisions) ceiling @ (aNumber * yDivisions) ceiling)
-		color: color
-]
-
 { #category : 'testing' }
 RMDBackgroundColorRenderer >> isWorldRenderer [
 	^ true
@@ -62,4 +50,10 @@ RMDBackgroundColorRenderer >> printOn: aStream [
 	aStream
 		nextPut: $.;
 		cr
+]
+
+{ #category : 'drawing' }
+RMDBackgroundColorRenderer >> renderOn: aRMDVisualizer with: aRMDInterpreter [
+
+	aRMDVisualizer drawRectangle: (Rectangle origin: 0.0 @ 0.0 corner: aRMDVisualizer worldExtent) color: self color
 ]

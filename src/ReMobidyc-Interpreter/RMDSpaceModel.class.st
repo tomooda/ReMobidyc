@@ -31,7 +31,13 @@ RMDSpaceModel >> fromIndividual: anInteger definition: aRMDAnimatDefinitionNode 
 ]
 
 { #category : 'accessing-geometry' }
-RMDSpaceModel >> geometryFromOffset: anInteger [
+RMDSpaceModel >> geometryFromPatchOffset: anInteger [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'accessing-geometry' }
+RMDSpaceModel >> geometryOfWorld [
 
 	^ self subclassResponsibility
 ]
@@ -70,7 +76,7 @@ RMDSpaceModel >> numberOfPatches [
 ]
 
 { #category : 'accessing-geometry' }
-RMDSpaceModel >> patchInfoFromOffset: anInteger do: aBlock [
+RMDSpaceModel >> patchInfoFromPatchOffset: anInteger do: aBlock [
 
 	^ self subclassResponsibility
 ]

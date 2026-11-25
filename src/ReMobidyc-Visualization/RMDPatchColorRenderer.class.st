@@ -12,11 +12,20 @@ RMDPatchColorRenderer class >> isAbstract [
 ]
 
 { #category : 'accessing' }
+RMDPatchColorRenderer >> colorFor: anInteger interpreter: aRMDInterpreter [
+
+	^ self colorFrom: (self valueForIndividual: anInteger interpreter: aRMDInterpreter)
+]
+
+{ #category : 'accessing' }
 RMDPatchColorRenderer >> colorFrom: aNumber [
 	^ self subclassResponsibility 
 ]
 
 { #category : 'drawing' }
-RMDPatchColorRenderer >> drawValue: aNumber bounds: aRectangle on: aCanvas [
-	aCanvas fillRectangle: aRectangle color: (self colorFrom: aNumber)
+RMDPatchColorRenderer >> renderPatch: anInteger at: aPoint on: aRMDVisualization with: aRMDInterpreter [
+
+	aRMDVisualization
+		drawRectangle: (Rectangle center: aPoint extent: patchLength asPoint)
+		color: (self colorFor: anInteger interpreter: aRMDInterpreter)
 ]

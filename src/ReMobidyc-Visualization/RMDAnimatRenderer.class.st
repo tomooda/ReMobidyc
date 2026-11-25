@@ -2,7 +2,8 @@ Class {
 	#name : 'RMDAnimatRenderer',
 	#superclass : 'RMDRenderer',
 	#instVars : [
-		'animat'
+		'animat',
+		'animatDefinition'
 	],
 	#category : 'ReMobidyc-Visualization',
 	#package : 'ReMobidyc-Visualization'
@@ -43,6 +44,14 @@ RMDAnimatRenderer >> hash [
 	^ super hash bitXor: animat hash
 ]
 
+{ #category : 'initialization' }
+RMDAnimatRenderer >> initializeWith: aRMDInterpreter [
+
+	animatDefinition := animat isString
+		                    ifTrue: [ aRMDInterpreter simulationModel animatDefinitionAt: animat ifAbsent: [ nil ] ]
+		                    ifFalse: [ animat ]
+]
+
 { #category : 'testing' }
 RMDAnimatRenderer >> isAnimatRendererFor: aString [
 	^ animat = aString
@@ -53,4 +62,20 @@ RMDAnimatRenderer >> renameAnimat: aString to: anotherString [
 
 	super renameAnimat: aString to: anotherString.
 	animat = aString ifTrue: [ animat := anotherString ]
+]
+
+{ #category : 'drawing' }
+RMDAnimatRenderer >> renderAt: aPoint on: aRMDVisualizer [
+
+	^ self subclassResponsibility
+]
+
+{ #category : 'drawing' }
+RMDAnimatRenderer >> renderOn: aRMDVisualization with: aRMDInterpreter [
+
+	aRMDInterpreter individualsOf: animatDefinition do: [ :individual |
+			| x y |
+			x := aRMDInterpreter readAttribute: 'x' individual: individual definition: animatDefinition.
+			y := aRMDInterpreter readAttribute: 'y' individual: individual definition: animatDefinition.
+			self renderAt: x @ y on: aRMDVisualization ]
 ]

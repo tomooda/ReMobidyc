@@ -817,15 +817,15 @@ RMDExperimentarium >> updateUsesFireButton [
 { #category : 'updating' }
 RMDExperimentarium >> updateVisualMap [
 
-	(showVisualMapRadioButton state and: [ 
-		 visualizationImage adapter notNil ]) ifTrue: [ 
-		self interpreterDo: [ :interpreter | 
-			| visualizer |
-			visualizer := RMDVisualizer new.
-			interpreter simulationModel renderersDo: [ :renderer | 
-				visualizer addRenderer: renderer ].
-			visualizer extent: visualizationImage adapter extent.
-			visualizationImage image: (visualizer visualize: interpreter) ] ]
+	(showVisualMapRadioButton state and: [ visualizationImage adapter notNil ]) ifTrue: [
+			self interpreterDo: [ :interpreter |
+					| visualizer |
+					visualizer := RMDVisualizer new.
+					interpreter simulationModel renderersDo: [ :renderer | visualizer addRenderer: renderer ].
+					visualizer
+						extent: visualizationImage adapter extent;
+						initializeWith: interpreter.
+					visualizationImage image: (visualizer visualize: interpreter) ] ]
 ]
 
 { #category : 'private' }

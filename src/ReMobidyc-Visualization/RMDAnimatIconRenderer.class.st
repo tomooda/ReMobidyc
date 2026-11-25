@@ -3,7 +3,8 @@ Class {
 	#superclass : 'RMDAnimatRenderer',
 	#instVars : [
 		'iconName',
-		'scale'
+		'scale',
+		'icon'
 	],
 	#category : 'ReMobidyc-Visualization',
 	#package : 'ReMobidyc-Visualization'
@@ -41,35 +42,6 @@ RMDAnimatIconRenderer >> defaultScale [
 	^ 1.0
 ]
 
-{ #category : 'drawing' }
-RMDAnimatIconRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
-
-	| form animatDefinition |
-	form := (aRMDInterpreter simulationModel
-		         iconAt: iconName
-		         ifAbsent: [ ^ self ]) magnifyBy: scale.
-	animatDefinition := animat isString
-		                    ifTrue: [ 
-			                    aRMDInterpreter simulationModel
-				                    animatDefinitionAt: animat
-				                    ifAbsent: [ 
-				                    ^ RMDUndefinedAnimatError signal: animat ] ]
-		                    ifFalse: [ animat ].
-	aRMDInterpreter individualsOf: animatDefinition do: [ :individual | 
-		aRMDInterpreter
-			withObserverContextWithSubject: individual
-			definition: animatDefinition
-			do: [ 
-				| x y |
-				x := aRMDInterpreter my: 'x'.
-				y := aRMDInterpreter my: 'y'.
-				aCanvas translucentImage: form at: (self
-						 pointFromX: x
-						 y: y
-						 interpreter: aRMDInterpreter
-						 scale: aNumber) - (form extent // 2) ] ]
-]
-
 { #category : 'comparing' }
 RMDAnimatIconRenderer >> hash [
 
@@ -100,6 +72,13 @@ RMDAnimatIconRenderer >> initialize [
 	scale := self defaultScale
 ]
 
+{ #category : 'initialization' }
+RMDAnimatIconRenderer >> initializeWith: aRMDInterpreter [
+
+	super initializeWith: aRMDInterpreter.
+	icon := (aRMDInterpreter simulationModel iconAt: iconName ifAbsent: [ ^ self ]) magnifyBy: scale
+]
+
 { #category : 'accessing' }
 RMDAnimatIconRenderer >> name [
 
@@ -117,6 +96,12 @@ RMDAnimatIconRenderer >> printOn: aStream [
 	scale printOn: aStream.
 	aStream nextPutAll: 'x icon.'.
 	aStream cr
+]
+
+{ #category : 'drawing' }
+RMDAnimatIconRenderer >> renderAt: aPoint on: aRMDVisualizer [
+
+	aRMDVisualizer drawImage: icon at: aPoint
 ]
 
 { #category : 'accessing' }

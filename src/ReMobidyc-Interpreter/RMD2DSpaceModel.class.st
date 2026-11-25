@@ -4,10 +4,10 @@ Class {
 	#instVars : [
 		'xStep',
 		'yStep',
-		'patchLength',
 		'xDivisions',
 		'yDivisions',
-		'patchMemorySize'
+		'patchMemorySize',
+		'patchLength'
 	],
 	#category : 'ReMobidyc-Interpreter-Space',
 	#package : 'ReMobidyc-Interpreter',
@@ -92,9 +92,15 @@ RMD2DSpaceModel >> fromIndividual: anInteger definition: aRMDAnimatDefinitionNod
 ]
 
 { #category : 'accessing-geometry' }
-RMD2DSpaceModel >> geometryFromOffset: anInteger [
+RMD2DSpaceModel >> geometryFromPatchOffset: anInteger [
 
 	^ Rectangle center: (self centerXFromPatchOffset: anInteger) @ (self centerYFromPatchOffset: anInteger) extent: patchLength @ patchLength
+]
+
+{ #category : 'accessing-geometry' }
+RMD2DSpaceModel >> geometryOfWorld [
+
+	^ Rectangle origin: self west @ self south corner: self east @ self north
 ]
 
 { #category : 'initialization' }
@@ -164,7 +170,7 @@ RMD2DSpaceModel >> numberOfPatches [
 ]
 
 { #category : 'accessing-geometry' }
-RMD2DSpaceModel >> patchInfoFromOffset: anInteger do: aBlock [
+RMD2DSpaceModel >> patchInfoFromPatchOffset: anInteger do: aBlock [
 
 	aBlock value: 'center x' value: (self centerXFromPatchOffset: anInteger).
 	aBlock value: 'center y' value: (self centerYFromPatchOffset: anInteger)

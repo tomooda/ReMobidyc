@@ -1,5 +1,5 @@
 Class {
-	#name : 'RMDPatchColorRangeRenderer',
+	#name : 'RMDPatchColorScaleRenderer',
 	#superclass : 'RMDPatchColorRenderer',
 	#instVars : [
 		'min',
@@ -10,53 +10,53 @@ Class {
 }
 
 { #category : 'testing' }
-RMDPatchColorRangeRenderer class >> isAbstract [
+RMDPatchColorScaleRenderer class >> isAbstract [
 
-	^ self == RMDPatchColorRangeRenderer
+	^ self == RMDPatchColorScaleRenderer
 ]
 
 { #category : 'comparing' }
-RMDPatchColorRangeRenderer >> = anObject [
+RMDPatchColorScaleRenderer >> = anObject [
 
 	^ super = anObject and: [ 
 		  min = anObject min and: [ max = anObject max ] ]
 ]
 
 { #category : 'comparing' }
-RMDPatchColorRangeRenderer >> hash [
+RMDPatchColorScaleRenderer >> hash [
 
 	^ (super hash bitXor: min hash) bitXor: max hash
 ]
 
 { #category : 'initialization' }
-RMDPatchColorRangeRenderer >> initialize [
+RMDPatchColorScaleRenderer >> initialize [
 	super initialize.
 	min := 0.0.
 	max := 1.0
 ]
 
 { #category : 'accessing' }
-RMDPatchColorRangeRenderer >> max [
+RMDPatchColorScaleRenderer >> max [
 	^ max
 ]
 
 { #category : 'accessing' }
-RMDPatchColorRangeRenderer >> max: aRMDLiteral [
+RMDPatchColorScaleRenderer >> max: aRMDLiteral [
 	max := aRMDLiteral
 ]
 
 { #category : 'accessing' }
-RMDPatchColorRangeRenderer >> min [
+RMDPatchColorScaleRenderer >> min [
 	^ min
 ]
 
 { #category : 'accessing' }
-RMDPatchColorRangeRenderer >> min: aRMDLiteral [
+RMDPatchColorScaleRenderer >> min: aRMDLiteral [
 	min := aRMDLiteral
 ]
 
 { #category : 'accessing' }
-RMDPatchColorRangeRenderer >> valueForIndividual: anInteger interpreter: aRMDInterpreter [
+RMDPatchColorScaleRenderer >> valueForIndividual: anInteger interpreter: aRMDInterpreter [
 
 	| patchDef value |
 	patchDef := aRMDInterpreter simulationModel patchDefinition.

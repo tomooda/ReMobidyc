@@ -5,20 +5,6 @@ Class {
 	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : 'drawing' }
-RMDAnimatTriangleRenderer >> drawIndividual: anInteger with: aRMDInterpreter at: aPoint on: aCanvas [
-
-	aCanvas
-		drawPolygon: ({ 
-				 0.0.
-				 (Float pi * 2.0 / 3.0).
-				 (Float pi * -2.0 / 3.0) } collect: [ :theta | 
-				 theta sin negated @ theta cos negated * self shapeSize / 2.0 + aPoint ])
-		color: self color
-		borderWidth: 0
-		borderColor: self color
-]
-
 { #category : 'accessing' }
 RMDAnimatTriangleRenderer >> name [
 	^ 'triangle renderer'
@@ -35,4 +21,15 @@ RMDAnimatTriangleRenderer >> printOn: aStream [
 	self printColorOn: aStream.
 	aStream nextPutAll: ' triangle.'.
 	aStream cr
+]
+
+{ #category : 'drawing' }
+RMDAnimatTriangleRenderer >> renderAt: aPoint on: aRMDVisualizer [
+
+	aRMDVisualizer
+		drawPolygon: ({
+				 0.0.
+				 (Float pi * 2.0 / 3.0).
+				 (Float pi * -2.0 / 3.0) } collect: [ :theta | theta sin negated @ theta cos negated * self shapeSize / 2.0 + aPoint ])
+		color: self color
 ]

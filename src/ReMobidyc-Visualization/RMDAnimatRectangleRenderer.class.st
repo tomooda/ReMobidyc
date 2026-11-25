@@ -5,15 +5,6 @@ Class {
 	#package : 'ReMobidyc-Visualization'
 }
 
-{ #category : 'drawing' }
-RMDAnimatRectangleRenderer >> drawIndividual: anInteger with: aRMDInterpreter at: aPoint on: aCanvas [
-
-	aCanvas
-		fillRectangle:
-		(Rectangle center: aPoint extent: self shapeSize asPoint)
-		color: self color
-]
-
 { #category : 'accessing' }
 RMDAnimatRectangleRenderer >> name [
 	^ 'rectangle renderer'
@@ -30,4 +21,10 @@ RMDAnimatRectangleRenderer >> printOn: aStream [
 	self printColorOn: aStream.
 	aStream nextPutAll: ' rectangle.'.
 	aStream cr
+]
+
+{ #category : 'drawing' }
+RMDAnimatRectangleRenderer >> renderAt: aPoint on: aRMDVisualizer [
+
+	aRMDVisualizer drawRectangleAt: aPoint extent: self shapeSize color: self color
 ]

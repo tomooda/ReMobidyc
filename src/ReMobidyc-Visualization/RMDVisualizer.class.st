@@ -7,7 +7,9 @@ Class {
 		'scale',
 		'renderers',
 		'formToWrite',
-		'formToRead'
+		'formToRead',
+		'offset',
+		'canvas'
 	],
 	#category : 'ReMobidyc-Visualization',
 	#package : 'ReMobidyc-Visualization'
@@ -91,6 +93,46 @@ RMDVisualizer >> addRendererFirst: aRMDRenderer [
 	^ aRMDRenderer
 ]
 
+{ #category : 'drawing' }
+RMDVisualizer >> drawImage: aForm at: aPoint [
+
+	canvas translucentImage: aForm at: (self transform: aPoint)
+]
+
+{ #category : 'drawing' }
+RMDVisualizer >> drawLine: aPoint to: anotherPoint width: aNumber color: aColor [
+
+	canvas
+		line: (self transform: aPoint)
+		to: (self transform: anotherPoint)
+		width: aNumber
+		color: aColor
+]
+
+{ #category : 'drawing' }
+RMDVisualizer >> drawPolygon: aCollectionOfPoint color: aColor [
+
+	canvas
+		drawPolygon: (aCollectionOfPoint collect: [ :point | self transform: point ])
+		color: aColor
+		borderWidth: 0
+		borderColor: aColor
+]
+
+{ #category : 'drawing' }
+RMDVisualizer >> drawRectangle: aRectangle color: aColor [
+
+	canvas
+		fillRectangle: (Rectangle point: (self transform: aRectangle origin) point: (self transform: aRectangle corner))
+		color: aColor
+]
+
+{ #category : 'drawing' }
+RMDVisualizer >> drawRectangleAt: aPoint extent: aNumberOrPoint color: aColor [
+
+	canvas fillRectangle: (Rectangle center: (self transform: aPoint) extent: aNumberOrPoint asPoint) color: aColor
+]
+
 { #category : 'accessing' }
 RMDVisualizer >> extent [
 	^ formExtent
@@ -98,11 +140,12 @@ RMDVisualizer >> extent [
 
 { #category : 'accessing' }
 RMDVisualizer >> extent: aPoint [
+
 	formExtent := aPoint.
-	(formToRead isNil or: [ formToRead extent ~= aPoint ])
-		ifTrue: [ formToRead := Form extent: aPoint depth: 32 ].
-	(formToWrite isNil or: [ formToWrite extent ~= aPoint ])
-		ifTrue: [ formToWrite := Form extent: aPoint depth: 32 ]
+	(formToRead isNil or: [ formToRead extent ~= aPoint ]) ifTrue: [ formToRead := Form extent: aPoint depth: 32 ].
+	(formToWrite isNil or: [ formToWrite extent ~= aPoint ]) ifTrue: [
+			formToWrite := Form extent: aPoint depth: 32.
+			canvas := formToWrite getCanvas ]
 ]
 
 { #category : 'private' }
@@ -114,6 +157,17 @@ RMDVisualizer >> formToWrite [
 RMDVisualizer >> initialize [
 	super initialize.
 	renderers := OrderedCollection new
+]
+
+{ #category : 'initialization' }
+RMDVisualizer >> initializeWith: aRMDInterpreter [
+
+	| s |
+	worldExtent := aRMDInterpreter geometryOfWorld extent.
+	s := formExtent x asFloat / worldExtent x min: formExtent y asFloat / worldExtent y.
+	scale := s @ s negated.
+	offset := formExtent x - (worldExtent x * s) / 2.0 @ (formExtent y - (formExtent y - (worldExtent y * s) / 2.0)).
+	renderers do: [ :renderer | renderer initializeWith: aRMDInterpreter ]
 ]
 
 { #category : 'adding-removing' }
@@ -132,19 +186,33 @@ RMDVisualizer >> renderersReverseDo: aBlock [
 	renderers reverseDo: aBlock
 ]
 
-{ #category : 'visualizing' }
-RMDVisualizer >> visualize: aRMDInterpreter [
+{ #category : 'private' }
+RMDVisualizer >> swapForms [
 
-	| form canvas |
-	scale ifNil: [
-			scale := formExtent x asFloat / aRMDInterpreter simulationModel patchXDivisions asFloat min:
-				         formExtent y asFloat / aRMDInterpreter simulationModel patchYDivisions asFloat ].
-	form := self formToWrite.
-	canvas := form getCanvas.
-	canvas fillColor: Color white.
-	renderers do: [ :renderer | renderer draw: aRMDInterpreter scale: scale on: canvas ].
+	| form |
 	form := formToRead.
 	formToRead := formToWrite.
 	formToWrite := form.
+	canvas := formToWrite getCanvas
+]
+
+{ #category : 'drawing' }
+RMDVisualizer >> transform: aPoint [
+
+	^ aPoint * scale + offset
+]
+
+{ #category : 'visualizing' }
+RMDVisualizer >> visualize: aRMDInterpreter [
+
+	canvas fillColor: Color white.
+	renderers do: [ :renderer | renderer renderOn: self with: aRMDInterpreter ].
+	self swapForms.
 	^ formToRead
+]
+
+{ #category : 'accessing' }
+RMDVisualizer >> worldExtent [
+
+	^ worldExtent
 ]

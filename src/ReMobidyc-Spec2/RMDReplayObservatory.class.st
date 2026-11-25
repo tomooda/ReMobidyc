@@ -372,13 +372,14 @@ RMDReplayObservatory >> updateTimeSlider [
 { #category : 'updating' }
 RMDReplayObservatory >> updateVisual [
 
-	self interpreterDo: [ :interpreter | 
-		| visualizer |
-		visualizer := RMDVisualizer new.
-		interpreter simulationModel renderersDo: [ :renderer | 
-			visualizer addRenderer: renderer ].
-		visualizer extent: self imageExtent.
-		image image: (visualizer visualize: interpreter) ]
+	self interpreterDo: [ :interpreter |
+			| visualizer |
+			visualizer := RMDVisualizer new.
+			interpreter simulationModel renderersDo: [ :renderer | visualizer addRenderer: renderer ].
+			visualizer
+				extent: self imageExtent;
+				initializeWith: interpreter.
+			image image: (visualizer visualize: interpreter) ]
 ]
 
 { #category : 'accessing' }

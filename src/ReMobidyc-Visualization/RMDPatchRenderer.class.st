@@ -3,7 +3,8 @@ Class {
 	#superclass : 'RMDRenderer',
 	#instVars : [
 		'borderWidth',
-		'borderColor'
+		'borderColor',
+		'patchLength'
 	],
 	#category : 'ReMobidyc-Visualization',
 	#package : 'ReMobidyc-Visualization'
@@ -58,48 +59,6 @@ RMDPatchRenderer >> defaultColor [
 	^ Color white
 ]
 
-{ #category : 'drawing' }
-RMDPatchRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
-
-	| xDivisions yDivisions patchLength |
-	xDivisions := aRMDInterpreter simulationModel patchXDivisions.
-	yDivisions := aRMDInterpreter simulationModel patchYDivisions.
-	patchLength := aRMDInterpreter simulationModel patchLength.
-	aRMDInterpreter patchesDo: [ :patch |
-			| rect |
-			rect := aRMDInterpreter geometryOfPatch: patch.
-			self
-				drawPatch: patch
-				interpreter: aRMDInterpreter
-				bounds: ((self
-						  pointFromX: rect left
-						  y: rect bottom
-						  interpreter: aRMDInterpreter
-						  scale: aNumber) corner: (self
-							  pointFromX: rect right
-							  y: rect top
-							  interpreter: aRMDInterpreter
-							  scale: aNumber))
-				on: aCanvas ].
-	0 to: xDivisions do: [ :x |
-			aCanvas
-				line: x * aNumber @ 0
-				to: x * aNumber @ (yDivisions * aNumber)
-				width: borderWidth
-				color: borderColor ].
-	0 to: yDivisions do: [ :y |
-			aCanvas
-				line: 0 @ (y * aNumber)
-				to: xDivisions * aNumber @ (y * aNumber)
-				width: borderWidth
-				color: borderColor ]
-]
-
-{ #category : 'drawing' }
-RMDPatchRenderer >> drawPatch: aNumber interpreter: aRMDInterpreter bounds: aRectangle on: aFormCanvas [
-	^ self subclassResponsibility
-]
-
 { #category : 'comparing' }
 RMDPatchRenderer >> hash [
 
@@ -113,7 +72,46 @@ RMDPatchRenderer >> initialize [
 	borderWidth := self defaultBorderWidth
 ]
 
+{ #category : 'initialization' }
+RMDPatchRenderer >> initializeWith: aRMDInterpreter [
+
+	super initializeWith: aRMDInterpreter.
+	patchLength := aRMDInterpreter patchLength
+]
+
 { #category : 'testing' }
 RMDPatchRenderer >> isPatchRenderer [
 	^ true
+]
+
+{ #category : 'drawing' }
+RMDPatchRenderer >> renderOn: aRMDVisualization with: aRMDInterpreter [
+
+	| xDivisions yDivisions |
+	aRMDInterpreter patchesAndCentroidsDoDo: [ :patch :x :y |
+			self
+				renderPatch: patch
+				at: x @ y
+				on: aRMDVisualization
+				with: aRMDInterpreter ].
+	xDivisions := aRMDInterpreter spaceModel xDivisions.
+	yDivisions := aRMDInterpreter spaceModel yDivisions.
+	0 to: xDivisions do: [ :x |
+			aRMDVisualization
+				drawLine: x * patchLength @ 0
+				to: x * patchLength @ (yDivisions * patchLength)
+				width: borderWidth
+				color: borderColor ].
+	0 to: yDivisions do: [ :y |
+			aRMDVisualization
+				drawLine: 0 @ (y * patchLength)
+				to: xDivisions * patchLength @ (y * patchLength)
+				width: borderWidth
+				color: borderColor ]
+]
+
+{ #category : 'drawing' }
+RMDPatchRenderer >> renderPatch: anInteger at: aPoint on: aRMDVisualization with: aRMDInterpreter [
+
+	^ self subclassResponsibility
 ]

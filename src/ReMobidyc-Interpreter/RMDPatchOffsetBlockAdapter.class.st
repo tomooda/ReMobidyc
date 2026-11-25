@@ -20,9 +20,9 @@ RMDPatchOffsetBlockAdapter class >> patch: anInteger block: aBlock [
 ]
 
 { #category : 'accessing' }
-RMDPatchOffsetBlockAdapter >> patch [
+RMDPatchOffsetBlockAdapter >> block: aBlock [
 
-	^ patch
+	block := aBlock
 ]
 
 { #category : 'accessing' }

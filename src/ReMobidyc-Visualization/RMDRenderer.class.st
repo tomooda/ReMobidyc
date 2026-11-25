@@ -34,11 +34,6 @@ RMDRenderer >> defaultColor [
 	^ Color yellow
 ]
 
-{ #category : 'drawing' }
-RMDRenderer >> draw: aRMDInterpreter scale: aNumber on: aCanvas [
-	^ self subclassResponsibility
-]
-
 { #category : 'comparing' }
 RMDRenderer >> hash [
 
@@ -53,6 +48,10 @@ RMDRenderer >> iconNamesDo: aBlock [
 RMDRenderer >> initialize [
 	super initialize.
 	color := self defaultColor
+]
+
+{ #category : 'initialization' }
+RMDRenderer >> initializeWith: aRMDInterpreter [
 ]
 
 { #category : 'testing' }
@@ -107,4 +106,10 @@ RMDRenderer >> printColorOn: aStream [
 RMDRenderer >> renameAnimat: aString to: anotherString [
 
 	
+]
+
+{ #category : 'drawing' }
+RMDRenderer >> renderOn: aRMDVisualization with: aRMDInterpreter [
+
+	^ self subclassResponsibility
 ]

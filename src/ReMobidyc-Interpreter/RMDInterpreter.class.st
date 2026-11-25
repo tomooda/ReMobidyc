@@ -250,7 +250,13 @@ RMDInterpreter >> functionAt: aString ifAbsent: errorBlock [
 { #category : 'space access' }
 RMDInterpreter >> geometryOfPatch: anInteger [
 
-	^ spaceModel geometryFromOffset: anInteger - memory patch
+	^ spaceModel geometryFromPatchOffset: anInteger - memory patch
+]
+
+{ #category : 'space access' }
+RMDInterpreter >> geometryOfWorld [
+
+	^ spaceModel geometryOfWorld
 ]
 
 { #category : 'accessing' }
@@ -504,7 +510,7 @@ RMDInterpreter >> patchArea [
 { #category : 'space access' }
 RMDInterpreter >> patchInfo: anInteger do: aBlock [
 
-	spaceModel patchInfoFromOffset: anInteger - memory patch do: aBlock
+	spaceModel patchInfoFromPatchOffset: anInteger - memory patch do: aBlock
 ]
 
 { #category : 'space access' }
@@ -715,6 +721,12 @@ RMDInterpreter >> setupSimulation [
 RMDInterpreter >> shortName [
 
 	^ self runId printString, ':', self metaparametersString
+]
+
+{ #category : 'accessing' }
+RMDInterpreter >> spaceModel [
+
+	^ spaceModel
 ]
 
 { #category : 'accessing - libraries' }
